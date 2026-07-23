@@ -1,0 +1,16 @@
+Thư mục này là 1 nơi TIỆN LỢI để đặt dataset, không phải yêu cầu bắt buộc.
+
+TripDataset(...) / HackathonDataset(...) trong team_kit/dataset_loader.py
+nhận BẤT KỲ đường dẫn nào -- bạn hoàn toàn có thể để dataset ở chỗ khác
+(ví dụ D:\hackathon\ hay ~/Downloads/dataset/) và trỏ thẳng tới đó, không
+cần copy/giải nén vào đây. Đặt vào đây chỉ để các ví dụ lệnh có sẵn trong
+README.md / HUONG_DAN_NGUOI_MOI.md dùng đúng đường dẫn "./data/..." mà
+không cần bạn sửa lại.
+
+Nếu muốn dùng cách này: giải nén dataset ban tổ chức phát vào ngay đây,
+giữ nguyên tên thư mục từng trip -- đúng 16 trip:
+  data/T01d/ .. data/T10d/          (10 trip chấm điểm, đáp án đã bị xoá)
+  data/T01-Sample/ .. data/T06-Sample/   (6 trip luyện tập, có đủ đáp án)
+
+Ví dụ nếu ban tổ chức phát 1 thư mục chứa sẵn cả 16 trip theo đúng tên
+trên, chỉ cần đổi tên thư mục đó thành "data" và đặt ngay tại vị trí này.

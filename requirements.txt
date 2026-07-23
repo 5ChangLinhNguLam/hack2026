@@ -1,0 +1,16 @@
+# Requirements — Starter Kit package (dành cho thí sinh)
+# Áp dụng cho: team_kit/ (dataset_loader, baseline_ttc_predictor,
+# evaluation, explore_trip.ipynb)
+#
+# Đã verify bằng cách quét toàn bộ import thật trong code -- không cần
+# pyyaml/carla (đó là dependency phía organizer). local_stream_server.py
+# không cần thêm gì (chỉ dùng thư viện chuẩn Python).
+
+# Core -- dataset_loader.py, baseline_ttc_predictor.py, evaluation.py
+opencv-python>=4.8
+numpy>=1.24
+pandas>=2.0
+
+# Cho explore_trip.ipynb (vẽ biểu đồ) + để chạy được Jupyter notebook
+matplotlib>=3.7
+jupyter>=1.0
