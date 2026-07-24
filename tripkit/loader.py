@@ -15,12 +15,15 @@ Các fact dataset mà module này tôn trọng (spec mục 2):
 
 from __future__ import annotations
 
+import copy
 import gzip
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
-from .types import Calib
+import numpy as np
+
+from .types import Calib, FrameBundle, parse_kitti_label_file
 
 # Thứ tự thử extension ảnh (dataset hiện tại dùng .jpg; README nhắc PNG/JPG)
 _IMAGE_EXTS = (".jpg", ".png", ".jpeg")
@@ -142,16 +145,73 @@ class TripLoader:
         """Tự phát hiện trip mẫu (đủ GT) vs trip chấm điểm (GT bị xoá).
 
         Trip chấm điểm bị xoá: driver state, min_ttc/risk trong frame,
-        trip_aggregate, driver_summary (fact #8).
+        trip_aggregate, driver_summary (fact #8). Dùng chung predicate
+        ``_frame_gt`` với ``frame().gt`` để hai phía luôn nhất quán, kể
+        cả khi GT bị che bằng ``null``/dict rỗng thay vì xoá key.
         """
         if self._raw.get("trip_aggregate") or self._raw.get("driver_summary"):
             return True
-        if self._frames:
-            f0 = self._frames[0]
-            driver = f0.get("driver") or {}
-            if "min_ttc" in f0 or driver.get("state") is not None:
-                return True
-        return False
+        return bool(self._frames) and self._frame_gt(self._frames[0]) is not None
+
+    # ------------------------------------------------------------------ #
+    # FrameBundle + depth
+    # ------------------------------------------------------------------ #
+    # Các key GT mức frame — bị xoá ở trip chấm điểm (fact #8)
+    _FRAME_GT_KEYS = ("driver", "min_ttc", "headway_sec", "behavior_flags", "risk")
+
+    @classmethod
+    def _frame_gt(cls, raw: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """GT mức frame; key thiếu, ``null`` hoặc dict rỗng coi như đã bị xoá."""
+        gt: Dict[str, Any] = {}
+        for k in cls._FRAME_GT_KEYS:
+            v = raw.get(k)
+            if v is None or (isinstance(v, dict) and not v):
+                continue
+            gt[k] = v
+        return gt or None
+
+    def frame(self, i: int, *, cache_images: bool = True) -> FrameBundle:
+        """Bundle đồng bộ đủ modality của frame ``i``; ảnh lazy-load.
+
+        Các dict/list trong bundle là bản copy riêng — downstream có thể
+        annotate tại chỗ (vd tracking trên ``targets``) mà không làm bẩn
+        JSON cache của loader. Cần zero-copy thì dùng ``raw_frame()``.
+        ``cache_images=False`` nếu giữ nhiều bundle cùng lúc mà không
+        muốn ảnh chiếm RAM sau khi đã dùng.
+        """
+        raw = self.raw_frame(i)
+
+        depth: Optional[np.ndarray] = None
+        dp = self.depth_path(i)
+        if dp is not None and dp.exists():
+            depth = np.load(dp)
+
+        return FrameBundle(
+            trip_id=self.trip_id,
+            frame_id=raw.get("frame_id", i),
+            timestamp=raw.get("timestamp", i / self.fps),
+            depth=depth,
+            ego=copy.deepcopy(raw.get("ego")),
+            targets=copy.deepcopy(raw.get("targets")) or [],
+            labels=parse_kitti_label_file(self.label_path(i)),
+            gt=copy.deepcopy(self._frame_gt(raw)),
+            events_active=copy.deepcopy(raw.get("events_active")) or [],
+            _loader=self,
+            _cache=cache_images,
+        )
+
+    def depth_nearest(self, i: int) -> Tuple[np.ndarray, bool]:
+        """Depth tại keyframe gần nhất trước ``i``: k = i − i%5 (fact #5).
+
+        Trả ``(depth, is_exact)`` với ``is_exact=True`` khi ``i`` chính
+        là keyframe.
+        """
+        self._check_frame_id(i)
+        k = i - (i % DEPTH_KEYFRAME_STEP)
+        path = self.trip_dir / "kitti" / "depth" / f"{k:06d}.npy"
+        if not path.exists():
+            raise FileNotFoundError(f"Thiếu depth keyframe: {path}")
+        return np.load(path), k == i
 
     # ------------------------------------------------------------------ #
     # Truy cập frame thô

@@ -6,12 +6,11 @@ DoD (spec mục 4):
 - thiếu key GT không crash (trip giả lập kiểu T0Xd, 7 frame)
 """
 
-import gzip
-import json
 import math
 
 import pytest
 
+from conftest import N_FAKE_FRAMES, make_redacted_frame, make_trip
 from tripkit import Calib, TripLoader
 
 
@@ -111,36 +110,6 @@ def test_frame_id_out_of_range(t01_loader):
 # ---------------------------------------------------------------------- #
 # Trip chấm điểm giả lập: GT bị xoá, số frame bất kỳ (fact #1, #8)
 # ---------------------------------------------------------------------- #
-N_FAKE_FRAMES = 7  # cố tình khác 600/1800 — code không được hardcode số frame
-
-
-@pytest.fixture()
-def redacted_trip_dir(tmp_path):
-    """Trip kiểu T0Xd: chỉ còn ego speed/accel, targets/events rỗng, không GT."""
-    trip = tmp_path / "T99d"
-    trip.mkdir()
-    frames = [
-        {
-            "frame_id": i,
-            "world_frame": 12345 + i,
-            "timestamp": i / 20.0,
-            "ego": {"speed_kmh": 30.0 + i, "longitudinal_accel": 0.1, "lateral_accel": 0.0},
-            "targets": [],
-            "events_active": [],
-        }
-        for i in range(N_FAKE_FRAMES)
-    ]
-    raw = {
-        "trip_id": "T99d",
-        "metadata": {"trip_id": "T99d", "fps": 20, "map": "Town04", "speed_limit_kmh": 60},
-        "events_log": [{"t": 0.1, "type": "lead_brake"}],
-        "frames": frames,
-    }
-    with gzip.open(trip / "T99d.json.gz", "wt", encoding="utf-8") as f:
-        json.dump(raw, f)
-    return trip
-
-
 def test_redacted_trip_does_not_crash(redacted_trip_dir):
     loader = TripLoader(redacted_trip_dir)
     assert loader.trip_id == "T99d"
@@ -159,3 +128,35 @@ def test_missing_json_raises(tmp_path):
     empty.mkdir()
     with pytest.raises(FileNotFoundError):
         TripLoader(empty)
+
+
+# ---------------------------------------------------------------------- #
+# Che GT một phần: has_gt() và frame().gt phải luôn nhất quán (fact #8)
+# ---------------------------------------------------------------------- #
+def test_gt_masked_with_empty_dict_consistent(tmp_path):
+    # Trip chấm điểm che GT bằng dict rỗng/null thay vì xoá key
+    frame = make_redacted_frame(0)
+    frame["driver"] = {}
+    frame["min_ttc"] = None
+    trip = make_trip(tmp_path, "T97d", [frame])
+    loader = TripLoader(trip)
+    assert loader.has_gt() is False
+    assert loader.frame(0).gt is None  # nhất quán với has_gt()
+
+
+def test_gt_partial_driver_state_only(tmp_path):
+    frame = make_redacted_frame(0)
+    frame["driver"] = {"state": "alert"}
+    trip = make_trip(tmp_path, "T96d", [frame])
+    loader = TripLoader(trip)
+    assert loader.has_gt() is True
+    assert loader.frame(0).gt == {"driver": {"state": "alert"}}
+
+
+def test_has_gt_from_driver_summary_only(tmp_path):
+    # GT cấp trip còn nhưng GT mức frame bị xoá → has_gt True, frame().gt None
+    frames = [make_redacted_frame(0)]
+    trip = make_trip(tmp_path, "T95d", frames, driver_summary={"subject_id": "9"})
+    loader = TripLoader(trip)
+    assert loader.has_gt() is True
+    assert loader.frame(0).gt is None
