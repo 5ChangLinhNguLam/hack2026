@@ -14,3 +14,8 @@ pandas>=2.0
 # Cho explore_trip.ipynb (vẽ biểu đồ) + để chạy được Jupyter notebook
 matplotlib>=3.7
 jupyter>=1.0
+
+# Cho tripkit/ (WBS 1.2) — unit tests
+# (giữ opencv-python bản full thay vì -headless vì CLI replay --show cần cv2.imshow)
+pytest>=7
+

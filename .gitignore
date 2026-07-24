@@ -1,0 +1,14 @@
+# Dataset — tuyệt đối không commit
+data/
+*.npy
+
+# Output dự đoán
+predictions/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+build/
