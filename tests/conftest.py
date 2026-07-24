@@ -69,3 +69,46 @@ def redacted_trip_dir(tmp_path) -> Path:
     """Trip kiểu T0Xd: không GT, không có thư mục ảnh/depth/label."""
     frames = [make_redacted_frame(i) for i in range(N_FAKE_FRAMES)]
     return make_trip(tmp_path, "T99d", frames, events_log=[{"t": 0.1, "type": "lead_brake"}])
+
+
+def make_full_trip(root: Path, name: str, n_frames: int, json_name: str = "") -> Path:
+    """Trip giả lập ĐẦY ĐỦ modality (ảnh 640x360, depth, calib, label) — để
+    test validate/replay trên số frame bất kỳ, không phụ thuộc data/ thật."""
+    import cv2
+    import numpy as np
+
+    trip = root / name
+    for sub in ("kitti/image_2", "kitti/image_3", "kitti/depth",
+                "kitti/calib", "kitti/label_2", "driver"):
+        (trip / sub).mkdir(parents=True)
+    img = np.zeros((360, 640, 3), np.uint8)
+    calib_txt = "P0: 320 0 320 0 0 320 180 0 0 0 1 0\n"
+    for i in range(n_frames):
+        cv2.imwrite(str(trip / "kitti" / "image_2" / f"{i:06d}.jpg"), img)
+        cv2.imwrite(str(trip / "kitti" / "image_3" / f"{i:06d}.jpg"), img)
+        cv2.imwrite(str(trip / "driver" / f"frame_{i:06d}.jpg"), img)
+        (trip / "kitti" / "calib" / f"{i:06d}.txt").write_text(calib_txt)
+        (trip / "kitti" / "label_2" / f"{i:06d}.txt").write_text("")
+        if i % 5 == 0:
+            np.save(str(trip / "kitti" / "depth" / f"{i:06d}.npy"),
+                    np.ones((360, 640), np.float32))
+    (trip / "kitti" / "calibration_info.txt").write_text(json.dumps({
+        "fov_deg": 90, "baseline_m": 0.3, "image_width": 640, "image_height": 360,
+        "K_left": [[320, 0, 320], [0, 320, 180], [0, 0, 1]],
+    }))
+    frames = [make_redacted_frame(i) for i in range(n_frames)]
+    raw = {
+        "trip_id": name,
+        "metadata": {"trip_id": name, "fps": 20, "map": "Town04", "speed_limit_kmh": 60},
+        "events_log": [],
+        "frames": frames,
+    }
+    with gzip.open(trip / (json_name or f"{name}.json.gz"), "wt", encoding="utf-8") as f:
+        json.dump(raw, f)
+    return trip
+
+
+@pytest.fixture()
+def full_trip_dir(tmp_path) -> Path:
+    """Trip đầy đủ modality với N_FAKE_FRAMES=7 frame (cố tình khác 600/1800)."""
+    return make_full_trip(tmp_path, "T92d", N_FAKE_FRAMES)

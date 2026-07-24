@@ -101,6 +101,18 @@ pip install -r requirements.txt
 # Tối thiểu cần: opencv-python, numpy, pandas, matplotlib, pyyaml
 ```
 
+## Quick start — tripkit (Task 1.2: Trip Loader & Replayer)
+
+```bash
+pip install -e ".[dev]" && pytest                                  # cài package + chạy test
+python -m tripkit.replay data/T01-Sample --limit 50 --stats        # phát nhanh + thống kê trip
+python -m tripkit.replay data/T01-Sample --mode realtime --show    # demo HUD 20 FPS (q/ESC thoát)
+python -m tripkit.validate data/                                   # kiểm tra toàn vẹn mọi trip
+# API cho C1/C2/pipeline:  from tripkit import TripLoader, TripReplayer
+```
+
+Contract API (tên field đã khoá với downstream): xem `docs/Task_1.2_TripReplayer_Spec_ClaudeCode.md` mục 3.
+
 
 ## Bắt đầu nhanh (5 phút)
 
