@@ -10,4 +10,7 @@ API chính (xem docs/Task_1.2_TripReplayer_Spec_ClaudeCode.md mục 3):
 
 __version__ = "0.1.0"
 
-__all__ = ["__version__"]
+from .types import Calib
+from .loader import TripLoader
+
+__all__ = ["__version__", "Calib", "TripLoader"]
