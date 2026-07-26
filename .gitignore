@@ -12,3 +12,6 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 build/
+
+# EDA: figures nặng không commit, chỉ commit tables + findings
+reports/eda/figures/

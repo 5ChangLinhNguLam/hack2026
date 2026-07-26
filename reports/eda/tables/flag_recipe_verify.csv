@@ -1,0 +1,9 @@
+unit,boundary,count_mode,err_vs_trip_aggregate,err_vs_behavior_flags_perframe,exact_match,err_agg_T01-Sample,err_agg_T02-Sample,err_agg_T03-Sample,err_agg_T04-Sample,err_agg_T05-Sample,err_agg_T06-Sample,err_frame_T01-Sample,err_frame_T02-Sample,err_frame_T03-Sample,err_frame_T04-Sample,err_frame_T05-Sample,err_frame_T06-Sample
+m/s2,>=,frame,0.0,0,True,0,0,0.0,0,0,0.0,0,0,0,0,0,0
+m/s2,>,frame,1.0,1,False,0,0,1.0,0,0,0.0,0,0,1,0,0,0
+g,>,event,614.17,1101,False,59,87,194.0,60,98,116.17,232,174,192,158,191,154
+g,>=,event,615.17,1102,False,59,88,194.0,60,98,116.17,232,175,192,158,191,154
+m/s2,>=,event,659.17,0,False,61,58,213.0,78,118,131.17,0,0,0,0,0,0
+m/s2,>,event,659.17,1,False,61,58,213.0,78,118,131.17,0,0,1,0,0,0
+g,>,frame,1101.0,1101,False,232,174,192.0,158,191,154.0,232,174,192,158,191,154
+g,>=,frame,1102.0,1102,False,232,175,192.0,158,191,154.0,232,175,192,158,191,154

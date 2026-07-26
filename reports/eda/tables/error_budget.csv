@@ -1,0 +1,7 @@
+trip_id,penalty_total,safe_pre_clamp,margin_to_zero,pen_harsh_brake,share_harsh_brake_pct,pen_harsh_accel,share_harsh_accel_pct,pen_harsh_corner,share_harsh_corner_pct,pen_near_miss,share_near_miss_pct,pen_speeding,share_speeding_pct,pen_tailgating,share_tailgating_pct,d_safe_per_1_near_miss,d_c3_per_1_near_miss,d_safe_per_1_harsh_brake,d_c3_per_1_harsh_brake,d_safe_per_1pct_tailgating,d_c3_per_1pct_tailgating,d_safe_per_1pct_speeding,near_miss_error_to_escape_clamp,tailgating_pct_error_to_escape_clamp
+T01-Sample,187.0,-87.0,87.0,42.0,22.46,106.0,56.68,4.0,2.14,35.0,18.72,0.0,0.0,0.0,0.0,5.0,10.0,3.0,6.0,0.1,0.2,0.15,18,870.0
+T02-Sample,229.25,-129.25,129.25,33.0,14.39,106.0,46.24,0.0,0.0,90.0,39.26,0.0,0.0,0.25,0.11,5.0,10.0,3.0,6.0,0.1,0.2,0.15,26,1292.5
+T03-Sample,598.259,-498.259,498.259,102.0,17.05,282.0,47.14,82.0,13.71,130.0,21.73,1.675,0.28,0.583,0.1,5.0,10.0,3.0,6.0,0.1,0.2,0.15,100,4982.6
+T04-Sample,344.0,-244.0,244.0,54.0,15.7,90.0,26.16,50.0,14.53,150.0,43.6,0.0,0.0,0.0,0.0,5.0,10.0,3.0,6.0,0.1,0.2,0.15,49,2440.0
+T05-Sample,368.0,-268.0,268.0,123.0,33.42,180.0,48.91,0.0,0.0,65.0,17.66,0.0,0.0,0.0,0.0,5.0,10.0,3.0,6.0,0.1,0.2,0.15,54,2680.0
+T06-Sample,547.942,-447.942,447.942,141.0,25.73,196.0,35.77,0.0,0.0,210.0,38.33,0.525,0.1,0.417,0.08,5.0,10.0,3.0,6.0,0.1,0.2,0.15,90,4479.4

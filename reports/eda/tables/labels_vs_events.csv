@@ -1,0 +1,7 @@
+trip_id,n_label_files,n_label_nonempty,first_event_frame,n_frames_event_active,n_label_when_event,pct_label_when_event,n_frames_no_event,n_label_when_no_event,pct_label_when_no_event,n_label_before_first_event
+T01-Sample,600,57,300,300,57,19.0,300,0,0.0,0
+T02-Sample,600,190,300,300,164,54.67,300,26,8.67,26
+T03-Sample,600,81,300,50,49,98.0,550,32,5.82,0
+T04-Sample,600,490,200,400,399,99.75,200,91,45.5,91
+T05-Sample,600,126,200,400,126,31.5,200,0,0.0,0
+T06-Sample,600,600,120,480,480,100.0,120,120,100.0,120

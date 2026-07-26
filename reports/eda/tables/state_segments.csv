@@ -1,0 +1,10 @@
+trip_id,state,frame_start,frame_end,n_frames,duration_sec
+T01-Sample,distracted,0,299,300,15.0
+T01-Sample,alert,300,599,300,15.0
+T02-Sample,drowsy,0,599,600,30.0
+T03-Sample,yawning,0,599,600,30.0
+T04-Sample,distracted,0,299,300,15.0
+T04-Sample,alert,300,599,300,15.0
+T05-Sample,microsleep,0,599,600,30.0
+T06-Sample,drowsy,0,299,300,15.0
+T06-Sample,distracted,300,599,300,15.0

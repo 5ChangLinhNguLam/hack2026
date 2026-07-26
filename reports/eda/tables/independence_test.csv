@@ -1,0 +1,8 @@
+scope,n_frames,n_states_present,states,n_event_active,n_event_inactive,cramers_v,p_value,chi2,dof,testable,ket_luan
+GỘP 6 trip (có confound theo trip),3600,5,alert;distracted;drowsy;yawning;microsleep,1930,1670,0.5491,1.14656e-233,1085.328,4.0,True,"liên hệ MẠNH (V=0.549), có ý nghĩa (p<0.05)"
+T01-Sample,600,2,alert;distracted,300,300,0.9967,1.23705e-131,596.007,1.0,True,"liên hệ MẠNH (V=0.997), có ý nghĩa (p<0.05)"
+T02-Sample,600,1,drowsy,300,300,,,,,False,KHÔNG kiểm được (state hoặc event không biến thiên)
+T03-Sample,600,1,yawning,50,550,,,,,False,KHÔNG kiểm được (state hoặc event không biến thiên)
+T04-Sample,600,2,alert;distracted,400,200,0.7036,1.47825e-66,297.007,1.0,True,"liên hệ MẠNH (V=0.704), có ý nghĩa (p<0.05)"
+T05-Sample,600,1,microsleep,400,200,,,,,False,KHÔNG kiểm được (state hoặc event không biến thiên)
+T06-Sample,600,2,distracted;drowsy,480,120,0.4958,6.0695e-34,147.51,1.0,True,"liên hệ trung bình (V=0.496), có ý nghĩa (p<0.05)"
