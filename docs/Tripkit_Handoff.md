@@ -56,7 +56,11 @@ python -m tripkit.validate data/                                   # bảng toà
 - 6 trip mẫu thật `T01..T06-Sample` (600 frame, đủ GT): validate 6/6 OK, replay đủ frame.
 - Trip **1800 frame không GT** (giả lập đầy đủ modality đúng cấu trúc T0Xd): validate OK (depth 360/360, GT=không), replay fast 1800/1800, realtime đúng lịch, toàn bộ API không crash.
 
-## Còn chờ (khi có trip T0Xd thật)
+## Đã xác minh trên data T0Xd thật (26/07/2026)
 
-1. Chạy `python -m tripkit.validate data/` + `python -m tripkit.replay data/T01d --limit 50 --stats` để xác minh trên redaction thật của ban tổ chức.
-2. Tài liệu kit đang **mâu thuẫn** về `behavior_flags` ở trip chấm điểm (README: bị xoá; HUONG_DAN: được giữ). `tripkit` đã chịu được cả 2 chiều; khi có data thật sẽ chốt lại để C3 biết đường dùng.
+1. ✅ `validate data/` 16/16 trip OK (6 Sample + 10 T0Xd); `replay data/T01d --limit 50 --stats` chạy đúng (1800 frame, GT=không, Town01, 80 km/h).
+2. ✅ Chốt mâu thuẫn tài liệu: **`behavior_flags` BỊ XOÁ hẳn ở trip T0Xd** (README đúng, HUONG_DAN sai). C3 không bị ảnh hưởng — `evaluation.py` tự tính harsh_brake/accel/corner + speeding% từ `ego` kinematics (không bị redact).
+3. Cấu trúc redaction thật đã soi trực tiếp từ `T01d`:
+   - `driver` bị che bằng **dict rỗng `{}`** (không xoá key) — tripkit xử lý đúng (`has_gt()=False`, `frame().gt=None` nhất quán).
+   - `ego` chỉ còn `speed_kmh`/`longitudinal_accel`/`lateral_accel`; `targets` chỉ còn `target_id`/`target_class` (T01d frame 500 có tới 35 target — chỉ là danh sách id/class); `events_log` chỉ còn `type`+`t`; `label_2` xyz = 0, dims 3D vẫn thật; `trip_aggregate`/`driver_summary` không tồn tại; `metadata` đầy đủ (kể cả `speed_limit_kmh`).
+4. ⚠️ Dataset zip BTC phát có **1 file hỏng CRC**: `T08d/kitti/image_2/001615.jpg` (đã quét toàn bộ 2GB — chỉ đúng 1 entry này). Đã thay bằng bản khôi phục tốt nhất (decode được, nửa dưới ảnh lệch màu). Ảnh phải `image_3/001615` và driver cùng frame vẫn lành — pipeline C1 dùng stereo nên lưu ý frame này của T08d. Nên báo BTC/tải lại zip để đối chiếu.

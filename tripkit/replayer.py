@@ -8,7 +8,9 @@ Hai chế độ:
 Pacing realtime drift-free theo lịch TUYỆT ĐỐI, không cộng dồn
 ``sleep(1/fps)`` (sẽ trôi dần theo thời gian xử lý):
 
-    deadline(i) = t0 + (ts_i − ts_start) / speed   với time.monotonic()
+    deadline(i) = t0 + (ts_i − ts_start) / speed   với time.perf_counter()
+    (perf_counter thay vì monotonic: trên Windows/Python ≤3.12, monotonic
+    là GetTickCount64 phân giải ~15.6ms — quá thô để pacing 20 FPS)
 
 Frame bị chậm (load/consumer quá lâu) sẽ tự bắt kịp ở các frame sau vì
 deadline không phụ thuộc thời điểm frame trước phát xong.
@@ -70,12 +72,14 @@ class TripReplayer:
         ts_start = self.loader.raw_frame(self.start).get(
             "timestamp", self.start / self.loader.fps
         )
-        t0 = time.monotonic()
+        t0 = time.perf_counter()
         for i in range(self.start, self.end):
             # load trước rồi mới chờ deadline — thời gian load nằm trong lịch
             bundle = self.loader.frame(i)
             deadline = t0 + (bundle.timestamp - ts_start) / self.speed
-            delay = deadline - time.monotonic()
-            if delay > 0:
+            # sleep trong vòng lặp: trên Windows time.sleep có thể dậy SỚM
+            # hơn yêu cầu (độ phân giải timer) — 1 lần sleep đơn sẽ yield
+            # frame trước deadline, phá contract pacing của HUD
+            while (delay := deadline - time.perf_counter()) > 0:
                 time.sleep(delay)
             yield bundle
