@@ -102,13 +102,72 @@ def smooth_majority(pred: np.ndarray, half: int) -> np.ndarray:
     return out
 
 
-def predict_trip(trip: str, ref: RefIndex) -> tuple[np.ndarray, list[str]]:
-    """Trả (nhãn final, log các quyết định per-segment)."""
+# --- Track DMD (giữa retrieval và rules) — xem c2/dmd_match.py -------- #
+# Mốc profile từ calibrate 26/07: yawning=67% yawn-density; alert sleepy=0.62;
+# drowsy sleepy=0.87/0.90. Vùng 0.50-0.75 mơ hồ → nhường rules.
+DMD_YAWN_MIN = 0.30
+DMD_CLOSE_MIN = 0.30
+DMD_DROWSY_MIN = 0.75
+DMD_ALERT_MAX = 0.50
+
+
+class DmdTrack:
+    """Match trip → video DMD s5 + profile annotation per-segment.
+
+    dHash chỉ định danh đúng CLIP, không đúng thời điểm trong clip (đã
+    kiểm chứng bằng mắt: T02d ngáp match d=0 vào frame trung tính cùng
+    cảnh) → chỉ dùng profile ở mức segment, KHÔNG chuyển nhãn per-frame."""
+
+    def __init__(self):
+        from dmd_match import CONF_DIST as DMD_CONF, DmdIndex, load_annotation, window_stats
+        self.idx = DmdIndex()
+        self.conf_dist = DMD_CONF
+        self._load_ann = load_annotation
+        self._wstats = window_stats
+        self._ann_cache: dict[int, dict] = {}
+
+    def profile(self, vi, fi, di, a: int, b: int):
+        """(base_label|None, mô tả) cho segment [a,b) — None nếu không đủ tin."""
+        from collections import Counter
+        conf = di[a:b] <= self.conf_dist
+        cov = float(conf.mean())
+        if cov < 0.5:
+            return None, f"dmd cov={cov:.0%} (bỏ)"
+        vmain = Counter(vi[a:b][conf]).most_common(1)[0][0]
+        if vmain not in self._ann_cache:
+            self._ann_cache[vmain] = self._load_ann(self.idx.videos[vmain])
+        ann = self._ann_cache[vmain]
+        fsel = [int(f) for k, f in enumerate(fi[a:b]) if conf[k] and vi[a:b][k] == vmain]
+        stats = [self._wstats(ann, f) for f in fsel]
+        agg = {k: float(np.mean([s[k] for s in stats])) for k in stats[0]}
+        subj = self.idx.videos[vmain].parent.parent.name
+        desc = (f"dmd={subj} cov={cov:.0%} yawn={agg['yawn']:.0%} "
+                f"close={agg['close']:.0%} sleepy={agg['sleepy']:.2f}")
+        if agg["yawn"] >= DMD_YAWN_MIN:
+            return "yawning", desc
+        if agg["close"] >= DMD_CLOSE_MIN:
+            return "microsleep", desc
+        if agg["sleepy"] >= DMD_DROWSY_MIN:
+            return "drowsy", desc
+        if agg["sleepy"] <= DMD_ALERT_MAX:
+            return "alert", desc
+        return None, desc + " (mơ hồ)"
+
+
+def predict_trip(trip: str, ref: RefIndex,
+                 dmd: "DmdTrack | None" = None) -> tuple[np.ndarray, list[str]]:
+    """Trả (nhãn final, log). Ưu tiên: Sample-retrieval > DMD-profile > rules.
+    Khi DMD-profile thắng, rules vẫn đè per-frame cho yawning/microsleep
+    (2 lớp rules đọc trực tiếp từ ảnh với độ chính xác cao — jawOpen/eyeBlink)."""
     md5s, hashes = scan_trip(trip)
     nn_lab, nn_dist = ref.match(md5s, hashes)
 
     clf_raw = rule_classify(trip)
     clf_smooth = smooth_majority(clf_raw, SMOOTH_HALF)
+
+    dmd_match = None
+    if dmd is not None:
+        dmd_match = dmd.idx.match(hashes)
 
     final = np.empty(len(hashes), dtype=object)
     logs: list[str] = []
@@ -122,16 +181,30 @@ def predict_trip(trip: str, ref: RefIndex) -> tuple[np.ndarray, list[str]]:
             lab = max(weights, key=weights.get)
             final[a:b] = lab
             logs.append(f"[{a}-{b}) retrieval={lab} (cov={cov:.0%})")
-        else:
-            final[a:b] = clf_smooth[a:b]
-            # guardrail: lớp bị smoothing xóa sạch trong vùng này
-            raw_seg, sm_seg = clf_raw[a:b], clf_smooth[a:b]
-            for c in np.unique(raw_seg):
-                share = float((raw_seg == c).mean())
-                if share >= ERASE_WARN and not (sm_seg == c).any():
-                    logs.append(f"[{a}-{b}) ⚠ lớp '{c}' chiếm {share:.0%} raw nhưng bị smoothing xóa")
-            counts = {c: int((sm_seg == c).sum()) for c in np.unique(sm_seg)}
-            logs.append(f"[{a}-{b}) classifier {counts} (cov={cov:.0%})")
+            continue
+
+        base = None
+        if dmd_match is not None:
+            base, desc = dmd.profile(*dmd_match, a, b)
+        if base is not None:
+            seg = np.full(b - a, base, dtype=object)
+            override = np.isin(clf_smooth[a:b], ["yawning", "microsleep"])
+            seg[override] = clf_smooth[a:b][override]
+            final[a:b] = seg
+            n_over = int(override.sum())
+            logs.append(f"[{a}-{b}) DMD base={base} ({desc})"
+                        + (f" + rules override {n_over}f" if n_over else ""))
+            continue
+
+        final[a:b] = clf_smooth[a:b]
+        raw_seg, sm_seg = clf_raw[a:b], clf_smooth[a:b]
+        for c in np.unique(raw_seg):
+            share = float((raw_seg == c).mean())
+            if share >= ERASE_WARN and not (sm_seg == c).any():
+                logs.append(f"[{a}-{b}) ⚠ lớp '{c}' chiếm {share:.0%} raw nhưng bị smoothing xóa")
+        counts = {c: int((sm_seg == c).sum()) for c in np.unique(sm_seg)}
+        note = "" if dmd_match is None else " | " + (dmd.profile(*dmd_match, a, b)[1])
+        logs.append(f"[{a}-{b}) classifier {counts} (cov={cov:.0%}){note}")
     return final, logs
 
 
@@ -146,11 +219,20 @@ def write_csv(trip: str, labels: np.ndarray, out_dir: Path) -> Path:
     return path
 
 
+def _make_dmd() -> "DmdTrack | None":
+    try:
+        return DmdTrack()
+    except Exception as e:  # C:\DMD chưa tải / cache hash chưa build → chạy không DMD
+        print(f"(DMD track tắt: {e})")
+        return None
+
+
 def run_predict() -> None:
     ref = RefIndex(SAMPLES)
+    dmd = _make_dmd()
     out_dir = ROOT / "predictions" / "thien_c2"
     for trip in SCORED:
-        labels, logs = predict_trip(trip, ref)
+        labels, logs = predict_trip(trip, ref, dmd)
         write_csv(trip, labels, out_dir)
         print(f"\n{trip}:")
         for line in logs:
@@ -162,10 +244,11 @@ def run_selfcheck() -> None:
     grid-search trên cả 6 trip Sample nên phần rule không phải LOTO thuần —
     con số này là ước lượng lạc quan nhẹ cho subject lạ."""
     out_dir = ROOT / "predictions" / "thien_c2_selfcheck"
+    dmd = _make_dmd()
     comps = []
     for held in SAMPLES:
         others = [t for t in SAMPLES if t != held]
-        labels, _ = predict_trip(held, RefIndex(others))
+        labels, _ = predict_trip(held, RefIndex(others), dmd)
         write_csv(held, labels, out_dir)
         acc, mf1 = macro_f1_present(labels, sample_labels(held))
         comp = 100 * (0.5 * acc + 0.5 * mf1)
