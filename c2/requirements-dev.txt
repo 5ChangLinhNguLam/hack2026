@@ -1,0 +1,2 @@
+-r requirements-live.txt
+pytest>=8.0

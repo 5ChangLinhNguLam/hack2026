@@ -1,6 +1,6 @@
 # C2 Handoff — Driver Intelligence Platform (Thiện)
 
-> Cập nhật: 28/07/2026 sáng. Người đọc: agent tiếp quản C2.
+> Cập nhật: 28/07/2026 trưa. Người đọc: agent tiếp quản C2.
 > Đọc file này TRƯỚC khi làm gì. Bối cảnh nền: `README.md` repo + `Connected Car.html`
 > (đề thi đầy đủ). Deadline nộp: **10/08/2026**.
 
@@ -122,10 +122,20 @@ cd c:\HackathonFPT\hack2026
 
 ## 8. Việc còn lại đến 10/08 (ngoài DMD)
 
-1. **Demo** (hạng mục 03 bắt buộc): kế hoạch đã thống nhất với user —
-   `c2/demo.py` Streamlit 2 tab (Trip replay HUD + Live webcam real-time
-   bằng chính rule classifier; khả thi vì CPU-only ~30fps) + quay video
-   2-5 phút. Ghép fusion với C1 (TTC của Hải) khi có.
+1. **Demo** (hạng mục 03 bắt buộc): MVP OpenCV realtime đã có ở `c2/demo.py`
+   và engine độc lập ở `c2/live_detector.py`: webcam/video, calibration 2s,
+   Face Landmarker + EfficientDet-Lite0 cell-phone + temporal state machine,
+   HUD evidence/FPS/timeline và `--record`. Unit/HUD test C2 10/10; integration
+   DMD đã bắt đúng safe/phone/yawn/eye-close. `c2/validate_live_demo.py` PASS đủ
+   5 state; soak 300s/8.929 frame đạt 34,2 FPS, face coverage 99,4%, không crash;
+   full unit suite hiện 73 test. Nghiên cứu, benchmark và decision gate training
+   ở `c2/LIVE_DEMO_RESEARCH.md`; bằng chứng tái chạy ở
+   `c2/LIVE_DEMO_VERIFICATION.md`.
+   Streamlit Trip Replay nhẹ đã có ở `c2/streamlit_app.py`; clip test H.264
+   31,5 giây sinh bằng `c2/make_web_test_video.py`. AppTest end-to-end nhận đủ
+   5 state ở 10 FPS web, 1,76× realtime khi replay 2×, face coverage 99,7%.
+   **Còn phải làm trước sân khấu:** test thêm nhiều người/ánh sáng để đánh giá
+   generalization và quay video 2–5 phút; fusion C1 (TTC của Hải) là phase sau.
 2. **Merge CSV nộp chung**: thêm cột `predicted_ttc` (Hải/C1) vào CSV;
    format cuối `predictions/<tên_team>/<trip_id>.csv`.
 3. **README approach + Ghi chú triển khai** (hạng mục 02/04/05): kể chuyện
