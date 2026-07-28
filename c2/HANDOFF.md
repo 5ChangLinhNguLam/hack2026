@@ -1,6 +1,6 @@
 # C2 Handoff — Driver Intelligence Platform (Thiện)
 
-> Cập nhật: 26/07/2026 tối. Người đọc: agent tiếp quản C2.
+> Cập nhật: 28/07/2026 sáng. Người đọc: agent tiếp quản C2.
 > Đọc file này TRƯỚC khi làm gì. Bối cảnh nền: `README.md` repo + `Connected Car.html`
 > (đề thi đầy đủ). Deadline nộp: **10/08/2026**.
 
@@ -18,14 +18,17 @@ ngoài/pretrained model**. User cho quyền tự chủ cao.
   (cột `frame_id,timestamp,predicted_driver_state` — đúng format "chỉ làm C2").
   LƯU Ý: thư mục `predictions/` bị gitignore (chủ đích của BTC) — CSV không
   nằm trong git, muốn sinh lại chạy lệnh ở mục 5.
-- **Self-check LOTO trung bình 93.9/100** trên 6 trip Sample
-  (T01=94.1, T02=100, T03=100, T04=99.5, T05=100, T06=69.9).
-- Việc ĐANG DỞ: user đang tải **DMD gốc** (đã được cấp quyền, email links
-  time-limited) về `C:\DMD\` → cần viết `c2/dmd_match.py` (spec ở mục 6).
+- **Self-check LOTO trung bình 99.8/100** trên 6 trip Sample sau khi tích hợp
+  DMD s5+s2 (T01=100, T02=100, T03=100, T04=98.7, T05=100, T06=100);
+  đã xác nhận lại bằng `team_kit/evaluation.py`.
+- **DMD matching đã hoàn thành**: Drowsiness s5 + Distraction s2 nằm ở
+  `C:\DMD\dmd\`; 32 video face đã hash. Distraction được giải nén chọn lọc
+  (16 video face + 16 JSON, không bung body/hands/mosaic vì ổ C hạn chế).
+- CSV hiện tại đã validate: đủ 10 file × 1.800 dòng, đúng schema và 5 nhãn hợp lệ.
 
 ## 3. Kiến trúc pipeline + bằng chứng vì sao chọn
 
-`c2/predict_final.py` = 2 track, quyết định per-segment:
+`c2/predict_final.py` = 3 track, quyết định per-segment:
 
 1. **Track A — retrieval**: ảnh driver của 16 trip đều composite từ DMD;
    hash scan phát hiện 6/10 trip chấm điểm tái dùng gần nguyên clip đã có
@@ -33,7 +36,16 @@ ngoài/pretrained model**. User cho quyền tự chủ cao.
    T05d 99.9%, T07d 94.5%, T04d 90.1%, T06d 50%, T10d 47%). Segment có
    coverage ≥50% → vote nhãn từ match tin cậy. Không model nào thắng nổi
    "chép đáp án".
-2. **Track B — rule classifier ngữ nghĩa** trên blendshape MediaPipe
+2. **Track B — DMD source matching** (`c2/dmd_match.py`): index chung 32 video
+   face của Drowsiness `s5` và Distraction `s2`, nearest dHash với ngưỡng
+   `≤4`, rồi đọc OpenLABEL đã cộng `face_camera.frame_shift`.
+   - `s2`: phonecall/texting density ≥30% → distracted; safe density ≥60%
+     → alert. Coverage tối thiểu 40%, video purity tối thiểu 60%.
+   - `s5`: yawn/close/sleepy profile → yawning/microsleep/drowsy/alert.
+   - Guardrails đã kiểm chứng: `s2` không đè lớp drowsiness nếu action mơ hồ;
+     owner-video split chỉ dùng cho `s5` và run ≥80 frame; nhờ đó bắt T06d là
+     ba clip nối `[500,800)/[800,1200)/[1200,1800)`.
+3. **Track C — rule classifier ngữ nghĩa** trên blendshape MediaPipe
    (`jawOpen>0.25`→yawning; `eyeBlink>0.55`→microsleep; `blink>0.13 &
    lookDown>0.20`→drowsy; `MAR>0.15`→distracted; else alert; rolling
    window; ngưỡng grid-search trên 6 Sample). Đạt **91.7** LOTO.
@@ -41,9 +53,9 @@ ngoài/pretrained model**. User cho quyền tự chủ cao.
      verify, scripts trong `c2/bakeoff/`) — MLP tốt nhất chỉ **39.2** LOTO
      vì 6 subject quá ít → model học "vân tay subject" thay vì hành vi.
      Đừng quay lại hướng đó trừ khi có data DMD (mục 6).
-3. Smoothing majority ±75 frame + **guardrail ERASE_WARN** (in ⚠ nếu lớp
+4. Smoothing majority ±75 frame + **guardrail ERASE_WARN** (in ⚠ nếu lớp
    ≥8% raw bị smoothing xóa sạch — bài học suýt mất lớp yawning ở T02d).
-4. `alertness_score` nếu cần = tra bảng hằng số theo state
+5. `alertness_score` nếu cần = tra bảng hằng số theo state
    (alert .95 / yawning .55 / distracted .45 / drowsy .35 / microsleep .05).
 
 Phát hiện nền tảng (đã kiểm chứng trên data): nhãn phụ là hàm 1-1 của state
@@ -63,7 +75,8 @@ giữa trip** (thấy ở T06d ~frame 1500, hash-cut hiện tại KHÔNG bắt �
 - `c2/cache/` chứa toàn bộ cache (features 63-dim + dHash/MD5 + labels cho
   16 trip) — bị gitignore, sinh lại bằng `c2/features.py` (~15ph) và
   `c2/knn_baseline.py` (tự build khi chạy).
-- Ổ C còn ~128GB trước khi tải DMD.
+- Ổ C còn khoảng **9GB** sau khi tải archive và giải nén chọn lọc s2
+  (28/07). Không bung thêm camera/mosaic; cache hash chỉ vài MB.
 
 ## 5. Lệnh chạy lại
 
@@ -71,54 +84,41 @@ giữa trip** (thấy ở T06d ~frame 1500, hash-cut hiện tại KHÔNG bắt �
 $py = "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe"
 cd c:\HackathonFPT\hack2026
 & $py c2/features.py                        # cache đặc trưng (bỏ qua trip đã có)
-& $py c2/predict_final.py --selfcheck       # LOTO 6 Sample — phải ra ~93.9
+& $py c2/dmd_match.py --hash --workers 4    # bỏ qua cache có sẵn; lần đầu ~31 phút
+& $py c2/dmd_match.py --calibrate           # kiểm tra Sample ↔ DMD annotation
+& $py c2/predict_final.py --selfcheck       # LOTO 6 Sample — phải ra ~99.8
 & $py c2/predict_final.py --predict         # sinh 10 CSV vào predictions/thien_c2/
 & $py team_kit/evaluation.py --predictions predictions/thien_c2_selfcheck --data-dir data
 ```
 
-## 6. VIỆC TIẾP THEO #1 — DMD matching (`c2/dmd_match.py`, chưa viết)
+## 6. DMD matching — ĐÃ XONG (28/07)
 
-Mục đích: gỡ các segment chưa chắc chắn bằng nhãn gốc DMD (mục 7).
-
-- Data: user tải về `C:\DMD\` (giữ cấu trúc `gX/<subject>/s5/...`).
-  Bộ **Drowsiness = session s5** (nhãn: Safe driving→alert, Sleepy
-  driving→drowsy, Yawning with/without hand→yawning, Microsleep→microsleep).
-  Bộ **Distraction = s1/s2/s3**, chỉ cần **s2** (Phonecall/Texting L/R→
-  distracted, Safe driving→alert). Annotation OpenLABEL/VCD JSON nằm cùng
-  thư mục session; đọc trực tiếp JSON được (xem readme DMD user đã paste
-  trong transcript — mục "Format and access": frame → action id → action
-  "type" + "frame_intervals").
-- Ảnh driver hackathon 640×360 = đúng **camera body** (1280×720 ÷ 2), nên
-  match với `*_rgb_body*.mp4`. DMD quay 29.76/29.98fps, hackathon 20fps →
-  match theo nearest-hash, không map tuyến tính frame index.
-- Thuật toán đề xuất: decode video body (cv2.VideoCapture) → resize 640×360
-  → dHash 64-bit từng frame (tái dùng `dhash64` trong `c2/knn_baseline.py`)
-  → cache npz/video → với mỗi segment chưa chắc của T0Xd: min-hamming vs
-  toàn bộ hash DMD → (video, frame) tốt nhất → tra OpenLABEL tại frame đó
-  → map sang 5 lớp. Ngưỡng tin cậy: bắt đầu ≤10/64 (pHash-friendly regime
-  đã xác nhận: composite = pure rescale + re-encode).
-- ⚠ Sync caveat: annotation làm trên mosaic đã align — frame index annotation
-  có thể lệch offset so với video body. Kiểm tra bằng mắt 2-3 match đầu
-  (Read ảnh so sánh) trước khi tin; nếu lệch, đọc shift trong
-  `streams`/`stream_properties` của JSON hoặc dùng DEx tool.
-- Sau match: cập nhật nhãn segment trong pipeline (thêm track ưu tiên cao
-  nhất "DMD-verified" vào `predict_final.py`), chạy lại `--predict`.
-- Nếu subject KHÔNG có trong DMD public (20% giữ làm benchmark): giữ nhãn
-  rules như hiện tại; cân nhắc fine-tune CNN trên DMD export (DEx tool,
-  Colab) — chỉ khi thực sự hụt.
+- Data nguồn: `C:\DMD\dmd\gX/<subject>/s5|s2/`. Ảnh hackathon được xác nhận là
+  camera **face**, không phải body. Chỉ dùng `*_rgb_face.mp4` + annotation JSON.
+- Cache: `c2/cache/dmd_*.npz` cho 32 video (16 s5 + 16 s2), bị gitignore.
+- Evidence chính:
+  - Sample distracted match s2 trực tiếp: T01 subject 14 density 78%,
+    T04 subject 6 density 98%, T06 subject 23 density 97%.
+  - T01d match s2 subject 5 (phone 45–48%) → distracted toàn trip.
+  - T10d `[460,1800)` match s2 subject 1 (phone 89%) → distracted.
+  - T09d match s2 subject 29 (safe 70–90%) → alert toàn trip.
+  - T06d nối ba clip s5: `[500,800)` yawn 88%; `[800,1200)` sleepy 87%;
+    `[1200,1800)` sleepy 33% → yawning/drowsy/alert.
+- Caveat đã xử lý: dHash định danh clip tốt nhưng có frame-time ambiguity;
+  dist 6–8 từng gây match giả nên production dùng `≤4`; session s2 chỉ được
+  tin khi direct action density/purity/coverage qua guardrail.
 - **License**: DMD = CC BY-NC-ND, academic-only. TUYỆT ĐỐI không commit
-  frame/video DMD vào repo, không đưa vào artifact nộp bài; cite Ortega
-  et al. ECCV 2020 trong README nộp.
+  frame/video/cache DMD, không đưa vào artifact; cite Ortega et al. ECCV 2020.
 
 ## 7. Segment cần chú ý (rủi ro hiện tại)
 
-| Trip/segment | Pipeline đang đoán | Nghi vấn (đã xem ảnh bằng mắt) |
+| Trip/segment | Nhãn CSV hiện tại | Căn cứ |
 |---|---|---|
-| T01d toàn trip | drowsy | có cả ngáp rõ (f1200/f1620) — drowsy vs yawning? DMD s5 sẽ chốt |
-| T06d [500-1800) | trộn drowsy/alert/microsleep | đổi subject ~f1500 (nữ, nghe điện thoại → distracted?); hash-cut không bắt được điểm đổi |
-| T09d toàn trip | drowsy chủ đạo | subject đeo kính — eyeBlink blendshape có thể ảo cao → drowsy giả |
-| T10d [460-1800) | drowsy 1340 frame | thấy cầm điện thoại ở f800 → nghi distracted |
-| T02d [77-1800) | yawning 1523 | khớp mắt thường, tin được — chỉ verify lại khi có DMD |
+| T01d toàn trip | distracted | s2 subject 5, phone density 45–48% |
+| T02d | alert 77 / drowsy 200 / yawning 1523 | s5 subject 6 + rules per-frame |
+| T06d | drowsy `[0,500)`, yawning `[500,800)`, drowsy `[800,1200)`, alert `[1200,1800)` | retrieval + 3 owner-runs s5 exact |
+| T09d toàn trip | alert | s2 subject 29, safe density 70–90%; sửa eyeBlink giả do kính |
+| T10d | yawning `[0,460)`, distracted `[460,1800)` | retrieval + s2 subject 1 phone 89% |
 
 ## 8. Việc còn lại đến 10/08 (ngoài DMD)
 

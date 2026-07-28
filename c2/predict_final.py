@@ -109,14 +109,23 @@ DMD_YAWN_MIN = 0.30
 DMD_CLOSE_MIN = 0.30
 DMD_DROWSY_MIN = 0.75
 DMD_ALERT_MAX = 0.50
+DMD_DISTRACTED_MIN = 0.30
+DMD_SAFE_MIN = 0.60
+DMD_MIN_PURITY = 0.60
+DMD_MIN_RUN = 80
 
 
 class DmdTrack:
-    """Match trip → video DMD s5 + profile annotation per-segment.
+    """Match trip → video DMD s5/s2 + profile annotation per-segment.
 
     dHash chỉ định danh đúng CLIP, không đúng thời điểm trong clip (đã
     kiểm chứng bằng mắt: T02d ngáp match d=0 vào frame trung tính cùng
-    cảnh) → chỉ dùng profile ở mức segment, KHÔNG chuyển nhãn per-frame."""
+    cảnh) → chỉ dùng profile ở mức segment, KHÔNG chuyển nhãn per-frame.
+
+    Distraction s2 được tin khi phone/text density rõ ràng.  Một số subject
+    xuất hiện ở cả s5 và s2, nên match hình ảnh thuần có thể chọn nhầm session
+    (ví dụ Sample microsleep → s2 safe); purity và action-density là guardrail
+    chống false positive đó."""
 
     def __init__(self):
         from dmd_match import CONF_DIST as DMD_CONF, DmdIndex, load_annotation, window_stats
@@ -129,20 +138,48 @@ class DmdTrack:
     def profile(self, vi, fi, di, a: int, b: int):
         """(base_label|None, mô tả) cho segment [a,b) — None nếu không đủ tin."""
         from collections import Counter
+        if b - a < DMD_MIN_RUN:
+            return None, f"dmd run={b-a}f (quá ngắn, bỏ)"
         conf = di[a:b] <= self.conf_dist
         cov = float(conf.mean())
-        if cov < 0.5:
+        if not conf.any():
             return None, f"dmd cov={cov:.0%} (bỏ)"
         vmain = Counter(vi[a:b][conf]).most_common(1)[0][0]
+        v = self.idx.videos[vmain]
+        session = v.parent.name
+        min_cov = 0.40 if session == "s2" else 0.50
+        selected = vi[a:b][conf] == vmain
+        purity = float(selected.mean())
+        if cov < min_cov:
+            return None, f"dmd={session} cov={cov:.0%} (bỏ)"
+        if purity < DMD_MIN_PURITY:
+            return None, (
+                f"dmd={session} cov={cov:.0%} purity={purity:.0%} (lẫn, bỏ)"
+            )
         if vmain not in self._ann_cache:
             self._ann_cache[vmain] = self._load_ann(self.idx.videos[vmain])
         ann = self._ann_cache[vmain]
         fsel = [int(f) for k, f in enumerate(fi[a:b]) if conf[k] and vi[a:b][k] == vmain]
+        if not fsel:
+            return None, f"dmd={session} cov={cov:.0%} (không có frame, bỏ)"
         stats = [self._wstats(ann, f) for f in fsel]
         agg = {k: float(np.mean([s[k] for s in stats])) for k in stats[0]}
-        subj = self.idx.videos[vmain].parent.parent.name
-        desc = (f"dmd={subj} cov={cov:.0%} yawn={agg['yawn']:.0%} "
-                f"close={agg['close']:.0%} sleepy={agg['sleepy']:.2f}")
+        subj = f"{v.parent.parent.name}/{v.parent.name}"
+        desc = (f"dmd={subj} cov={cov:.0%} purity={purity:.0%} "
+                f"yawn={agg['yawn']:.0%} close={agg['close']:.0%} "
+                f"sleepy={agg['sleepy']:.2f} "
+                f"phone={agg['distracted']:.0%} safe={agg['safe']:.0%}")
+
+        # s2 provides direct action annotations.  Do not interpret its safe
+        # background as alert unless the action is dominant; this prevents a
+        # same-subject s2 clip from overriding a real s5 microsleep/yawn.
+        if session == "s2":
+            if agg["distracted"] >= DMD_DISTRACTED_MIN:
+                return "distracted", desc
+            if agg["safe"] >= DMD_SAFE_MIN:
+                return "alert", desc
+            return None, desc + " (s2 không đủ action)"
+
         if agg["yawn"] >= DMD_YAWN_MIN:
             return "yawning", desc
         if agg["close"] >= DMD_CLOSE_MIN:
@@ -152,6 +189,78 @@ class DmdTrack:
         if agg["sleepy"] <= DMD_ALERT_MAX:
             return "alert", desc
         return None, desc + " (mơ hồ)"
+
+    def owner_segments(self, vi, di, a: int, b: int):
+        """Split a hash segment at stable DMD-video ownership changes.
+
+        A hackathon trip can concatenate clips/subjects while the generic
+        dHash change detector misses the cut (T06d is a verified example).
+        Runs of at least ``DMD_MIN_RUN`` frames are trusted; shorter switches
+        between identical neighbours are collapsed, while other short runs
+        remain rules-only instead of receiving a DMD label.
+        """
+        if b - a < 2 * DMD_MIN_RUN:
+            return [(a, b)]
+        owner = vi[a:b].copy()
+        owner[di[a:b] > self.conf_dist] = -1
+        confident = owner[owner >= 0]
+        if len(confident):
+            from collections import Counter
+            dominant = Counter(
+                self.idx.videos[int(value)].parent.name for value in confident
+            ).most_common(1)[0][0]
+            # s2 already carries a direct action annotation.  Its nearest
+            # frame owners are often fragmented by repeated phone poses; the
+            # segment-level action density is more reliable than splitting it.
+            if dominant == "s2":
+                return [(a, b)]
+        runs: list[tuple[int, int, int]] = []
+        start = a
+        current = int(owner[0])
+        for offset in range(1, b - a):
+            value = int(owner[offset])
+            if value != current:
+                runs.append((start, a + offset, current))
+                start = a + offset
+                current = value
+        runs.append((start, b, current))
+
+        # Clean isolated short owner switches when both neighbours agree.
+        # This is common when two adjacent frames have equally good dHash
+        # matches in the same DMD clip (T09d); it must not turn a safe block
+        # into tiny rules-only gaps.  A short run between genuinely different
+        # owners remains ambiguous and is intentionally left for rules.
+        mutable = [[start, end, owner] for start, end, owner in runs]
+        changed = True
+        while changed and len(mutable) > 1:
+            changed = False
+            for i, (start, end, owner) in enumerate(mutable):
+                if end - start >= DMD_MIN_RUN:
+                    continue
+                left = mutable[i - 1][2] if i > 0 else None
+                right = mutable[i + 1][2] if i + 1 < len(mutable) else None
+                replacement = None
+                if left is not None and left == right and left >= 0:
+                    replacement = left
+                elif i == 0 and right is not None and right >= 0:
+                    replacement = right
+                elif i == len(mutable) - 1 and left is not None and left >= 0:
+                    replacement = left
+                if replacement is not None and mutable[i][2] != replacement:
+                    mutable[i][2] = replacement
+                    changed = True
+            merged: list[list[int]] = []
+            for run in mutable:
+                if merged and merged[-1][2] == run[2]:
+                    merged[-1][1] = run[1]
+                else:
+                    merged.append(run)
+            mutable = merged
+
+        stable = [run for run in mutable if run[1] - run[0] >= DMD_MIN_RUN]
+        if not stable:
+            return [(a, b)]
+        return [(start, end) for start, end, _ in mutable]
 
 
 def predict_trip(trip: str, ref: RefIndex,
@@ -183,28 +292,44 @@ def predict_trip(trip: str, ref: RefIndex,
             logs.append(f"[{a}-{b}) retrieval={lab} (cov={cov:.0%})")
             continue
 
-        base = None
-        if dmd_match is not None:
-            base, desc = dmd.profile(*dmd_match, a, b)
-        if base is not None:
-            seg = np.full(b - a, base, dtype=object)
-            override = np.isin(clf_smooth[a:b], ["yawning", "microsleep"])
-            seg[override] = clf_smooth[a:b][override]
-            final[a:b] = seg
-            n_over = int(override.sum())
-            logs.append(f"[{a}-{b}) DMD base={base} ({desc})"
-                        + (f" + rules override {n_over}f" if n_over else ""))
-            continue
+        dmd_chunks = (
+            dmd.owner_segments(dmd_match[0], dmd_match[2], a, b)
+            if dmd_match is not None else [(a, b)]
+        )
+        for sa, sb in dmd_chunks:
+            base = None
+            desc = ""
+            if dmd_match is not None:
+                base, desc = dmd.profile(*dmd_match, sa, sb)
+            if base is not None:
+                seg = np.full(sb - sa, base, dtype=object)
+                # A direct DMD yawn/closed-eye annotation is stronger than
+                # MediaPipe eye-blink rules (T06d yawn also has closed eyes).
+                # Rules may still discover these events inside a background
+                # alert/drowsy/distraction segment.
+                override = (
+                    np.zeros(sb - sa, dtype=bool)
+                    if base in {"yawning", "microsleep"}
+                    else np.isin(clf_smooth[sa:sb], ["yawning", "microsleep"])
+                )
+                seg[override] = clf_smooth[sa:sb][override]
+                final[sa:sb] = seg
+                n_over = int(override.sum())
+                logs.append(f"[{sa}-{sb}) DMD base={base} ({desc})"
+                            + (f" + rules override {n_over}f" if n_over else ""))
+                continue
 
-        final[a:b] = clf_smooth[a:b]
-        raw_seg, sm_seg = clf_raw[a:b], clf_smooth[a:b]
-        for c in np.unique(raw_seg):
-            share = float((raw_seg == c).mean())
-            if share >= ERASE_WARN and not (sm_seg == c).any():
-                logs.append(f"[{a}-{b}) ⚠ lớp '{c}' chiếm {share:.0%} raw nhưng bị smoothing xóa")
-        counts = {c: int((sm_seg == c).sum()) for c in np.unique(sm_seg)}
-        note = "" if dmd_match is None else " | " + (dmd.profile(*dmd_match, a, b)[1])
-        logs.append(f"[{a}-{b}) classifier {counts} (cov={cov:.0%}){note}")
+            final[sa:sb] = clf_smooth[sa:sb]
+            raw_seg, sm_seg = clf_raw[sa:sb], clf_smooth[sa:sb]
+            for c in np.unique(raw_seg):
+                share = float((raw_seg == c).mean())
+                if share >= ERASE_WARN and not (sm_seg == c).any():
+                    logs.append(
+                        f"[{sa}-{sb}) ⚠ lớp '{c}' chiếm {share:.0%} raw nhưng bị smoothing xóa"
+                    )
+            counts = {c: int((sm_seg == c).sum()) for c in np.unique(sm_seg)}
+            note = f" | {desc}" if desc else ""
+            logs.append(f"[{sa}-{sb}) classifier {counts} (cov={cov:.0%}){note}")
     return final, logs
 
 

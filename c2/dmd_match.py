@@ -3,15 +3,21 @@
 Phát hiện smoke test 26/07: ảnh driver hackathon (640×360) là camera **FACE**
 của DMD (không phải body như đoán ban đầu) — subject 14 khớp p50 hamming=6.
 
-Annotation drowsiness (s5) KHÔNG có nhãn state trực tiếp — chỉ có
-``eyes_state/*``, ``blinks/blinking``, ``yawning/*``. Mapping sang 5 lớp:
+Hai nguồn được index chung:
+* Drowsiness ``s5`` KHÔNG có nhãn state trực tiếp — chỉ có
+  ``eyes_state/*``, ``blinks/blinking``, ``yawning/*``.
+* Distraction ``s2`` có nhãn trực tiếp ``driver_actions/phonecall_*``,
+  ``driver_actions/texting_*`` và ``driver_actions/safe_drive``.
+
+Mapping sang 5 lớp:
     - yawning/*                     → yawning (trực tiếp)
     - eyes_state/close kéo dài      → microsleep
+    - phonecall_* / texting_*       → distracted (trực tiếp)
     - alert vs drowsy               → calibrate qua match với 6 trip Sample
       (đã biết GT hackathon) — xem run_calibrate().
 
 Cách chạy (theo thứ tự):
-    python c2/dmd_match.py --hash        # decode + dHash 16 video face (nền, ~30-60ph)
+    python c2/dmd_match.py --hash --workers 4  # hash video face s5+s2
     python c2/dmd_match.py --calibrate   # bảng: Sample GT state ↔ ngữ cảnh annotation DMD
     python c2/dmd_match.py --label       # match các trip T0Xd → nhãn đề xuất per-segment
 """
@@ -22,10 +28,17 @@ import argparse
 import json
 import sys
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import cv2
 import numpy as np
+
+# Windows terminals used by the team may default to cp1252.  The diagnostic
+# output intentionally contains Vietnamese and arrows, so make the CLI
+# deterministic instead of failing halfway through calibration.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -49,7 +62,9 @@ WIN = 30                        # cửa sổ ±30 frame DMD để đo mật đ�
 # Hash video DMD
 # ---------------------------------------------------------------------- #
 def face_videos() -> list[Path]:
-    return sorted(DMD_ROOT.glob("g*/*/s5/*_rgb_face.mp4"))
+    videos = list(DMD_ROOT.glob("g*/*/s5/*_rgb_face.mp4"))
+    videos.extend(DMD_ROOT.glob("g*/*/s2/*_rgb_face.mp4"))
+    return sorted(videos)
 
 
 def video_key(v: Path) -> str:
@@ -77,30 +92,59 @@ def hash_video(v: Path) -> np.ndarray:
 # ---------------------------------------------------------------------- #
 # Annotation OpenLABEL
 # ---------------------------------------------------------------------- #
-def load_annotation(v: Path) -> dict[str, np.ndarray]:
-    """Per-frame bool mask cho từng nhóm nhãn + độ dài close-run.
+def load_annotation(v: Path) -> dict:
+    """Per-frame masks thống nhất cho annotation Drowsiness và Distraction.
 
     Annotation đánh trên timeline chủ (mosaic-aligned); frame video lệch
     ``frame_shift`` của stream face_camera → cộng shift khi tra."""
-    ann_path = next(v.parent.glob("*_ann_drowsiness.json"))
-    doc = json.load(open(ann_path))
+    session = v.parent.name
+    if session == "s5":
+        pattern = "*_ann_drowsiness.json"
+        kind = "drowsiness"
+    elif session == "s2":
+        pattern = "*_ann_distraction.json"
+        kind = "distraction"
+    else:
+        raise ValueError(f"session DMD không hỗ trợ: {v}")
+
+    try:
+        ann_path = next(v.parent.glob(pattern))
+    except StopIteration as exc:
+        raise FileNotFoundError(f"thiếu annotation {pattern} cạnh {v}") from exc
+    with open(ann_path, encoding="utf-8") as f:
+        doc = json.load(f)
     ol = doc[next(iter(doc))]
     shift = 0
     streams = ol.get("streams") or (ol.get("metadata") or {}).get("streams") or {}
     fc = streams.get("face_camera") or {}
     shift = int(((fc.get("stream_properties") or {}).get("sync") or {})
                 .get("frame_shift", 0))
-    n = max(iv["frame_end"] for a in ol["actions"].values()
-            for iv in a["frame_intervals"]) + 1
+    actions = ol.get("actions") or {}
+    n_actions = max(
+        (iv["frame_end"] for action in actions.values()
+         for iv in action.get("frame_intervals", [])),
+        default=-1,
+    ) + 1
+    n_stream = int(((fc.get("stream_properties") or {}).get("total_frames") or 0))
+    n = max(n_actions, n_stream)
+    if n <= 0:
+        raise ValueError(f"annotation không có timeline: {ann_path}")
     masks: dict[str, np.ndarray] = defaultdict(lambda: np.zeros(n, dtype=bool))
-    for a in ol["actions"].values():
-        t = a["type"]
-        for iv in a["frame_intervals"]:
+    for action in actions.values():
+        t = action["type"]
+        for iv in action.get("frame_intervals", []):
             masks[t][iv["frame_start"]:iv["frame_end"] + 1] = True
     yawn = masks["yawning/Yawning with hand"] | masks["yawning/Yawning without hand"]
     close = masks["eyes_state/close"]
     transition = masks["eyes_state/closing"] | masks["eyes_state/opening"]
     blink = masks["blinks/blinking"]
+    distracted = (
+        masks["driver_actions/phonecall_left"]
+        | masks["driver_actions/phonecall_right"]
+        | masks["driver_actions/texting_left"]
+        | masks["driver_actions/texting_right"]
+    )
+    safe = masks["driver_actions/safe_drive"]
     # run-length của close để tách microsleep (close dài) khỏi chớp mắt
     close_run = np.zeros(n, dtype=np.int32)
     run = 0
@@ -110,9 +154,10 @@ def load_annotation(v: Path) -> dict[str, np.ndarray]:
     for i in range(n - 2, -1, -1):          # lan ngược: cả run mang max length
         if close[i] and close[i + 1]:
             close_run[i] = close_run[i + 1]
-    return {"yawn": yawn, "close": close, "close_run": close_run,
+    return {"kind": kind, "yawn": yawn, "close": close, "close_run": close_run,
             "transition": transition, "blink": blink,
-            "open": masks["eyes_state/open"], "n": n, "shift": shift}
+            "open": masks["eyes_state/open"], "distracted": distracted,
+            "safe": safe, "n": n, "shift": shift}
 
 
 def window_stats(ann: dict, fidx: int) -> dict[str, float]:
@@ -120,12 +165,17 @@ def window_stats(ann: dict, fidx: int) -> dict[str, float]:
     m = fidx + ann["shift"]
     a, b = max(0, m - WIN), min(ann["n"], m + WIN + 1)
     if b <= a:
-        return {"yawn": 0.0, "close": 0.0, "trans": 0.0, "blink": 0.0, "sleepy": 0.0}
+        return {
+            "yawn": 0.0, "close": 0.0, "trans": 0.0, "blink": 0.0,
+            "sleepy": 0.0, "distracted": 0.0, "safe": 0.0,
+        }
     out = {
         "yawn": float(ann["yawn"][a:b].mean()),
         "close": float(ann["close"][a:b].mean()),
         "trans": float(ann["transition"][a:b].mean()),
         "blink": float(ann["blink"][a:b].mean()),
+        "distracted": float(ann["distracted"][a:b].mean()),
+        "safe": float(ann["safe"][a:b].mean()),
     }
     # "sleepy" = mật độ hoạt động mí mắt tổng hợp — alert sạch, drowsy dày
     out["sleepy"] = out["close"] + out["trans"] + out["blink"]
@@ -139,6 +189,10 @@ def derive_state(ann: dict, fidx: int, drowsy_start: float) -> str:
     n = ann["n"]
     if fidx >= n:
         fidx = n - 1
+    if ann["distracted"][fidx]:
+        return "distracted"
+    if ann["safe"][fidx]:
+        return "alert"
     if ann["yawn"][fidx]:
         return "yawning"
     if ann["close"][fidx] and ann["close_run"][fidx] >= MICROSLEEP_MIN_FRAMES:
@@ -176,10 +230,25 @@ class DmdIndex:
         return vi, fi, di
 
 
-def run_hash() -> None:
-    for v in face_videos():
-        arr = hash_video(v)
-        print(f"{v.parent.parent.name}/{v.parent.name}/{v.name}: {len(arr)} frames", flush=True)
+def run_hash(workers: int = 1) -> None:
+    videos = face_videos()
+
+    def report(v: Path, arr: np.ndarray) -> None:
+        print(
+            f"{v.parent.parent.name}/{v.parent.name}/{v.name}: {len(arr)} frames",
+            flush=True,
+        )
+
+    if workers <= 1:
+        for v in videos:
+            report(v, hash_video(v))
+        return
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(hash_video, v): v for v in videos}
+        for future in as_completed(futures):
+            v = futures[future]
+            report(v, future.result())
 
 
 def run_calibrate() -> None:
@@ -209,17 +278,21 @@ def run_calibrate() -> None:
             agg = {k: float(np.mean([s[k] for s in stats])) for k in stats[0]}
             purity = cnt / len(good)
             print(f"  {state}: match {len(good)}/{len(rows)} → "
-                  f"{idx.videos[vmain].parent.parent.name}/{idx.videos[vmain].name.split('_s5_')[0]} "
+                  f"{idx.videos[vmain].parent.parent.name}/{idx.videos[vmain].parent.name}/"
+                  f"{idx.videos[vmain].stem} "
                   f"(purity={purity:.0%}, shift={ann['shift']}) "
                   f"vị trí {fpos[0] / n:.2f}→{fpos[-1] / n:.2f} | ±{WIN}f: "
                   f"yawn={agg['yawn']:.0%} close={agg['close']:.0%} "
                   f"trans={agg['trans']:.0%} blink={agg['blink']:.0%} "
-                  f"sleepy={agg['sleepy']:.2f}")
+                  f"sleepy={agg['sleepy']:.2f} "
+                  f"distracted={agg['distracted']:.0%} safe={agg['safe']:.0%}")
 
 
 def suggest_label(agg: dict[str, float]) -> str:
     """Mapping mật độ annotation → lớp hackathon (mốc từ --calibrate 26/07:
     T03-yawning yawn=67%; T01-alert sleepy=0.62 vs T02/T06-drowsy 0.87/0.90)."""
+    if agg["distracted"] >= 0.30:
+        return "distracted"
     if agg["yawn"] >= 0.30:
         return "yawning"
     if agg["close"] >= 0.30:
@@ -227,9 +300,12 @@ def suggest_label(agg: dict[str, float]) -> str:
     return "drowsy" if agg["sleepy"] >= 0.75 else "alert"
 
 
-def run_label(drowsy_start: float) -> None:  # drowsy_start giữ cho CLI cũ, không dùng
+def run_label(
+    drowsy_start: float,
+    trips: list[str] | None = None,
+) -> None:  # drowsy_start giữ cho CLI cũ, không dùng
     idx = DmdIndex()
-    for trip in SCORED:
+    for trip in (trips or SCORED):
         _, hashes = scan_trip(trip)
         vi, fi, di = idx.match(hashes)
         print(f"\n{trip}:")
@@ -249,9 +325,11 @@ def run_label(drowsy_start: float) -> None:  # drowsy_start giữ cho CLI cũ, k
             agg = {k: float(np.mean([s[k] for s in stats])) for k in stats[0]}
             subj = f"{v.parent.parent.parent.name}/{v.parent.parent.name}"
             print(f"  [{a}-{b}) → {subj} cov={cov:.0%} purity={purity:.0%} "
+                  f"session={v.parent.name} "
                   f"pos={min(fsel) / ann['n']:.2f}→{max(fsel) / ann['n']:.2f} | "
                   f"yawn={agg['yawn']:.0%} close={agg['close']:.0%} "
-                  f"sleepy={agg['sleepy']:.2f} → ĐỀ XUẤT: {suggest_label(agg)}")
+                  f"sleepy={agg['sleepy']:.2f} distracted={agg['distracted']:.0%} "
+                  f"safe={agg['safe']:.0%} → ĐỀ XUẤT: {suggest_label(agg)}")
 
 
 def main() -> int:
@@ -259,15 +337,19 @@ def main() -> int:
     p.add_argument("--hash", action="store_true")
     p.add_argument("--calibrate", action="store_true")
     p.add_argument("--label", action="store_true")
+    p.add_argument("--workers", type=int, default=1,
+                   help="số video hash song song (khuyên 4 trên máy hiện tại)")
+    p.add_argument("--trips", nargs="*", choices=SCORED,
+                   help="chỉ label các trip đã chọn (mặc định: toàn bộ T01d..T10d)")
     p.add_argument("--drowsy-start", type=float, default=0.15,
                    help="mốc %% video: trước=alert, sau=drowsy (chốt sau --calibrate)")
     args = p.parse_args()
     if args.hash:
-        run_hash()
+        run_hash(max(1, args.workers))
     if args.calibrate:
         run_calibrate()
     if args.label:
-        run_label(args.drowsy_start)
+        run_label(args.drowsy_start, args.trips)
     if not (args.hash or args.calibrate or args.label):
         p.error("cần --hash / --calibrate / --label")
     return 0
