@@ -200,10 +200,19 @@ python -m drive_state.phase_1 predict \
 
 ## Replay demo
 
-`drive_state.phase_1 demo` replays a trip with live inference and the standard Inferensys
-overlay: state banner, risk, the five signal meters, face landmarks, the phone
-box, and the rule that fired. When the trip still carries labels it also prints
-the ground-truth state under the prediction, green when they agree.
+`drive_state.phase_1 demo` replays a trip with live inference and a HUD: the
+decided state, a confidence bar per submitted class, face landmarks, the phone
+box, and the rule that fired. When the trip still carries labels it prints the
+ground-truth state under the prediction, green when they agree.
+
+The five bars are `alert | drowsy | yawning | distracted | microsleep` — the
+classes actually submitted, not the internal evidence channels. They are **not
+probabilities**: this is a rule cascade, not a model with a softmax, so each
+value is that class's evidence as a fraction of the threshold that would fire
+it. Several can read 1.00 at once — on T03 `yawning`, `drowsy` and `distracted`
+all saturate, because a yawn closes the eyes and opens the mouth — and the
+winner is the risk ordering in `classify_window`, not the tallest bar. Only the
+selected class is drawn in colour, for exactly that reason.
 
 ```bash
 # 20 fps HUD (q or ESC quits)

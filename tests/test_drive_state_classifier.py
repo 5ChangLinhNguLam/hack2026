@@ -98,3 +98,48 @@ def test_classify_sequence_returns_one_state_per_frame() -> None:
     states = classify_sequence(rows, ClassifierConfig(window_frames=5))
     assert len(states) == len(rows)
     assert set(states) == {"alert"}
+
+
+def test_state_confidences_cover_every_submitted_class() -> None:
+    """The HUD indexes these by DRIVER_STATE_CLASSES; a missing key would draw
+    a silent zero bar for a class that may well be firing."""
+    from drive_state.phase_1.classifier import state_confidences
+    from drive_state.phase_1.states import DRIVER_STATE_CLASSES
+
+    confidences = state_confidences(window())
+    assert set(confidences) == set(DRIVER_STATE_CLASSES)
+    assert all(0.0 <= v <= 1.0 for v in confidences.values())
+
+
+def test_alert_confidence_is_high_only_when_nothing_else_has_evidence() -> None:
+    from drive_state.phase_1.classifier import state_confidences
+
+    quiet = state_confidences(window())
+    assert quiet["alert"] == pytest.approx(1.0)
+
+    busy = state_confidences(window(phone_frac=1.0))
+    assert busy["alert"] == pytest.approx(0.0)
+    assert busy["distracted"] == pytest.approx(1.0)
+
+
+def test_several_confidences_can_saturate_at_once() -> None:
+    """A yawn also closes the eyes, so `yawning` and `drowsy` both reach 1.0 --
+    the reported state is the cascade's choice, not the tallest bar. The HUD
+    relies on this being possible rather than a contradiction."""
+    from drive_state.phase_1.classifier import classify_window, state_confidences
+
+    config = ClassifierConfig(perclos_drowsy=0.06, mar_yawning=0.35)
+    yawn = window(perclos=0.36, mar_p75=0.63)
+    confidences = state_confidences(yawn, config)
+
+    assert confidences["yawning"] == pytest.approx(1.0)
+    assert confidences["drowsy"] == pytest.approx(1.0)
+    assert classify_window(yawn, config) == "yawning"
+
+
+def test_confidence_scales_with_evidence_below_the_threshold() -> None:
+    from drive_state.phase_1.classifier import state_confidences
+
+    config = ClassifierConfig(perclos_microsleep=0.80)
+    half = state_confidences(window(perclos=0.40), config)
+    assert half["microsleep"] == pytest.approx(0.5)

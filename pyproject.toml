@@ -39,8 +39,5 @@ drive-state = "drive_state.phase_1.cli:app"
 [tool.setuptools]
 packages = ["tripkit", "drive_state", "drive_state.phase_1", "drive_state.vendor"]
 
-[tool.setuptools.package-data]
-"drive_state.vendor" = ["assets/*.png"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]

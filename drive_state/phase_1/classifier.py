@@ -221,6 +221,46 @@ def classify_window(window: WindowFeatures, config: ClassifierConfig | None = No
     return "alert"
 
 
+def state_confidences(
+    window: WindowFeatures, config: ClassifierConfig | None = None
+) -> dict[str, float]:
+    """How strongly each of the five states' evidence is satisfied, 0-1.
+
+    These are **not** probabilities. The classifier is a rule cascade, not a
+    model with a softmax, so there is no distribution to report. Each value is
+    that state's evidence as a fraction of the threshold that would fire it,
+    clipped at 1.
+
+    Two consequences worth knowing before reading the bars:
+
+    * several can sit at 1.0 at once — a yawn also closes the eyes, so
+      `yawning` and `drowsy` both saturate across T03 — and which one wins is
+      the risk ordering in :func:`classify_window`, not the largest value. The
+      reported state is therefore not always the tallest bar.
+    * `alert` is the leftover. It is high exactly when nothing else has
+      evidence, which is what the rule cascade means by falling through.
+    """
+    config = config or ClassifierConfig()
+
+    def ratio(value: float, threshold: float) -> float:
+        return min(1.0, value / threshold) if threshold > 0 else 0.0
+
+    microsleep = ratio(window.perclos, config.perclos_microsleep)
+    yawning = ratio(window.mar_p75, config.mar_yawning)
+    distracted = max(
+        ratio(window.phone_frac, config.phone_distracted),
+        ratio(window.mar_p75, config.mar_talking),
+    )
+    drowsy = ratio(window.perclos, config.perclos_drowsy)
+    return {
+        "alert": max(0.0, 1.0 - max(microsleep, yawning, distracted, drowsy)),
+        "drowsy": drowsy,
+        "yawning": yawning,
+        "distracted": distracted,
+        "microsleep": microsleep,
+    }
+
+
 def classify_windows(
     windows: Sequence[WindowFeatures], config: ClassifierConfig | None = None
 ) -> dict[int, str]:

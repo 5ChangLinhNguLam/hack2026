@@ -37,27 +37,20 @@ from pathlib import Path
 from time import monotonic, perf_counter
 from typing import Any, cast
 
-import cv2
 import numpy as np
 import numpy.typing as npt
 
+from drive_state.phase_1 import hud
 from drive_state.phase_1.classifier import (
     ClassifierConfig,
     WindowFeatures,
     classify_window,
+    state_confidences,
 )
 from drive_state.phase_1.features import FaceFeatureExtractor, FrameFeatures
 from drive_state.phase_1.phone import DEFAULT_MODEL, create_phone_detector
 from drive_state.phase_1.practice import BGRImage, imread_bgr, load_trip
-from drive_state.vendor.models import (
-    DetectionEvent,
-    DriverState,
-    FramePacket,
-    ProcessedFrame,
-    Severity,
-)
 from drive_state.vendor.risk import RiskScorer
-from drive_state.vendor.overlay import draw_overlay
 
 #: Thresholds re-fitted for a trailing window, by the same grid as `tuning.py`.
 #: They differ from the offline defaults in the direction you would expect: a
@@ -348,65 +341,21 @@ def _messages(frame: DemoFrame, config: ClassifierConfig) -> list[str]:
     return out[:3]
 
 
-def build_processed_frame(
-    frame: DemoFrame,
-    config: ClassifierConfig,
-    *,
-    landmarks: list[tuple[float, float]] | None = None,
-    face_bbox: tuple[int, int, int, int] | None = None,
-) -> ProcessedFrame:
-    """Adapt a challenge prediction to the shape the shared overlay renders.
-
-    `DriverState` carries both vocabularies (`alert`/`microsleep` alongside the
-    realtime pipeline's `attentive`/`eyes_closed`), so the challenge state goes
-    through unmapped -- the banner says exactly what would be submitted, rather
-    than a near-synonym.
-    """
-    objects: list[dict[str, Any]] = []
-    if frame.features.phone_conf > 0:
-        objects.append(
-            {
-                "label": "cell phone",
-                "confidence": round(frame.features.phone_conf, 3),
-                "bbox": (
-                    int(frame.features.phone_x),
-                    int(frame.features.phone_y),
-                    int(frame.features.phone_w),
-                    int(frame.features.phone_h),
-                ),
-                "provider": "onnx",
-            }
-        )
-
-    signals = _signals(frame, config)
-    events = [
-        DetectionEvent(
-            timestamp=frame.timestamp,
-            frame_index=frame.frame_id,
-            signal=frame.predicted,
-            state=DriverState(frame.predicted),
-            score=1.0,
-            severity=Severity.WARNING,
-            message=message,
-        )
-        for message in _messages(frame, config)
+def _phone_objects(frame: DemoFrame) -> list[dict[str, Any]]:
+    if frame.features.phone_conf <= 0:
+        return []
+    return [
+        {
+            "label": "cell phone",
+            "confidence": round(frame.features.phone_conf, 3),
+            "bbox": (
+                int(frame.features.phone_x),
+                int(frame.features.phone_y),
+                int(frame.features.phone_w),
+                int(frame.features.phone_h),
+            ),
+        }
     ]
-
-    return ProcessedFrame(
-        packet=FramePacket(
-            frame=frame.image, timestamp=frame.timestamp, frame_index=frame.frame_id
-        ),
-        state=DriverState(frame.predicted),
-        # Risk is the shared scorer over the same signals the bars show, so the
-        # number on the panel is consistent with the meters beside it.
-        risk_score=RiskScorer().score(signals),
-        signals=signals,
-        events=events,
-        latency_ms=frame.mean_latency_ms or frame.latency_ms,
-        face_bbox=face_bbox,
-        landmarks=landmarks or [],
-        objects=objects,
-    )
 
 
 def draw_hud(
@@ -417,37 +366,33 @@ def draw_hud(
     landmarks: list[tuple[float, float]] | None = None,
     face_bbox: tuple[int, int, int, int] | None = None,
 ) -> npt.NDArray[np.uint8]:
-    """The Inferensys overlay, plus the two things only this demo can show:
-    the ground-truth state next to the prediction, and the warm-up state."""
+    """Cabin frame with the decision, the five class confidences, and the
+    evidence that produced them."""
     config = config or STREAMING_CONFIG
-    processed = build_processed_frame(frame, config, landmarks=landmarks, face_bbox=face_bbox)
-    canvas: npt.NDArray[np.uint8] = draw_overlay(processed)
-    height, width = canvas.shape[:2]
+    canvas = cast(npt.NDArray[np.uint8], frame.image.copy())
+
+    # Boxes and landmarks first so the panels sit on top of them.
+    hud.draw_face(canvas, frame.predicted, face_bbox, landmarks or [])
+    hud.draw_objects(canvas, _phone_objects(frame))
+
+    hud.draw_state_panel(
+        canvas,
+        frame.predicted,
+        # Risk still runs on the evidence signals rather than the class
+        # confidences: RiskScorer is weighted per signal name, and feeding it
+        # class names would silently score everything at zero.
+        risk=RiskScorer().score(_signals(frame, config)),
+        latency_ms=frame.mean_latency_ms or frame.latency_ms,
+        truth=frame.truth,
+        warming_up=frame.warming_up,
+        buffer_filled=frame.buffer_filled,
+        window_frames=config.window_frames,
+    )
+    hud.draw_confidence_panel(canvas, state_confidences(frame.window, config), frame.predicted)
+    hud.draw_messages(canvas, _messages(frame, config))
 
     stamp = f"t={frame.timestamp:6.2f}s  #{frame.frame_id}"
     if fps is not None:
         stamp += f"   {fps:.0f} FPS"
-    cv2.putText(
-        canvas,
-        stamp,
-        (width - 232, height - 18),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.46,
-        (208, 214, 214),
-        1,
-        cv2.LINE_AA,
-    )
-
-    if frame.truth is not None:
-        correct = frame.truth == frame.predicted
-        cv2.putText(
-            canvas,
-            f"truth  {frame.truth}",
-            (28, 138),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.5,
-            (98, 210, 130) if correct else (58, 58, 240),
-            1,
-            cv2.LINE_AA,
-        )
+    hud.draw_footer(canvas, stamp)
     return canvas

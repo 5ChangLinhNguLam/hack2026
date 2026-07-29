@@ -136,9 +136,14 @@ python -m drive_state.phase_1 demo     --trip data/T01-Sample  # HUD 20 FPS, q/E
 python -m drive_state.phase_1 predict  --trip data/T01d --out predictions/T01d.csv
 ```
 
-`demo` phát lại qua `tripkit.TripReplayer` và vẽ overlay Inferensys: trạng thái
-dự đoán, ground truth bên cạnh (xanh nếu khớp), 5 thanh signal, landmark, và
-khung `cell phone`. Đo được 32 ms/frame (~31 fps) so với ngân sách 20 fps.
+`demo` phát lại qua `tripkit.TripReplayer` và vẽ HUD: trạng thái dự đoán,
+ground truth bên cạnh (xanh nếu khớp), thanh confidence cho cả 5 lớp, landmark,
+và khung `cell phone`. Đo được 32 ms/frame (~31 fps) so với ngân sách 20 fps.
+
+Lưu ý: 5 thanh confidence **không phải xác suất** — đây là rule cascade, không
+có softmax. Mỗi giá trị là bằng chứng của lớp đó so với ngưỡng kích hoạt, nên
+nhiều thanh có thể cùng đạt 1.00; lớp được chọn là theo thứ tự ưu tiên rủi ro,
+không phải thanh cao nhất. Chỉ lớp được chọn mới tô màu.
 
 Code chia theo phase — `drive_state/phase_1/` là pipeline trên; `phase_2`
 (model học từ nhãn DMD gốc) chưa có trong repo này.
