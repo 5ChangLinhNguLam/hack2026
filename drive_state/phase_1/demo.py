@@ -159,6 +159,11 @@ class DemoFrame:
     mean_latency_ms: float = 0.0  # rolling mean, the number worth displaying
     warming_up: bool = False  # buffer not yet a full window; see StreamingClassifier
     buffer_filled: int = 0
+    #: False while `warming_up`: the state is a guess over a partial buffer and
+    #: a deployed unit would not have emitted it yet. Consumers should show
+    #: "initialising" rather than the state, and backfill these frames with the
+    #: first settled decision when a value is required for every frame.
+    ready: bool = True
     landmarks: list[tuple[float, float]] = field(default_factory=list)
     face_bbox: tuple[int, int, int, int] | None = None
 
@@ -295,6 +300,7 @@ def iter_demo_frames(
                 mean_latency_ms=sum(recent_latency) / len(recent_latency),
                 warming_up=classifier.warming_up,
                 buffer_filled=classifier.filled,
+                ready=not classifier.warming_up,
                 landmarks=extractor.last_points,
                 face_bbox=extractor.last_bbox,
             )
@@ -372,7 +378,7 @@ def draw_hud(
     canvas = cast(npt.NDArray[np.uint8], frame.image.copy())
 
     # Boxes and landmarks first so the panels sit on top of them.
-    hud.draw_face(canvas, frame.predicted, face_bbox, landmarks or [])
+    hud.draw_face(canvas, frame.predicted, face_bbox, landmarks or [], ready=frame.ready)
     hud.draw_objects(canvas, _phone_objects(frame))
 
     hud.draw_state_panel(
@@ -388,7 +394,9 @@ def draw_hud(
         buffer_filled=frame.buffer_filled,
         window_frames=config.window_frames,
     )
-    hud.draw_confidence_panel(canvas, state_confidences(frame.window, config), frame.predicted)
+    hud.draw_confidence_panel(
+        canvas, state_confidences(frame.window, config), frame.predicted, ready=frame.ready
+    )
     hud.draw_messages(canvas, _messages(frame, config))
 
     stamp = f"t={frame.timestamp:6.2f}s  #{frame.frame_id}"

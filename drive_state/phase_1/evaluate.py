@@ -44,7 +44,11 @@ def load_trip_data(trips: Sequence[Trip], features_dir: str | Path) -> list[Trip
         path = features_dir / f"{trip.trip_id}.csv"
         if not path.exists():
             raise FileNotFoundError(
-                f"No cached features for {trip.trip_id}: {path}. Run `challenge extract` first."
+                f"No cached features for {trip.trip_id}: {path}.\n"
+                f"Extraction is a separate step -- it runs MediaPipe and the phone "
+                f"detector over every frame, so it is cached rather than repeated:\n"
+                f"  python -m drive_state.phase_1 extract "
+                f"--dataset <dataset> --out {features_dir}"
             )
         out.append(TripData(trip=trip, features=read_features_csv(path)))
     return out

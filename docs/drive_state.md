@@ -251,25 +251,45 @@ The demo reads no future frames. Re-tuned for that constraint it scores
 | T05 | microsleep | 100.0 | 100.0 |
 | T06 | drowsy → distracted | 91.3 | 96.7 |
 
-Two causes, both structural:
+#### Start-up: hold output, then backfill
 
-| cause | what happens | roughly |
+A unit that has just powered on has no window to average over. Rather than
+publish a guess made over three frames, the demo reports `INITIALISING` until
+the buffer fills, and the frames it held are backfilled with the first settled
+decision — which is what a device that stays quiet until warm would submit for
+them.
+
+That is worth 3 composite, and it beats the obvious alternative:
+
+| approach | composite | alarm latency |
 |---|---|---|
-| warm-up | the first 91 frames are decided over a partial buffer | 3.5 points |
-| transition lag | the window still holds the old state's evidence | 4.5 points |
+| report the partial-window guess immediately | 94.8 | 0 s |
+| **hold during buffering, then backfill** | **97.8** | 0 s once warm |
+| delay every decision by half a window | 97.5 | 2.2 s |
 
-Neither is corrected for. A vehicle that has just powered on genuinely does not
-know yet, and the submission needs a state for every frame. But the HUD dims the
-state and shows `warming up n/91` while the buffer fills, and the CLI reports
-warm-up and post-warm-up accuracy separately:
+The third row is worth understanding, because it is the only way to make
+streaming reproduce the offline result exactly: hold each decision back until
+its centred window is complete. It scores no better here and costs 2.2 s
+between an event and the alarm, which for a microsleep warning is most of the
+point.
 
-```
-streaming accuracy against labels: 0.787 (472/600)
-  warm-up (first 90 frames, partial window): 0.022   after warm-up: 0.922
-```
+#### What no causal system can recover
 
-T01 is the trip to watch for this: it opens *already* distracted, so the whole
-warm-up is wrong, and its post-warm-up accuracy of 0.922 is the honest figure.
+On T01 the label says `distracted` from frame 0, but the driver does not raise
+the handset until **frame 40** — `phone_conf` is 0.000 until then, and the
+cabin images confirm it. The organiser assigns the state to a whole 300-frame
+block; the footage inside that block starts two seconds late.
+
+So the offline 100.0 on T01 is not a better classifier. It is a centred window
+reading frames 40-90 in order to decide frame 0 — using the future. A perfect
+causal classifier, correct the instant evidence exists, tops out at **93.3** on
+that trip. Streaming with backfill reaches 93.3, i.e. the ceiling.
+
+The remaining streaming gap is transition lag: after a state changes, the
+window still holds the old evidence for up to `window_frames`. Firing
+distraction on any detection in the last 20 frames instead of waiting for half
+the window scores 95.8 rather than 94.8 (T01 80.7 → 87.2) and is the obvious
+next change, not yet applied.
 
 ### Frame source
 

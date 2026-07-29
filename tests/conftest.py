@@ -1,12 +1,27 @@
-"""Fixture dùng chung: trỏ vào data/ ở repo root, skip nếu thiếu dataset."""
+"""Fixture dùng chung: trỏ vào data/ ở repo root, skip nếu thiếu dataset.
+
+Đặt biến môi trường ``TRIPKIT_DATA_DIR`` để trỏ sang chỗ khác mà không cần
+copy hay symlink dataset vào ``data/``::
+
+    TRIPKIT_DATA_DIR=D:/.../Practice_Dataset python -m pytest tests/
+
+Ưu tiên biến môi trường vì symlink trên Windows cần quyền admin, còn copy thì
+mất vài GB — cả hai đều là rào cản không cần thiết chỉ để chạy test.
+"""
 
 import gzip
 import json
+import os
 from pathlib import Path
 
 import pytest
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+_ENV_DATA_DIR = "TRIPKIT_DATA_DIR"
+DATA_DIR = (
+    Path(os.environ[_ENV_DATA_DIR]).expanduser().resolve()
+    if os.environ.get(_ENV_DATA_DIR)
+    else Path(__file__).resolve().parents[1] / "data"
+)
 
 # Trip giả lập kiểu T0Xd: cố tình khác 600/1800 — code không được hardcode số frame
 N_FAKE_FRAMES = 7
@@ -15,7 +30,10 @@ N_FAKE_FRAMES = 7
 def _require_trip(name: str) -> Path:
     d = DATA_DIR / name
     if not d.is_dir() or not list(d.glob(f"{name}.json*")):
-        pytest.skip(f"{name} không có trong data/ — bỏ qua test cần dataset")
+        pytest.skip(
+            f"{name} không có trong {DATA_DIR} — bỏ qua test cần dataset "
+            f"(đặt {_ENV_DATA_DIR} để trỏ sang thư mục khác)"
+        )
     return d
 
 

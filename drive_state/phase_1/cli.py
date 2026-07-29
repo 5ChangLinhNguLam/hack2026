@@ -203,11 +203,16 @@ def demo(
     # run badly (100 frames at 20 fps reads as 12 fps instead of 20).
     started: float | None = None
     n_frames = 0
-    n_correct = 0
-    n_labelled = 0
-    n_warmup = 0
-    n_warmup_correct = 0
     total_latency_ms = 0.0
+    # Predictions are collected rather than scored inline: frames seen while the
+    # buffer was still filling get backfilled with the first settled decision,
+    # which is what a unit that stays quiet until it is warm would report for
+    # them. Scoring them as they were guessed understates the design by ~3
+    # composite -- see docs/drive_state.md.
+    predicted: dict[int, str] = {}
+    truth: dict[int, str] = {}
+    pending: list[int] = []
+    n_held = 0
 
     try:
         for frame in iter_demo_frames(
@@ -226,12 +231,15 @@ def demo(
             n_frames += 1
             total_latency_ms += frame.latency_ms
             if frame.truth is not None:
-                n_labelled += 1
-                correct = frame.truth == frame.predicted
-                n_correct += correct
-                if frame.warming_up:
-                    n_warmup += 1
-                    n_warmup_correct += correct
+                truth[frame.frame_id] = frame.truth
+            if frame.ready:
+                for held in pending:
+                    predicted[held] = frame.predicted
+                pending.clear()
+                predicted[frame.frame_id] = frame.predicted
+            else:
+                pending.append(frame.frame_id)
+                n_held += 1
 
             elapsed = perf_counter() - started
             canvas = draw_hud(
@@ -281,21 +289,29 @@ def demo(
     console.print(
         f"inference: {mean_latency:.1f} ms/frame ({1000 / mean_latency:.0f} fps capacity)"
     )
-    if n_labelled:
+    # Anything still pending means the run ended before the buffer ever filled.
+    for held in pending:
+        predicted[held] = "alert"
+
+    scored = sorted(set(predicted) & set(truth))
+    if scored:
+        correct = sum(1 for fid in scored if predicted[fid] == truth[fid])
         console.print(
-            f"streaming accuracy against labels: {n_correct / n_labelled:.3f} "
-            f"({n_correct}/{n_labelled})"
+            f"streaming accuracy against labels: {correct / len(scored):.3f} "
+            f"({correct}/{len(scored)})"
         )
-        # Warm-up frames are scored like any other -- the submission needs a
-        # state for all of them -- but they are decided over a partial window,
-        # so it is worth seeing how much of the error sits there.
-        settled = n_labelled - n_warmup
-        if n_warmup and settled:
-            console.print(
-                f"  warm-up (first {n_warmup} frames, partial window): "
-                f"{n_warmup_correct / n_warmup:.3f}   "
-                f"after warm-up: {(n_correct - n_warmup_correct) / settled:.3f}"
+        if n_held:
+            settled = [fid for fid in scored if fid >= n_held]
+            held_right = sum(
+                1 for fid in scored[:n_held] if predicted[fid] == truth[fid]
             )
+            console.print(
+                f"  first {n_held} frames held during buffering, backfilled: "
+                f"{held_right}/{n_held} correct"
+            )
+            if settled:
+                after = sum(1 for fid in settled if predicted[fid] == truth[fid])
+                console.print(f"  after buffering: {after / len(settled):.3f}")
     if save is not None:
         console.print(f"[bold green]Wrote[/bold green] {save}")
 

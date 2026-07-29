@@ -55,13 +55,24 @@ class TripLoader:
     # JSON
     # ------------------------------------------------------------------ #
     def _resolve_json_path(self) -> Path:
-        """Ưu tiên ``<tên thư mục>.json``, fallback ``.json.gz`` (fact #3)."""
+        """Ưu tiên ``<tên thư mục>.json``, fallback ``.json.gz`` (fact #3).
+
+        Dùng ``is_file()`` chứ không phải ``exists()``: giải nén dataset đôi khi
+        để lại *thư mục* ``T01-Sample.json/`` chứa file cùng tên bên trong.
+        ``exists()`` đúng với cả thư mục, nên loader sẽ chọn nó rồi chết bằng
+        ``PermissionError`` lúc mở — xa chỗ gây lỗi và khó đoán.
+        """
         name = self.trip_dir.name
         for cand in (self.trip_dir / f"{name}.json", self.trip_dir / f"{name}.json.gz"):
-            if cand.exists():
+            if cand.is_file():
                 return cand
         # phòng khi file JSON không trùng tên thư mục
-        others = sorted(self.trip_dir.glob("*.json")) + sorted(self.trip_dir.glob("*.json.gz"))
+        others = [
+            p
+            for p in sorted(self.trip_dir.glob("*.json"))
+            + sorted(self.trip_dir.glob("*.json.gz"))
+            if p.is_file()
+        ]
         if others:
             return others[0]
         raise FileNotFoundError(

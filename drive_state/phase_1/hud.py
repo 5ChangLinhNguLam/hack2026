@@ -72,29 +72,41 @@ def draw_state_panel(
 
     height = 116 if truth is None else 140
     draw_panel(frame, 12, 12, 300, height)
-    _text(frame, state.upper(), (28, 56), 0.86, color, 2)
 
     if warming_up:
-        _text(frame, f"warming up {buffer_filled}/{window_frames}", (28, 82), 0.44, DIM)
+        # Deliberately not the state. A unit that has just powered on has not
+        # seen enough to have an opinion, and printing its best guess in the
+        # same place, same size, as a settled decision misrepresents it.
+        _text(frame, "INITIALISING", (28, 56), 0.72, DIM, 2)
+        pct = buffer_filled / max(1, window_frames)
+        _text(
+            frame,
+            f"buffering {buffer_filled}/{window_frames}   {pct:.0%}",
+            (28, 84),
+            0.46,
+            DIM,
+        )
     else:
+        _text(frame, state.upper(), (28, 56), 0.86, color, 2)
         _text(frame, f"Risk {risk:.2f}    {latency_ms:.1f} ms", (28, 84), 0.52, (206, 214, 214))
 
     if truth is not None:
-        agree = truth == state
-        _text(
-            frame,
-            f"truth  {truth}",
-            (28, 114 if not warming_up else 110),
-            0.5,
-            (110, 210, 130) if agree else (58, 58, 240),
-        )
+        # While buffering there is no published state to agree or disagree
+        # with, so the truth line stays neutral rather than scoring red against
+        # a decision the unit has not made.
+        color = DIM
+        if not warming_up:
+            color = (110, 210, 130) if truth == state else (58, 58, 240)
+        _text(frame, f"truth  {truth}", (28, 114 if not warming_up else 110), 0.5, color)
 
 
 TRACK = (44, 48, 50)  # empty part of a bar
 UNSELECTED_FILL = (138, 144, 146)  # must stay well clear of TRACK, see below
 
 
-def draw_confidence_panel(frame: Array, confidences: dict[str, float], selected: str) -> None:
+def draw_confidence_panel(
+    frame: Array, confidences: dict[str, float], selected: str, *, ready: bool = True
+) -> None:
     """Top-right: one bar per submitted class, with its value.
 
     The selected class is drawn in its own colour and the rest in grey, because
@@ -116,7 +128,9 @@ def draw_confidence_panel(frame: Array, confidences: dict[str, float], selected:
     for index, state in enumerate(DRIVER_STATE_CLASSES):
         value = max(0.0, min(1.0, confidences.get(state, 0.0)))
         row_y = y + pad + index * row_h
-        chosen = state == selected
+        # Nothing is "chosen" until the unit is ready; highlighting a class
+        # while the banner reads INITIALISING contradicts it.
+        chosen = ready and state == selected
         color = STATE_COLORS[state] if chosen else DIM
         _text(frame, state, (x + 12, row_y + 16), 0.42, color, 2 if chosen else 1)
 
@@ -141,8 +155,10 @@ def draw_face(
     state: str,
     bbox: tuple[int, int, int, int] | None,
     landmarks: list[tuple[float, float]],
+    *,
+    ready: bool = True,
 ) -> None:
-    color = STATE_COLORS.get(state, (220, 220, 220))
+    color = STATE_COLORS.get(state, (220, 220, 220)) if ready else DIM
     if bbox is not None:
         x, y, w, h = bbox
         cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)

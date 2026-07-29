@@ -129,3 +129,44 @@ def test_a_normal_trip_layout_passes_the_tripkit_check(tmp_path) -> None:  # typ
     trip.mkdir()
     (trip / "T02-Sample.json.gz").write_bytes(b"")
     _check_tripkit_layout(trip)  # must not raise
+
+
+def test_frames_are_not_ready_until_the_buffer_fills() -> None:
+    """`ready` is what lets a consumer hold output during boot instead of
+    publishing a guess made over three frames."""
+    config = ClassifierConfig(window_frames=4)
+    classifier = StreamingClassifier(config)
+    for _ in range(3):
+        classifier.update(make_frame(0))
+        assert classifier.warming_up
+    classifier.update(make_frame(3))
+    assert not classifier.warming_up
+
+
+def test_backfilling_held_frames_beats_reporting_the_guess() -> None:
+    """The measured reason the demo holds output: a unit that stays quiet until
+    warm, then backfills, is right about the boot frames where one that guesses
+    immediately is wrong."""
+    config = ClassifierConfig(window_frames=5, phone_confidence=0.1, phone_distracted=0.5)
+    # Evidence arrives *during* the warm-up, which is T01's shape: the driver
+    # raises the handset two seconds in, so the opening frames genuinely show
+    # nothing while the label already says `distracted`.
+    rows = [make_frame(i, phone_conf=0.0 if i < 2 else 0.9) for i in range(10)]
+
+    classifier = StreamingClassifier(config)
+    guessed: dict[int, str] = {}
+    held: list[int] = []
+    backfilled: dict[int, str] = {}
+    for row in rows:
+        state, _ = classifier.update(row)
+        guessed[row.frame_id] = state
+        if classifier.warming_up:
+            held.append(row.frame_id)
+        else:
+            for fid in held:
+                backfilled[fid] = state
+            held.clear()
+            backfilled[row.frame_id] = state
+
+    assert guessed[0] == "alert"  # the immediate guess, over one frame
+    assert backfilled[0] == "distracted"  # what it concluded once warm
