@@ -114,6 +114,35 @@ python -m tripkit.validate data/                                   # kiểm tra 
 Contract API (tên field đã khoá với downstream): xem `docs/Task_1.2_TripReplayer_Spec_ClaudeCode.md` mục 3.
 
 
+## Challenge 2 — driver state (`drive_state/`)
+
+Pipeline phân loại `alert | drowsy | yawning | distracted | microsleep` theo
+từng frame từ ảnh cabin: MediaPipe face landmarks cho mắt/miệng, YOLO11 COCO
+cho điện thoại, quyết định bằng ngưỡng trên cửa sổ thời gian. Không train,
+không cần GPU.
+
+**97.5** composite leave-one-trip-out trên 6 trip Practice (99.4 khi fit trên
+cả 6), **94.8** khi chạy nhân quả (trailing window, không đọc frame tương lai).
+Chi tiết: [docs/drive_state.md](docs/drive_state.md).
+
+```bash
+pip install -e ".[drive-state]"
+python scripts/download_models.py --mediapipe-face
+pip install -e ".[export]" && python scripts/download_models.py --phone-detector --phone-model yolo11s.pt
+
+python -m drive_state.phase_1 extract  --dataset data          # cache feature (~120s/3600 frame)
+python -m drive_state.phase_1 evaluate --dataset data          # chấm điểm
+python -m drive_state.phase_1 demo     --trip data/T01-Sample  # HUD 20 FPS, q/ESC thoát
+python -m drive_state.phase_1 predict  --trip data/T01d --out predictions/T01d.csv
+```
+
+`demo` phát lại qua `tripkit.TripReplayer` và vẽ overlay Inferensys: trạng thái
+dự đoán, ground truth bên cạnh (xanh nếu khớp), 5 thanh signal, landmark, và
+khung `cell phone`. Đo được 32 ms/frame (~31 fps) so với ngân sách 20 fps.
+
+Code chia theo phase — `drive_state/phase_1/` là pipeline trên; `phase_2`
+(model học từ nhãn DMD gốc) chưa có trong repo này.
+
 ## Bắt đầu nhanh (5 phút)
 
 > **Không cần copy dataset vào thư mục `data/`.** `./data/T01-Sample` dưới

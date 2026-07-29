@@ -8,15 +8,39 @@ version = "0.1.0"
 description = "Trip Loader & Replayer 20 FPS cho hackathon dataset (WBS 1.2)"
 requires-python = ">=3.10"
 dependencies = [
-    "numpy>=1.24",
+    # numpy is capped below 2: mediapipe's bundled TensorFlow and the prebuilt
+    # torch wheels are compiled against 1.x and fail to import under 2.x. The
+    # cap lives here rather than in the drive-state extra so a plain tripkit
+    # install cannot resolve to a numpy that later breaks that extra.
+    "numpy>=1.24,<2",
     "opencv-python>=4.8",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest>=7"]
+# Challenge 2 driver-state pipeline. Split out because tripkit itself needs only
+# numpy and opencv, while mediapipe pulls in a large tree nobody replaying trips
+# should have to install.
+drive-state = [
+    "mediapipe>=0.10",
+    "onnxruntime>=1.16",
+    "typer>=0.9",
+    "rich>=13",
+    # onnx pulls protobuf 5+, which breaks the protobuf-3 generated code inside
+    # mediapipe's TensorFlow. Runtime inference does not need the newer one.
+    "protobuf>=3.20,<4",
+]
+# Only needed to re-export the YOLO detector to ONNX, not to run it.
+export = ["ultralytics>=8.3", "onnx>=1.15", "onnxslim>=0.1"]
+
+[project.scripts]
+drive-state = "drive_state.phase_1.cli:app"
 
 [tool.setuptools]
-packages = ["tripkit"]
+packages = ["tripkit", "drive_state", "drive_state.phase_1", "drive_state.vendor"]
+
+[tool.setuptools.package-data]
+"drive_state.vendor" = ["assets/*.png"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

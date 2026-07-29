@@ -12,3 +12,9 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 build/
+
+# Model weights — downloaded, not committed (see docs/drive_state.md)
+models/
+
+# drive_state run artifacts: feature caches, reports, demo videos
+runs/
