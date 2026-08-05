@@ -1,0 +1,57 @@
+{
+  "schema_version": "safeloop.carsky-discovery.v1",
+  "observed_at": "2026-08-03T21:35:15+07:00",
+  "base_url": "https://hackathon-1.carsky.io",
+  "device": {
+    "name": "5ChangLinhNguLam",
+    "room_id": "ehlbxyyc4px2it-cip50w",
+    "locked": false
+  },
+  "signal_node": {
+    "key": "central-broker-vss",
+    "part_name": "central-broker-vss-signal",
+    "kind": "kuksa",
+    "signal_count": 1272
+  },
+  "telemetry_signals": [
+    {
+      "path": "Vehicle.Speed",
+      "data_type": "float",
+      "unit": "km/h",
+      "entry_type": "sensor"
+    },
+    {
+      "path": "Vehicle.Acceleration.Longitudinal",
+      "data_type": "float",
+      "unit": "m/s^2",
+      "entry_type": "sensor"
+    },
+    {
+      "path": "Vehicle.Acceleration.Lateral",
+      "data_type": "float",
+      "unit": "m/s^2",
+      "entry_type": "sensor"
+    }
+  ],
+  "readback": {
+    "http_status": 200,
+    "values": [
+      {
+        "path": "Vehicle.Speed",
+        "value": 0,
+        "timestamp": "2026-08-01T06:30:39.071Z"
+      },
+      {
+        "path": "Vehicle.Acceleration.Longitudinal",
+        "value": null,
+        "timestamp": "2026-07-30T09:40:50.302Z"
+      },
+      {
+        "path": "Vehicle.Acceleration.Lateral",
+        "value": null,
+        "timestamp": "2026-07-30T09:40:50.302Z"
+      }
+    ]
+  },
+  "credential_stored": false
+}
