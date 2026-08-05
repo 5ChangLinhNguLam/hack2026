@@ -113,6 +113,53 @@ python -m tripkit.validate data/                                   # kiểm tra 
 
 Contract API (tên field đã khoá với downstream): xem `docs/Task_1.2_TripReplayer_Spec_ClaudeCode.md` mục 3.
 
+## SafeLoop telemetry — thin slice CarSky REST
+
+Phát ego telemetry hợp lệ (không lẫn ground truth/event label) dưới dạng
+NDJSON để kiểm tra contract cục bộ:
+
+```bash
+python3 -m safeloop.replay_telemetry data/T01-Sample --limit 5
+```
+
+Sau khi deploy KUKSA signal node và discovery đúng `roomId`, `nodeKey`, signal
+path từ CarSky:
+
+```bash
+export A8_API_KEY='<key chỉ lưu local>'
+export A8_ROOM_ID='<device id>'
+export A8_NODE_KEY='<signal node key>'
+
+python3 -m safeloop.replay_telemetry data/T01-Sample \
+  --sink carsky-rest --start 10 --limit 5
+```
+
+REST sink dùng `X-API-Key`, validate signal path trước khi replay và không cần
+`a8_pin`. Các bước CarSky/curl: `docs/CarSky_REST_Telemetry_Quickstart.md`.
+Wire contract và quy tắc chống GT leakage: `docs/SafeLoop_Telemetry_Contract.md`.
+
+Đo live ngày 03/08/2026 cho thấy REST chỉ đạt khoảng `3,3 message/s`, không
+phù hợp làm data plane 20 Hz. Integration Lab dùng Script Node timer 50 ms đã
+phát 20 frame và observer độc lập nhận đủ 60/60 signal update. Xem kết quả,
+failure paths và kiến trúc tiếp theo tại
+`reports/CarSky_Integration_Report_20260803.md`.
+
+### Mock C1 + C2 + Risk Fusion trên CarSky
+
+Trong lúc chờ model thật, chạy pipeline deterministic có gắn cờ `mock=true`:
+
+```bash
+python3 -m safeloop.replay_mock data/T01-Sample --limit 3
+
+# REST smoke test lên deployment đang chạy
+python3 -m safeloop.replay_mock data/T01-Sample \
+  --sink carsky-rest --start 0 --limit 40
+```
+
+Bản chạy native 20 Hz cho CarSky Script Node nằm tại
+`carsky/scripts/safeloop_mock_pipeline.lua`; hướng dẫn gắn node và tạo Signal
+Watch: `docs/CarSky_SafeLoop_Mock_Demo.md`.
+
 
 ## Bắt đầu nhanh (5 phút)
 

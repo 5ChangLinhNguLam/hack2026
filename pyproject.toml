@@ -16,7 +16,8 @@ dependencies = [
 dev = ["pytest>=7"]
 
 [tool.setuptools]
-packages = ["tripkit"]
+packages = ["tripkit", "safeloop"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
