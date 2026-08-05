@@ -1,0 +1,6 @@
+state,n_segments,min_sec,median_sec,max_sec,total_sec
+alert,2,15.0,15.0,15.0,30.0
+distracted,3,15.0,15.0,15.0,45.0
+drowsy,2,15.0,22.5,30.0,45.0
+microsleep,1,30.0,30.0,30.0,30.0
+yawning,1,30.0,30.0,30.0,30.0

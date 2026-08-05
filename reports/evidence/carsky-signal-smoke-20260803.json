@@ -1,0 +1,55 @@
+{
+  "schema_version": "safeloop.carsky-signal-smoke.v1",
+  "observed_at": "2026-08-03T22:23:52+07:00",
+  "base_url": "https://hackathon-1.carsky.io",
+  "target": {
+    "device_name": "5ChangLinhNguLam",
+    "room_id": "ehlbxyyc4px2it-cip50w",
+    "node_key": "central-broker-vss",
+    "kind": "kuksa",
+    "path": "Vehicle.Speed",
+    "data_type": "float",
+    "unit": "km/h",
+    "entry_type": "sensor"
+  },
+  "steps": [
+    {
+      "name": "read_before",
+      "http_status": 200,
+      "value": 0,
+      "source_timestamp": "2026-08-01T06:30:39.071Z"
+    },
+    {
+      "name": "direct_write",
+      "http_status": 200,
+      "request_value": 20.0,
+      "response": {"ok": true, "sent": 1}
+    },
+    {
+      "name": "read_after_write",
+      "http_status": 200,
+      "value": 20,
+      "source_timestamp": "2026-08-03T15:22:53.542Z",
+      "assertion": "value == 20.0",
+      "passed": true
+    },
+    {
+      "name": "restore",
+      "http_status": 200,
+      "request_value": 0,
+      "response": {"ok": true, "sent": 1}
+    },
+    {
+      "name": "read_after_restore",
+      "http_status": 200,
+      "value": 0,
+      "source_timestamp": "2026-08-03T15:23:23.271Z",
+      "assertion": "value == initial value",
+      "passed": true
+    }
+  ],
+  "result": "passed",
+  "restored": true,
+  "credential_stored": false,
+  "latency_claimed": false
+}

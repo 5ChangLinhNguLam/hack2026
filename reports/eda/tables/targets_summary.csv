@@ -1,0 +1,7 @@
+trip_id,n_frames,targets_total,targets_per_frame_mean,targets_per_frame_max,n_frames_no_target,n_vehicle,n_walker,n_bike,pct_in_cone,n_tracks,track_life_min,track_life_median,track_life_max
+T01-Sample,600,7129,11.88,17,0,6374,755,0,0.8,34,38,163.5,552
+T02-Sample,600,4533,7.55,14,0,4286,0,247,4.77,31,35,97.0,600
+T03-Sample,600,575,0.96,2,138,575,0,0,14.09,6,34,81.0,217
+T04-Sample,600,1798,3.0,9,0,1442,356,0,27.36,15,8,118.0,399
+T05-Sample,600,965,1.61,3,110,796,169,0,13.99,5,49,169.0,369
+T06-Sample,600,6810,11.35,22,0,6305,206,299,10.79,57,13,103.0,299

@@ -1,0 +1,17 @@
+trip_id,set,n_frames,n_frames_event_active,pct_frames_event_active,n_event_instances,max_concurrent_events,n_pedestrian_jaywalk,n_motorcycle_cut_in,n_lead_brake,n_stopped_vehicle_ahead
+T01-Sample,P (mẫu),600,300,50.0,1,1,1,0,0,0
+T02-Sample,P (mẫu),600,300,50.0,1,1,0,1,0,0
+T03-Sample,P (mẫu),600,50,8.33,1,1,0,0,1,0
+T04-Sample,P (mẫu),600,400,66.67,1,1,0,0,0,1
+T05-Sample,P (mẫu),600,400,66.67,2,2,1,0,1,0
+T06-Sample,P (mẫu),600,480,80.0,2,2,0,1,0,1
+T01d,S (chấm điểm),1800,360,20.0,2,1,0,1,1,0
+T02d,S (chấm điểm),1800,790,43.89,3,2,1,0,1,1
+T03d,S (chấm điểm),1800,1100,61.11,3,1,1,1,0,1
+T04d,S (chấm điểm),1800,1200,66.67,3,1,1,1,0,1
+T05d,S (chấm điểm),1800,340,18.89,2,1,0,1,1,0
+T06d,S (chấm điểm),1800,460,25.56,3,1,1,0,1,1
+T07d,S (chấm điểm),1800,750,41.67,3,1,0,1,1,1
+T08d,S (chấm điểm),1800,1100,61.11,3,1,1,1,0,1
+T09d,S (chấm điểm),1800,640,35.56,3,1,1,1,1,0
+T10d,S (chấm điểm),1800,710,39.44,3,1,0,1,1,1

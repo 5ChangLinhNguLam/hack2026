@@ -1,0 +1,93 @@
+{
+  "schema_version": "safeloop.carsky-mock-runtime.v1",
+  "observed_at": "2026-08-04T21:12:39+07:00",
+  "base_url": "https://hackathon-1.carsky.io",
+  "blueprint": {
+    "id": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+    "name": "SafeLoop Mock Integration Lab",
+    "mock_node": "SafeLoop Mock C1 C2 Fusion",
+    "connection_ready": true,
+    "validation": {
+      "valid": true,
+      "errors": []
+    }
+  },
+  "deployment": {
+    "id": "e691c66a-8837-4512-9133-6e4f63c88271",
+    "name": "SafeLoop-Mock-C1-C2-deploy",
+    "room_id": "h5sjc3jtzl8vzl9wyqokv",
+    "namespace": "room-nckuqalz",
+    "status": "RUNNING"
+  },
+  "runtime": {
+    "signal_node_key": "central-broker-vss",
+    "sample_interval_s": 0.6,
+    "samples": [
+      {
+        "Vehicle.Speed": 40.0346565246582,
+        "Vehicle.Acceleration.Longitudinal": -0.09402991831302643,
+        "Vehicle.Acceleration.Lateral": 0.05836134031414986,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.TimeGap": 905,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.Distance": 10.064268112182617,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.IsWarning": true,
+        "Vehicle.Driver.AttentiveProbability": 5,
+        "Vehicle.Driver.DistractionLevel": 8,
+        "Vehicle.Driver.FatigueLevel": 98,
+        "Vehicle.Driver.IsEyesOnRoad": false,
+        "Vehicle.ADAS.DMS.IsWarning": true
+      },
+      {
+        "Vehicle.Speed": 40.01541519165039,
+        "Vehicle.Acceleration.Longitudinal": -0.06276727467775345,
+        "Vehicle.Acceleration.Lateral": 0.03910861536860466,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.TimeGap": 870,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.Distance": 9.670391082763672,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.IsWarning": true,
+        "Vehicle.Driver.AttentiveProbability": 5,
+        "Vehicle.Driver.DistractionLevel": 8,
+        "Vehicle.Driver.FatigueLevel": 98,
+        "Vehicle.Driver.IsEyesOnRoad": false,
+        "Vehicle.ADAS.DMS.IsWarning": true
+      },
+      {
+        "Vehicle.Speed": 40.00385665893555,
+        "Vehicle.Acceleration.Longitudinal": -0.03140785172581673,
+        "Vehicle.Acceleration.Lateral": 0.019614774733781815,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.TimeGap": 835,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.Distance": 9.278672218322754,
+        "Vehicle.ADAS.ObstacleDetection.Front.Center.IsWarning": true,
+        "Vehicle.Driver.AttentiveProbability": 5,
+        "Vehicle.Driver.DistractionLevel": 8,
+        "Vehicle.Driver.FatigueLevel": 98,
+        "Vehicle.Driver.IsEyesOnRoad": false,
+        "Vehicle.ADAS.DMS.IsWarning": true
+      }
+    ],
+    "changed_paths": [
+      "Vehicle.ADAS.ObstacleDetection.Front.Center.Distance",
+      "Vehicle.ADAS.ObstacleDetection.Front.Center.TimeGap",
+      "Vehicle.Acceleration.Lateral",
+      "Vehicle.Acceleration.Longitudinal",
+      "Vehicle.Speed"
+    ],
+    "missing_paths": [],
+    "mock_live": true
+  },
+  "assertions": {
+    "deployment_running": true,
+    "all_expected_paths_present": true,
+    "c1_ttc_changed": true,
+    "c1_distance_changed": true,
+    "ego_kinematics_changed": true,
+    "c2_microsleep_profile_observed": true,
+    "collision_warning_observed": true,
+    "dms_warning_observed": true
+  },
+  "claim_boundary": {
+    "verified": "A deterministic team-owned CarSky Script Node ran mock C1, mock C2 and Risk Fusion at a configured 50 ms timer and published live standard VSS outputs through the Central Broker.",
+    "not_verified": "trained C1/C2 model accuracy, production inference latency, p95/p99 timing, or physical back-to-car actuation",
+    "mock_clearly_marked": true
+  },
+  "credential_stored": false,
+  "result": "passed"
+}

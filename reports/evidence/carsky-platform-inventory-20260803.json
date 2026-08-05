@@ -1,0 +1,97 @@
+{
+  "schema_version": "safeloop.carsky-platform-inventory.v1",
+  "observed_at": "2026-08-03T23:32:18+07:00",
+  "base_url": "https://hackathon-1.carsky.io",
+  "account_limits": {
+    "maximum_skycraft_per_blueprint": 2,
+    "maximum_nodes_per_blueprint": 30,
+    "maximum_blueprints_per_account": 20,
+    "maximum_concurrent_deployments_per_account": 2,
+    "maximum_devices": 5,
+    "cpu_warning_threshold_percent": 80,
+    "cpu_sample_interval_ms": 5000
+  },
+  "main_system": {
+    "device": {
+      "id": "ehlbxyyc4px2it-cip50w",
+      "name": "5ChangLinhNguLam",
+      "status": "PUBLISHED",
+      "visibility": "PRIVATE",
+      "reachability": "UNKNOWN"
+    },
+    "deployment": {
+      "id": "7KpCh37iq_1A-vkxJf91n",
+      "name": "5ChangLinhNguLam-deploy",
+      "status": "RUNNING",
+      "namespace": "room-v63yvkik",
+      "nodes_running": 21,
+      "nodes_total": 21
+    },
+    "blueprint": {
+      "id": "wVMseHi7XtUhuMIn_1D5e",
+      "name": "5ChangLinhNguLam-deploy",
+      "nodes": 21,
+      "edges": 21,
+      "node_types": {
+        "script-node": 8,
+        "gpio-panel": 4,
+        "can-bus": 2,
+        "eth-bridge": 2,
+        "container": 2,
+        "kuksa-databroker": 1,
+        "device-proxy": 1,
+        "skycraft": 1
+      },
+      "portable_export": "carsky/blueprints/5ChangLinhNguLam-base-20260803.json"
+    },
+    "kuksa": {
+      "node_key": "central-broker-vss",
+      "part_name": "central-broker-vss-signal",
+      "metadata_signals": 1272,
+      "databroker_version": "0.7.1-dev.0",
+      "internal_tls": false,
+      "internal_auth": false
+    },
+    "widget": {
+      "id": "37493686-02aa-45d0-921c-9477fc902d9d",
+      "type": "signal",
+      "title": "SafeLoop Ego Telemetry",
+      "config": "central-broker-vss-signal",
+      "read_only_purpose": true
+    }
+  },
+  "integration_lab": {
+    "device_id": "h5sjc3jtzl8vzl9wyqokv",
+    "device_name": "Inspiring Spence",
+    "blueprint_id": "6acee35d-8308-4a76-a3ed-b8c77963cf9a",
+    "blueprint_name": "SafeLoop Integration Lab",
+    "parent_blueprint_id": "wVMseHi7XtUhuMIn_1D5e",
+    "nodes": 23,
+    "edges": 23,
+    "validation": {
+      "valid": true,
+      "errors": []
+    },
+    "safeloop_nodes": [
+      "SafeLoop Telemetry Observer",
+      "SafeLoop 20Hz Replay Probe"
+    ],
+    "portable_export": "carsky/blueprints/SafeLoop-Integration-Lab-20260803.json",
+    "last_test_deployment_reached_running": true,
+    "last_test_nodes_running": 23,
+    "last_test_nodes_total": 23,
+    "deployment_torn_down_after_evidence": true,
+    "active_deployments_after_cleanup": 0
+  },
+  "final_state": {
+    "main_deployment_status": "RUNNING",
+    "lab_deployment_active": false,
+    "concurrent_deployment_slot_released": true,
+    "main_signal_values": {
+      "Vehicle.Speed": 0,
+      "Vehicle.Acceleration.Longitudinal": 0,
+      "Vehicle.Acceleration.Lateral": 0
+    }
+  },
+  "credential_stored": false
+}

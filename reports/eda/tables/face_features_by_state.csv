@@ -1,0 +1,6 @@
+state,eye_state,head_pose,mouth_state,n_frames,pct_within_state,triple_maps_to_n_states
+alert,open,normal,normal,600,100.0,1
+distracted,open,side,normal,900,100.0,1
+drowsy,partial,down,normal,900,100.0,1
+yawning,partial,normal,yawning,600,100.0,1
+microsleep,closed,down,normal,600,100.0,1

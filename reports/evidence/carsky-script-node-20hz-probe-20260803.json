@@ -1,0 +1,97 @@
+{
+  "schema_version": "safeloop.carsky-script-probe.v1",
+  "observed_at": "2026-08-03T23:31:58+07:00",
+  "base_url": "https://hackathon-1.carsky.io",
+  "lab": {
+    "blueprint_id": "6acee35d-8308-4a76-a3ed-b8c77963cf9a",
+    "blueprint_name": "SafeLoop Integration Lab",
+    "room_id": "h5sjc3jtzl8vzl9wyqokv",
+    "deployment_id": "d1a656c6-f6a6-479b-8984-97a3b874ba27",
+    "deployment_name": "SafeLoop-Integration-Lab-20Hz-deploy",
+    "namespace": "room-y04q2785",
+    "status_at_evidence_capture": "RUNNING",
+    "nodes_running": 23,
+    "nodes_total": 23,
+    "edges_total": 23
+  },
+  "runtime_nodes": {
+    "publisher": {
+      "node_id": "b4d83024-31d9-462e-ae81-e8a837fbe05c",
+      "label": "SafeLoop 20Hz Replay Probe",
+      "type": "script-node",
+      "source": "carsky/scripts/safeloop_20hz_replay_probe.lua"
+    },
+    "observer": {
+      "node_id": "3e8c7800-58df-45e4-9df4-b24f5526e0a3",
+      "runtime_node_key": "n-3e8c7800-58df-45e4-9df4-b24f5526e0a3",
+      "label": "SafeLoop Telemetry Observer",
+      "type": "script-node",
+      "source": "carsky/scripts/safeloop_telemetry_observer.lua"
+    },
+    "broker": {
+      "node_id": "79bc3aa1-cb6e-49d7-8a1c-cd1a40646bb1",
+      "label": "Central Broker (VSS)",
+      "type": "kuksa-databroker"
+    }
+  },
+  "probe": {
+    "timer_api": "timer.periodic(50, callback)",
+    "configured_period_ms": 50,
+    "configured_target_hz": 20,
+    "trip": "T01-Sample",
+    "frame_ids": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+    "frames_emitted": 20,
+    "signals_per_frame": 3,
+    "signal_updates_emitted": 60,
+    "publisher_ready_log_count": 1,
+    "publisher_frame_log_count": 20,
+    "publisher_complete_log_count": 1,
+    "publisher_completion": "complete; frames=20; signals=60; neutralized=true"
+  },
+  "observer": {
+    "paths": [
+      "Vehicle.Speed",
+      "Vehicle.Acceleration.Longitudinal",
+      "Vehicle.Acceleration.Lateral"
+    ],
+    "subscribed": true,
+    "replay_signal_updates_observed": 60,
+    "neutralize_updates_observed": 3,
+    "total_signal_changes_observed": 63,
+    "all_replay_updates_observed": true,
+    "first_frame_observed": {
+      "Vehicle.Speed": 0.550000011920929,
+      "Vehicle.Acceleration.Longitudinal": 2.7170000076293945,
+      "Vehicle.Acceleration.Lateral": -0.028999999165534973
+    },
+    "last_frame_observed": {
+      "Vehicle.Speed": 22.389999389648438,
+      "Vehicle.Acceleration.Longitudinal": 4.6519999504089355,
+      "Vehicle.Acceleration.Lateral": 0.006000000052154064
+    }
+  },
+  "final_readback": {
+    "Vehicle.Speed": 0,
+    "Vehicle.Acceleration.Longitudinal": 0,
+    "Vehicle.Acceleration.Lateral": 0,
+    "neutralized": true
+  },
+  "cleanup": {
+    "deployment_deleted": true,
+    "delete_response": {
+      "ok": true
+    },
+    "active_deployments_on_lab_device_after_cleanup": 0,
+    "blueprint_retained": true,
+    "device_retained": true,
+    "redeployable": true,
+    "main_deployment_status_after_cleanup": "RUNNING"
+  },
+  "claim_boundary": {
+    "verified": "A CarSky Script Node configured at 50 ms emitted 20 ordered frames through KUKSA and a separate Script Node observed every one of the 60 replay signal updates",
+    "not_verified": "p95/p99 timing, production Container data plane, SafeLoop policy inference, or back-to-car command latency",
+    "cadence_is_configuration_not_high_resolution_measurement": true
+  },
+  "result": "passed",
+  "credential_stored": false
+}

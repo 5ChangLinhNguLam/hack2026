@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Báo cáo tiến độ đợt 2 — 5 Chàng Lính Ngự Lâm — SafeLoop</title>
+  <style>
+    :root {
+      --ink: #10233f;
+      --muted: #52657d;
+      --line: #dbe4ee;
+      --paper: #ffffff;
+      --navy: #0b1f3a;
+      --blue: #1266e3;
+      --cyan: #00a8c6;
+      --green: #087f5b;
+      --amber: #b36b00;
+      --red: #b42318;
+      --soft-blue: #edf5ff;
+      --soft-green: #eaf8f2;
+      --soft-amber: #fff6df;
+      --soft-red: #fff0ed;
+      --soft-gray: #f5f8fb;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: #dfe7ef; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #dfe7ef;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 9.25pt;
+      line-height: 1.34;
+    }
+
+    @page { size: A4; margin: 0; }
+    .page {
+      position: relative;
+      width: 210mm;
+      min-height: 297mm;
+      margin: 8mm auto;
+      padding: 12mm 14mm 14mm;
+      background: var(--paper);
+      page-break-after: always;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; }
+    .appendix-a table { font-size: 7.55pt; line-height: 1.18; margin: 1.3mm 0 2mm; }
+    .appendix-a h3 { margin: 2mm 0 1mm; }
+    .appendix-a .card { padding: 2.5mm; }
+    .page-no {
+      position: absolute;
+      right: 14mm;
+      bottom: 5mm;
+      color: #7f90a5;
+      font-size: 8.5pt;
+    }
+    .footer {
+      position: absolute;
+      left: 14mm;
+      bottom: 5mm;
+      color: #7f90a5;
+      font-size: 8.5pt;
+    }
+
+    h1, h2, h3 { margin: 0; line-height: 1.16; }
+    h1 { font-size: 28pt; letter-spacing: -0.7px; }
+    h2 { font-size: 18pt; letter-spacing: -0.25px; margin-bottom: 3.5mm; }
+    h3 { font-size: 11.5pt; margin: 3.2mm 0 1.5mm; }
+    p { margin: 0 0 2mm; }
+    ul, ol { margin: 1.5mm 0 2.5mm 4mm; padding-left: 3.5mm; }
+    li { margin-bottom: .8mm; }
+    code {
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 8.7pt;
+      color: #23415f;
+      background: #eef3f7;
+      padding: 0.25mm 1mm;
+      border-radius: 1mm;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 8.5pt;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-bottom: 3mm;
+    }
+    .subtitle { color: var(--muted); font-size: 12pt; max-width: 155mm; }
+    .lede { font-size: 13pt; line-height: 1.45; }
+    .muted { color: var(--muted); }
+    .small { font-size: 8.8pt; }
+    .strong { font-weight: 750; }
+    .accent { color: var(--blue); }
+    .danger { color: var(--red); }
+
+    .cover {
+      color: white;
+      background:
+        radial-gradient(circle at 88% 14%, rgba(0, 190, 214, .30), transparent 27%),
+        radial-gradient(circle at 10% 82%, rgba(18, 102, 227, .35), transparent 30%),
+        linear-gradient(145deg, #071629 0%, #0b2546 58%, #093452 100%);
+    }
+    .cover::after {
+      content: "";
+      position: absolute;
+      width: 140mm;
+      height: 140mm;
+      right: -62mm;
+      bottom: -62mm;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 50%;
+      box-shadow: 0 0 0 20mm rgba(255,255,255,.025), 0 0 0 40mm rgba(255,255,255,.018);
+    }
+    .cover .eyebrow { color: #75e6ff; margin-top: 10mm; }
+    .cover h1 { margin-top: 31mm; max-width: 165mm; font-size: 34pt; }
+    .cover .subtitle { color: #c6d7e8; margin-top: 6mm; font-size: 14pt; }
+    .cover .one-liner {
+      margin-top: 16mm;
+      max-width: 160mm;
+      padding-left: 5mm;
+      border-left: 1.5mm solid #17c8e5;
+      font-size: 16pt;
+      font-weight: 650;
+      line-height: 1.38;
+    }
+    .cover-meta {
+      position: absolute;
+      left: 16mm;
+      right: 16mm;
+      bottom: 24mm;
+      display: grid;
+      grid-template-columns: 1.4fr .8fr .8fr;
+      gap: 5mm;
+      z-index: 2;
+    }
+    .cover-meta div {
+      border-top: 1px solid rgba(255,255,255,.24);
+      padding-top: 3mm;
+      color: #c6d7e8;
+      font-size: 9pt;
+    }
+    .cover-meta strong { display: block; color: white; font-size: 11pt; margin-bottom: 1mm; }
+
+    .topline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8mm;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 3mm;
+      margin-bottom: 4mm;
+    }
+    .topline h2 { margin: 0; }
+    .section-index {
+      flex: 0 0 auto;
+      color: #9caaba;
+      font-size: 20pt;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 3mm;
+      padding: 3mm;
+      background: white;
+    }
+    .card h3 { margin-top: 0; }
+    .card.soft { background: var(--soft-gray); }
+    .card.blue { background: var(--soft-blue); border-color: #c8defc; }
+    .card.green { background: var(--soft-green); border-color: #c9eadc; }
+    .card.amber { background: var(--soft-amber); border-color: #f0d9a6; }
+    .card.red { background: var(--soft-red); border-color: #f2c6bd; }
+
+    .metric {
+      border-top: 1.2mm solid var(--blue);
+      padding: 3mm 2.5mm;
+      background: var(--soft-gray);
+      border-radius: 1.5mm;
+      min-height: 22mm;
+    }
+    .metric .value { font-size: 22pt; font-weight: 850; line-height: 1; }
+    .metric .label { color: var(--muted); margin-top: 2mm; font-size: 8.8pt; }
+
+    .callout {
+      margin: 2.8mm 0;
+      padding: 3mm 4mm;
+      border-left: 1.5mm solid var(--blue);
+      background: var(--soft-blue);
+      border-radius: 0 2mm 2mm 0;
+    }
+    .callout.warning { border-color: var(--amber); background: var(--soft-amber); }
+    .callout.risk { border-color: var(--red); background: var(--soft-red); }
+    .callout.success { border-color: var(--green); background: var(--soft-green); }
+
+    .badge {
+      display: inline-block;
+      border-radius: 99px;
+      padding: .7mm 2.2mm;
+      font-size: 7.7pt;
+      font-weight: 800;
+      letter-spacing: .3px;
+      white-space: nowrap;
+    }
+    .verified { color: #056147; background: #d9f3e8; }
+    .progress { color: #8b5600; background: #ffedbd; }
+    .planned { color: #235ca8; background: #e4efff; }
+    .blocked { color: #9d261b; background: #ffe0da; }
+    .provided { color: #5d477a; background: #eee8f7; }
+
+    table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 8.05pt; line-height: 1.27; }
+    th {
+      text-align: left;
+      color: #30465f;
+      background: #edf2f7;
+      border-bottom: 1px solid #cdd8e4;
+      padding: 1.8mm 1.8mm;
+      vertical-align: top;
+    }
+    td {
+      border-bottom: 1px solid #e1e8ef;
+      padding: 1.8mm 1.8mm;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .tight td, .tight th { padding: 1.35mm 1.6mm; }
+    .status-col { width: 24mm; }
+    .score-col { width: 14mm; text-align: center; font-weight: 800; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr 7mm 1fr 7mm 1fr 7mm 1fr;
+      gap: 1.5mm;
+      align-items: stretch;
+      margin: 3mm 0;
+    }
+    .flow .node {
+      min-height: 27mm;
+      border: 1px solid #cbd8e6;
+      border-radius: 2.5mm;
+      padding: 2.5mm;
+      background: #f8fbfe;
+    }
+    .flow .node strong { display: block; color: var(--navy); margin-bottom: 1.5mm; }
+    .flow .arrow { display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 17pt; }
+
+    .timeline { margin-top: 3mm; }
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 25mm 1fr 25mm;
+      gap: 3mm;
+      padding: 1.8mm 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .timeline-row:last-child { border-bottom: 0; }
+    .timeline-row .date { font-weight: 800; color: var(--blue); }
+    .timeline-row .gate { text-align: right; color: var(--muted); font-size: 8.5pt; }
+
+    .architecture {
+      width: 100%;
+      height: auto;
+      margin: 1.5mm 0 2mm;
+      border: 1px solid var(--line);
+      border-radius: 3mm;
+      background: #fbfdff;
+    }
+    .figure {
+      width: 100%;
+      max-height: 72mm;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: 2mm;
+      background: white;
+    }
+    .caption { color: var(--muted); font-size: 8.2pt; margin: 1.5mm 0 4mm; }
+
+    .bar {
+      height: 3.5mm;
+      border-radius: 3mm;
+      background: #e7edf3;
+      overflow: hidden;
+      margin-top: 1mm;
+    }
+    .bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+
+    .do-not-claim {
+      display: grid;
+      grid-template-columns: 30mm 1fr;
+      gap: 3mm;
+      padding: 2mm 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .do-not-claim:last-child { border-bottom: 0; }
+
+    @media print {
+      html, body { background: white; }
+      .page { margin: 0; box-shadow: none; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    .architecture { border: 1px solid var(--line); border-radius: 3mm; padding: 2mm; background: #fbfdff; }
+    .architecture svg { display: block; width: 100%; height: auto; font-family: Inter, 'Segoe UI', Arial, sans-serif; font-size: 18px; fill: var(--ink); }
+    .legend { margin-top: 2mm; }
+    .shot { margin: 2mm 0 2.5mm; }
+    .shot img { display: block; width: 100%; max-height: 86mm; object-fit: cover; object-position: center top; border: 1px solid var(--line); border-radius: 2.5mm; }
+    .shot figcaption { color: var(--muted); font-size: 7.8pt; margin-top: 1mm; }
+    @media print { html, body { background: white; } .page { margin: 0; } }
+    </style>
+</head>
+<body>
+
+  <section class="page cover">
+    <span class="eyebrow">FPT Automotive Hackathon 2026 · Báo cáo tiến độ đợt 2</span>
+    <h1>Nền tảng hỗ trợ lái xe an toàn<br>— SafeLoop</h1>
+    <p class="subtitle">Hợp nhất rủi ro va chạm, trạng thái người lái và điểm an toàn chuyến đi trên nền tảng CarSky.</p>
+    <div class="one-liner">Không chỉ phát hiện nguy cơ: SafeLoop biến hai luồng AI thành một quyết định an toàn có giải thích, có bằng chứng và có đường triển khai lên xe.</div>
+    <div class="cover-meta">
+      <div><strong>Đội thi</strong>5 Chàng Lính Ngự Lâm</div>
+      <div><strong>Sản phẩm</strong>SafeLoop</div>
+      <div><strong>Bản báo cáo</strong>04/08/2026 · v2.0</div>
+    </div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">01 · Tóm tắt giải pháp</span><h2>Một sản phẩm, ba tầng giá trị</h2></div>
+      <div class="section-index">1</div>
+    </div>
+
+    <p class="lede"><strong>SafeLoop</strong> là hệ thống hỗ trợ lái xe chạy trên nền tảng xe kết nối (Connected Car): nhận kết quả từ <strong>C1 dự đoán nguy cơ va chạm</strong> và <strong>C2 nhận biết trạng thái người lái</strong>, hợp nhất theo ngữ cảnh thành cảnh báo ưu tiên, đồng thời tích lũy <strong>C3 Safe Driving Score</strong> cho tài xế và đội xe.</p>
+    <div class="grid-3">
+      <div class="card blue"><h3>C1 · Nhìn ra đường</h3><p>Dự đoán thời gian còn lại trước va chạm (TTC) từ video bằng V-JEPA2 và head lai classification–regression; ưu tiên độ chính xác vùng TTC nguy hiểm.</p><span class="badge provided">ĐÃ ĐO TRÊN DỮ LIỆU LƯU SẴN</span></div>
+      <div class="card green"><h3>C2 · Nhìn người lái</h3><p>MobileNetV3-Large + hai nhánh LSTM causal, xuất một trong năm trạng thái với quy tắc an toàn cho microsleep.</p><span class="badge verified">ĐÃ ĐO THEO THỜI GIAN THỰC</span></div>
+      <div class="card amber"><h3>C3 · Ra quyết định</h3><p>Quy tắc kết hợp TTC, khoảng cách, distraction/fatigue và điểm chuyến đi để chọn cảnh báo có lý do.</p><span class="badge progress">MÔ PHỎNG / PHÁT LẠI NHÃN CHUẨN</span></div>
+    </div>
+    <h3>Thông tin sản phẩm và cách tích hợp</h3>
+    <table class="tight">
+      <tr><th>Người dùng</th><td>Tài xế, người quản lý đội xe, hãng xe/nhà cung cấp màn hình trên xe (IVI); mở rộng cho bảo hiểm theo sự đồng ý của người dùng.</td></tr>
+      <tr><th>Nhiệm vụ chính</th><td>Phát hiện sớm tình huống “nguy cơ phía trước + tài xế chưa sẵn sàng”, ưu tiên cảnh báo và ghi lại bằng chứng sau chuyến.</td></tr>
+      <tr><th>Dữ liệu vào / Kết quả</th><td>Video đường, video cabin, dữ liệu vận hành xe → TTC, trạng thái người lái, mức rủi ro tổng hợp, hành động khuyến nghị, điểm chuyến đi.</td></tr>
+      <tr><th>Điểm tích hợp</th><td>CarSky Central Broker (VSS), Script Node, Android Automotive Screen/WebView; bước tiếp theo là nối mô hình thật qua bộ chuyển đổi dữ liệu.</td></tr>
+      <tr><th>Giá trị khác biệt</th><td>Hợp nhất C1+C2 thành một quy trình khép kín có thể giải thích; cùng một chuỗi bằng chứng phục vụ cảnh báo tức thời và gợi ý cải thiện sau chuyến đi.</td></tr>
+    </table>
+    <div class="callout success"><strong>Giá trị đã chứng minh ở giữa kỳ:</strong> hai mô hình thử nghiệm đã có kết quả trên 6 bộ dữ liệu mẫu; một bản demo thu gọn C1+C2+C3 đã chạy trên CarSky và hiển thị trên màn hình Android Automotive.</div>
+    <div class="callout warning"><strong>Phạm vi kết quả đã công bố:</strong> bản demo hiện dùng dữ liệu mô phỏng thay đổi theo thời gian và phát lại nhãn chuẩn của T01. Đội chưa công bố rằng mô hình C1/C2 thật đã chạy toàn bộ quy trình trên CarSky.</div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">1</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">02 · Phạm vi đã cam kết trong đề xuất</span><h2>Giữ nguyên mục tiêu, làm từng phần có thể kiểm chứng</h2></div>
+      <div class="section-index">2</div>
+    </div>
+
+    <table>
+      <thead><tr><th>Cam kết trong đề xuất</th><th>Hiện trạng đợt 2</th><th>Bằng chứng / phần còn thiếu</th></tr></thead>
+      <tbody>
+        <tr><td>C1: thời gian còn lại trước va chạm (TTC)</td><td><span class="badge provided">MÔ HÌNH THỬ NGHIỆM</span><br>Gói model kết hợp V-JEPA2; đánh giá trên 6 bộ dữ liệu mẫu.</td><td>Composite 53.2; MAE Critical 1.780 s. Chưa đạt thời gian xử lý theo thời gian thực trên T4.</td></tr>
+        <tr><td>C2: 5 trạng thái người lái</td><td><span class="badge verified">MÔ HÌNH THỬ NGHIỆM</span><br>Pipeline causal, đặt lại trạng thái sau mỗi chuyến đi.</td><td>Composite 81.1; 27.65 FPS trên T4; cần tiếp tục kiểm thử domain shift.</td></tr>
+        <tr><td>Mức rủi ro tổng hợp theo tình huống</td><td><span class="badge progress">BẢN THỬ NGHIỆM</span><br>Quy tắc kết hợp có nêu lý do và hành động.</td><td>Đã chạy bằng dữ liệu mô phỏng và nhãn chuẩn T01; chưa hiệu chỉnh bằng kết quả của mô hình thật.</td></tr>
+        <tr><td>Màn hình theo dõi trực tiếp / nhật ký cảnh báo</td><td><span class="badge progress">BẢN DEMO THU GỌN</span><br>AAOS 1920×1080; C1/C2/C3 cùng màn hình.</td><td>Màn hình hiện phát dữ liệu mẫu được nhúng sẵn; cầu nối dữ liệu từ Broker đến màn hình vẫn cần hoàn thiện.</td></tr>
+        <tr><td>Điểm chuyến đi / gợi ý cải thiện</td><td><span class="badge progress">C3 MÔ PHỎNG</span><br>Điểm, xếp hạng và mức trừ điểm được tính trong suốt chuyến đi.</td><td>Cần khóa công thức, mức công bằng và ngưỡng đưa ra gợi ý.</td></tr>
+        <tr><td>Triển khai trên CarSky</td><td><span class="badge verified">RUNNING</span><br>Sơ đồ triển khai hợp lệ, lần triển khai ở trạng thái RUNNING.</td><td>Nút mô phỏng → Central Broker đã kiểm tra đủ 11/11 tín hiệu.</td></tr>
+      </tbody>
+    </table>
+    <h3>Nguyên tắc giới hạn phạm vi</h3>
+    <div class="grid-2">
+      <div class="card blue"><h3>Luồng chính dùng để trình bày</h3><p><strong>Dữ liệu mẫu/Camera → C1+C2 → kết hợp kết quả → VSS Broker → màn hình AAOS → bằng chứng chuyến đi.</strong> Các kết quả ngoài luồng này chỉ được làm sau khi luồng chính có thể chạy lại ổn định.</p></div>
+      <div class="card soft"><h3>Những điều chưa công bố ở đợt 2</h3><p>Chưa công bố sản phẩm đã sẵn sàng dùng thực tế, C1 đã chạy theo thời gian thực, mô hình thật đã nối CarSky hoặc chứng nhận an toàn hay can thiệp điều khiển xe.</p></div>
+    </div>
+    <div class="callout"><strong>Điểm mới do đội tự phát triển:</strong> quy ước dữ liệu VSS mở rộng, chương trình mô phỏng kết hợp C1/C2, bộ tính điểm C3, công cụ phát lại nhãn chuẩn T01, màn hình AAOS và công cụ cài đặt/kiểm tra CarSky.</div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">2</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">03 · Kiến trúc và luồng xử lý toàn bộ hệ thống</span><h2>Một quy ước dữ liệu chung từ kết quả AI đến màn hình</h2></div>
+      <div class="section-index">3</div>
+    </div>
+
+    <div class="architecture">
+      <svg viewBox="0 0 1000 470" role="img" aria-label="SafeLoop end-to-end architecture">
+        <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1266e3"/></marker></defs>
+        <rect x="20" y="42" width="180" height="150" rx="16" fill="#edf5ff" stroke="#8eb9f4"/><text x="40" y="72" font-weight="700">DỮ LIỆU / PHÁT LẠI</text><text x="40" y="105">Video phía trước</text><text x="40" y="132">Video trong cabin</text><text x="40" y="159">Dữ liệu vận hành xe</text>
+        <rect x="270" y="20" width="210" height="86" rx="16" fill="#edf5ff" stroke="#8eb9f4"/><text x="290" y="52" font-weight="700">C1 · TTC</text><text x="290" y="79">V-JEPA2 + hybrid head</text>
+        <rect x="270" y="126" width="210" height="100" rx="16" fill="#eaf8f2" stroke="#83cfaf"/><text x="290" y="157" font-weight="700">C2 · DRIVER STATE</text><text x="290" y="184">MobileNetV3 + LSTM</text><text x="290" y="207">causal safety gates</text>
+        <rect x="540" y="63" width="200" height="126" rx="16" fill="#fff6df" stroke="#e2b960"/><text x="560" y="94" font-weight="700">C3 · QUY TẮC KẾT HỢP</text><text x="560" y="122">mức rủi ro tổng hợp</text><text x="560" y="149">lý do + hành động</text><text x="560" y="174">điểm chuyến đi</text>
+        <rect x="800" y="20" width="180" height="90" rx="16" fill="#f5f8fb" stroke="#9aacbe"/><text x="820" y="52" font-weight="700">CARSKY</text><text x="820" y="79">Central Broker / VSS</text>
+        <rect x="800" y="130" width="180" height="90" rx="16" fill="#eaf8f2" stroke="#83cfaf"/><text x="820" y="162" font-weight="700">MÀN HÌNH AAOS</text><text x="820" y="189">cảnh báo + bằng chứng</text>
+        <line x1="200" y1="88" x2="270" y2="66" stroke="#1266e3" stroke-width="3" marker-end="url(#arr)"/><line x1="200" y1="146" x2="270" y2="174" stroke="#1266e3" stroke-width="3" marker-end="url(#arr)"/><line x1="480" y1="66" x2="540" y2="105" stroke="#1266e3" stroke-width="3" marker-end="url(#arr)"/><line x1="480" y1="176" x2="540" y2="147" stroke="#1266e3" stroke-width="3" marker-end="url(#arr)"/><line x1="740" y1="105" x2="800" y2="68" stroke="#1266e3" stroke-width="3" marker-end="url(#arr)"/><line x1="890" y1="110" x2="890" y2="130" stroke="#1266e3" stroke-width="3" marker-end="url(#arr)"/>
+        <rect x="20" y="288" width="960" height="138" rx="16" fill="#f8fbfe" stroke="#cbd8e6"/><text x="45" y="320" font-weight="700">LỚP LƯU BẰNG CHỨNG</text><text x="45" y="350">quy ước/schema + thông tin lần chạy + mã băm model/cấu hình + chỉ số + nhật ký lỗi + video</text><text x="45" y="382">Việc phát lại giúp cùng một bộ dữ liệu mẫu tái hiện được kết quả model, tín hiệu Broker, cảnh báo và điểm số.</text><text x="45" y="409" fill="#52657d">Mục tiêu khi chốt mã nguồn: mỗi checkpoint C1/C2 phải truy ra được từng khung hình và kết quả trên màn hình.</text>
+      </svg>
+    </div>
+    <h3>Quy ước tín hiệu đang dùng trên CarSky</h3>
+    <table class="tight">
+      <tr><th>Nhóm</th><th>Đường dẫn VSS tiêu biểu</th><th>Ý nghĩa</th></tr>
+      <tr><td>Dữ liệu xe</td><td><code>Vehicle.Speed</code>, <code>Acceleration.Longitudinal/Lateral</code></td><td>Ngữ cảnh động học.</td></tr>
+      <tr><td>C1</td><td><code>...ObstacleDetection.Front.Center.TimeGap</code>, <code>Distance</code>, <code>IsWarning</code></td><td>TTC ms, khoảng cách m, cảnh báo va chạm.</td></tr>
+      <tr><td>C2</td><td><code>Vehicle.Driver.AttentiveProbability</code>, <code>DistractionLevel</code>, <code>FatigueLevel</code>, <code>IsEyesOnRoad</code>, <code>Vehicle.ADAS.DMS.IsWarning</code></td><td>Trạng thái và mức độ rủi ro cabin.</td></tr>
+    </table>
+    <div class="legend"><span class="badge verified">ĐÃ CHẠY: mô phỏng → Broker</span> <span class="badge progress">ĐANG LÀM: model → bộ chuyển đổi dữ liệu</span> <span class="badge planned">KẾ HOẠCH: Broker → màn hình trực tiếp</span></div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">3</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">04 · Kết quả đã hoàn thành</span><h2>C1: mô hình TTC đã cải thiện rõ ở vùng nguy hiểm</h2></div>
+      <div class="section-index">4</div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric"><div class="value">53.2</div><div class="label">Composite / 6 bộ dữ liệu mẫu<br>mốc so sánh mặc định: 37.2</div></div>
+      <div class="metric"><div class="value">1.780s</div><div class="label">MAE Critical<br>giảm 66.6% từ 5.338s</div></div>
+      <div class="metric"><div class="value">0.566</div><div class="label">F1 tại TTC &lt; 2s<br>baseline: 0.600</div></div>
+      <div class="metric"><div class="value">0.3809</div><div class="label">Inverse-TTC MAE<br>cải thiện 19.4%</div></div>
+    </div>
+    <h3>Thiết kế model và luồng xử lý kỹ thuật</h3>
+    <div class="flow">
+      <div class="node"><strong>16 RGB frames</strong>640×360 · 8 FPS<br>stride 1</div><div class="arrow">→</div>
+      <div class="node"><strong>V-JEPA2</strong>ViT-L backbone<br>đóng băng</div><div class="arrow">→</div>
+      <div class="node"><strong>Hybrid heads</strong>calibrated collision<br>+ TTC regression</div><div class="arrow">→</div>
+      <div class="node"><strong>Temporal output</strong>blend w=0.25<br>median window 11</div>
+    </div>
+    <ul>
+      <li>Backbone <code>facebook/vjepa2-vitl-fpc16-256-ssv2</code>; head fine-tune khoảng 1.38M tham số; gói model có dung lượng 23 MB.</li>
+      <li>Nhánh probability qua Isotonic Regression rồi ánh xạ sang 1/TTC; nhánh regression dùng feature 768 chiều; kết quả được giới hạn tối đa 10 s.</li>
+      <li>Dữ liệu huấn luyện CARLA DVS: 334 chuyến đi, 27,713 khung hình (134 collision, 200 safe); cache feature rút thử nghiệm từ khoảng 25 phút xuống mức giây.</li>
+      <li>Tệp kỹ thuật dự kiến bàn giao: <code>badas_bundle.pt</code>, notebook chạy bằng một lệnh, CSV dự đoán và đồ thị theo chuyến đi.</li>
+    </ul>
+    <h3>Kết quả trên các bộ dữ liệu mẫu của BTC</h3>
+    <table class="tight">
+      <thead><tr><th>Chuyến</th><th>Composite</th><th>MAE (s)</th><th>F1 TTC&lt;2</th><th>FPR</th></tr></thead>
+      <tbody><tr><td>T03</td><td>54.3</td><td>0.507</td><td>0.558</td><td>0.081</td></tr><tr><td>T02</td><td>48.6</td><td>5.604</td><td>0.971</td><td>0.000</td></tr><tr><td>T01</td><td>48.4</td><td>0.682</td><td>0.202</td><td>0.134</td></tr><tr><td>T06</td><td>35.5</td><td>3.374</td><td>0.750</td><td>0.074</td></tr><tr><td>T04</td><td>26.1</td><td>4.661</td><td>0.779</td><td>0.051</td></tr><tr><td>T05</td><td>10.1</td><td>17.200</td><td>0.338</td><td>0.138</td></tr></tbody>
+    </table>
+    <div class="callout risk"><strong>Giới hạn quan trọng:</strong> cửa sổ 16 khung hình tạo độ trễ xấp xỉ 1 s; inference T4 đang 165–168 s cho chuyến đi 30 s (~225 cửa sổ dữ liệu). Vì vậy C1 hiện là kết quả đo trên dữ liệu lưu sẵn, chưa phải quy trình thời gian thực.</div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">4</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">04 · Kết quả đã hoàn thành</span><h2>C2: pipeline causal đủ tốc độ xử lý video theo thời gian thực</h2></div>
+      <div class="section-index">5</div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric"><div class="value">81.1</div><div class="label">Composite / 6 bộ dữ liệu mẫu<br>3,600 khung hình</div></div>
+      <div class="metric"><div class="value">27.65</div><div class="label">FPS trên NVIDIA T4<br>đầu vào 640×384</div></div>
+      <div class="metric"><div class="value">34.71</div><div class="label">Độ trễ trung vị, ms<br>p95: 43.19 ms</div></div>
+      <div class="metric"><div class="value">75.6</div><div class="label">VRAM cao nhất, MiB<br>theo báo cáo C2</div></div>
+    </div>
+    <h3>Thiết kế model và luồng xử lý kỹ thuật</h3>
+    <div class="flow">
+      <div class="node"><strong>One-pass CNN</strong>MobileNetV3-Large<br>global/face/eyes/mouth</div><div class="arrow">→</div>
+      <div class="node"><strong>Dual ocular LSTM</strong>clean phase + robust<br>microsleep gate</div><div class="arrow">→</div>
+      <div class="node"><strong>4-state LSTM</strong>causal 200 frames<br>alert/drowsy/yawn/distract</div><div class="arrow">→</div>
+      <div class="node"><strong>Exclusive state</strong>5 classes<br>reset mỗi trip</div>
+    </div>
+    <ul>
+      <li>Microsleep chỉ bật sau chuỗi mắt nhắm đủ 2 s và đủ độ tin cậy; nhánh 4-state dùng masked CE để quy tắc an toàn quyết định microsleep.</li>
+      <li>Fatigue episode tích lũy causal 15 s; không dùng khung hình tương lai; trạng thái được đặt lại giữa các chuyến đi để chống rò rỉ.</li>
+      <li>DMD: 364,599 frames, 80 sessions, 14 subjects ở 20 FPS; weak-label có kiểm soát, không coi khoảng trống annotation là negative.</li>
+      <li>Validation theo subject-safe nested LOSO; fold hybrid đầu tiên đã audit, phạm vi cross-subject đang mở rộng.</li>
+    </ul>
+    <h3>Kết quả trên các bộ dữ liệu mẫu của BTC</h3>
+    <table class="tight">
+      <thead><tr><th>Chuyến</th><th>Composite</th><th>Accuracy</th><th>Macro F1</th><th>Nhận xét</th></tr></thead>
+      <tbody><tr><td>T01</td><td>99.5</td><td>0.995</td><td>0.995</td><td>Rất ổn định</td></tr><tr><td>T02</td><td>73.1</td><td>0.663</td><td>0.798</td><td>Còn nhầm trạng thái</td></tr><tr><td>T03</td><td>99.6</td><td>0.995</td><td>0.997</td><td>Rất ổn định</td></tr><tr><td>T04</td><td>80.1</td><td>0.805</td><td>0.797</td><td>Đạt mức khá</td></tr><tr><td>T05</td><td>94.8</td><td>0.932</td><td>0.965</td><td>Ổn định</td></tr><tr><td>T06</td><td>39.4</td><td>0.428</td><td>0.359</td><td>Trường hợp khó cần phân tích</td></tr></tbody>
+    </table>
+    <div class="callout warning"><strong>Rủi ro của model:</strong> domain shift ở drowsy, tín hiệu chồng lấn T06, mất cân bằng microsleep, góc mặt nghiêng làm hệ thống nhận nhầm mắt nhắm. Cách xử lý: visibility gate, hard-negative mining, per-subject audit và checkpoint/schema fingerprint.</div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">5</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">04 · Kết quả đã hoàn thành</span><h2>Bản demo CarSky: đã triển khai, có tín hiệu trực tiếp và màn hình AAOS</h2></div>
+      <div class="section-index">6</div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric"><div class="value">RUNNING</div><div class="label">Triển khai trên CarSky<br>namespace room-nckuqalz</div></div>
+      <div class="metric"><div class="value">11/11</div><div class="label">Có đủ tín hiệu VSS<br>không thiếu đường dẫn tín hiệu</div></div>
+      <div class="metric"><div class="value">60/60</div><div class="label">lần cập nhật quan sát được<br>Script Node 20 Hz probe</div></div>
+      <div class="metric"><div class="value">90</div><div class="label">kiểm thử tự động đạt<br>kho mã tích hợp trên máy</div></div>
+    </div>
+    <h3>Những gì chạy được ngay</h3>
+    <table class="tight">
+      <thead><tr><th>Hạng mục</th><th>Trạng thái</th><th>Bằng chứng định danh</th></tr></thead>
+      <tbody>
+        <tr><td>Sơ đồ triển khai <strong>SafeLoop Mock Integration Lab</strong></td><td><span class="badge verified">VALID</span></td><td><code>f0975e76-6c6b-40b5-9441-8a2dd0edcd5d</code></td></tr>
+        <tr><td>Lần triển khai</td><td><span class="badge verified">RUNNING</span></td><td><code>e691c66a-8837-4512-9133-6e4f63c88271</code></td></tr>
+        <tr><td>Mô phỏng kết hợp C1/C2 → Central Broker</td><td><span class="badge verified">TRỰC TIẾP</span></td><td>11 đường dẫn VSS; TTC, khoảng cách, tốc độ và gia tốc thay đổi.</td></tr>
+        <tr><td>Phát lại nhãn chuẩn của mẫu T01</td><td><span class="badge verified">CÓ THỂ LẶP LẠI</span></td><td>600 khung hình nguồn @20 Hz; màn hình dùng 151 điểm dữ liệu @5 Hz.</td></tr>
+        <tr><td>AAOS SafeLoop Screen</td><td><span class="badge verified">ĐÃ HIỂN THỊ</span></td><td>1920×1080 WebView: TTC, DMS, mức rủi ro tổng hợp, điểm C3.</td></tr>
+      </tbody>
+    </table>
+    <figure class="shot"><img src="assets/safeloop-t01-dashboard.png" alt="SafeLoop T01 dashboard"><figcaption>Hình 1 — Màn hình T01-SAMPLE hiển thị C1, C2, phần kết hợp kết quả và C3. Đây là phát lại nhãn chuẩn, không phải kết quả của model chạy theo thời gian thực.</figcaption></figure>
+    <div class="grid-2">
+      <div class="callout success"><strong>Kiểm tra luồng dữ liệu:</strong> Script Node timer 50 ms đã tạo 60/60 lần cập nhật cho ba tín hiệu vận hành xe; phù hợp hơn phát dữ liệu qua REST (~3.3 message/s trong lần kiểm tra 5 khung hình).</div>
+      <div class="callout warning"><strong>Giới hạn môi trường:</strong> Conduit service chưa cấu hình nên REST ADB trả 502. Đội dùng ADB Widget của CarSky để kiểm tra AAOS; không coi đây là lỗi của sản phẩm.</div>
+    </div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">6</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">05 · Demo tính năng cốt lõi</span><h2>Kịch bản 8 phút: nội dung nào cũng có bằng chứng</h2></div>
+      <div class="section-index">7</div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-row"><strong>0:00–0:45</strong><div><strong>Vấn đề và kết quả mong muốn.</strong> Nếu chỉ có TTC hoặc DMS riêng lẻ, hệ thống chưa biết tình huống nào cần ưu tiên. SafeLoop kết hợp hai nguồn thông tin.</div><span class="badge planned">SLIDE 1</span></div>
+      <div class="timeline-row"><strong>0:45–2:15</strong><div><strong>Kết quả C1.</strong> Mở kết quả đánh giá trên 6 bộ dữ liệu mẫu; chỉ ra Composite 53.2, MAE Critical 1.780 s và trường hợp T05.</div><span class="badge provided">DỮ LIỆU LƯU SẴN</span></div>
+      <div class="timeline-row"><strong>2:15–3:30</strong><div><strong>Kết quả C2.</strong> Chạy hoặc trình chiếu bài đánh giá bằng một lệnh; chứng minh 81.1, 27.65 FPS và state reset.</div><span class="badge verified">MODEL</span></div>
+      <div class="timeline-row"><strong>3:30–4:30</strong><div><strong>Trạng thái CarSky khi chạy.</strong> Mở lần triển khai đang ở trạng thái RUNNING và Signal Watch; quan sát Speed, acceleration, TTC, distance, DMS thay đổi.</div><span class="badge verified">TRỰC TIẾP</span></div>
+      <div class="timeline-row"><strong>4:30–6:30</strong><div><strong>Tình huống chính T01.</strong> Phát GT replay: người lái mất tập trung 0–15 s; người đi bộ băng qua đường ở 15 s; min TTC ≈1.03 s; cảnh báo chuyển sang NGUY HIỂM và C3 trừ điểm.</div><span class="badge progress">GT REPLAY</span></div>
+      <div class="timeline-row"><strong>6:30–7:30</strong><div><strong>Giới hạn.</strong> Nói rõ C1 chưa chạy theo thời gian thực, model chưa nối với CarSky; nêu phương án dự phòng khi đường dẫn lỗi hoặc gói dữ liệu rỗng.</div><span class="badge blocked">MINH BẠCH</span></div>
+      <div class="timeline-row"><strong>7:30–8:00</strong><div><strong>Kết luận.</strong> Chốt giá trị sản phẩm, việc còn lại và bộ bằng chứng.</div><span class="badge planned">HỎI ĐÁP</span></div>
+    </div>
+    <h3>Các bước demo T01 trên CarSky</h3>
+    <ol>
+      <li>Nạp môi trường: <code>source .carsky.env</code>.</li>
+      <li>Kiểm tra lần triển khai: <code>python3 tools/carsky_mock_ctl.py status</code>; yêu cầu <strong>RUNNING</strong>.</li>
+      <li>Kiểm tra tín hiệu: <code>python3 tools/carsky_mock_ctl.py verify</code>; yêu cầu <code>mock_live=true</code>, <code>missing_paths=[]</code>.</li>
+      <li>Mở Screen widget / Android Automotive; tạo gói lệnh bằng <code>python3 tools/carsky_screen_payload.py --html carsky/screen/safeloop_t01_dashboard.html</code>.</li>
+      <li>Nếu cần tạo lại từ bộ dữ liệu mẫu: <code>python3 tools/build_t01_demo.py</code>, sau đó phát Lua replay trên Script Node.</li>
+    </ol>
+    <div class="callout"><strong>Kết quả cần quan sát:</strong> mã lần triển khai, giá trị tín hiệu thay đổi qua ít nhất ba lần đọc, màn hình chuyển trạng thái, điểm và mức trừ điểm được cộng dồn, và nhật ký và danh sách tệp khớp với tệp kỹ thuật.</div>
+    <div class="callout risk"><strong>Phương án dự phòng:</strong> nếu màn hình/ADB lỗi, tiếp tục demo Signal Watch + màn hình trên máy với cùng dữ liệu T01 và công khai lý do. Không đổi sang video giả làm dữ liệu đang chạy.</div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">7</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">06 · KPI & số liệu ban đầu</span><h2>Tổng hợp KPI: kết quả đo, nguồn và mức tin cậy</h2></div>
+      <div class="section-index">8</div>
+    </div>
+
+    <table>
+      <thead><tr><th>KPI</th><th>Kết quả</th><th>Nguồn / điều kiện</th><th>Mức bằng chứng</th></tr></thead>
+      <tbody>
+        <tr><td>C1 Composite</td><td><strong>53.2</strong> (6 bộ dữ liệu mẫu)</td><td>Báo cáo C1; so với mốc mặc định 37.2.</td><td><span class="badge provided">BÁO CÁO NHÓM KỸ THUẬT</span></td></tr>
+        <tr><td>C1 MAE Critical</td><td><strong>1.780 s</strong></td><td>Giảm 66.6% từ 5.338 s.</td><td><span class="badge provided">BÁO CÁO NHÓM KỸ THUẬT</span></td></tr>
+        <tr><td>Thời gian xử lý C1</td><td><strong>165–168 s / chuyến đi 30 s</strong></td><td>NVIDIA T4, khoảng 225 cửa sổ dữ liệu.</td><td><span class="badge provided">CHƯA THEO THỜI GIAN THỰC</span></td></tr>
+        <tr><td>C2 Composite</td><td><strong>81.1</strong> (3,600 khung hình)</td><td>6/6 bộ dữ liệu mẫu của BTC.</td><td><span class="badge provided">BÁO CÁO NHÓM KỸ THUẬT</span></td></tr>
+        <tr><td>Tốc độ xử lý C2</td><td><strong>27.65 FPS</strong>; p95 43.19 ms</td><td>NVIDIA T4, 640×384.</td><td><span class="badge provided">BÁO CÁO NHÓM KỸ THUẬT</span></td></tr>
+        <tr><td>CarSky Script Node</td><td><strong>60/60 lần cập nhật quan sát được</strong></td><td>Kiểm tra ở 20 Hz với 3 tín hiệu vận hành xe.</td><td><span class="badge verified">TỆP JSON GỐC</span></td></tr>
+        <tr><td>Mức độ đầy đủ của tín hiệu mô phỏng</td><td><strong>11/11 đường dẫn</strong></td><td>Lần triển khai RUNNING; không thiếu đường dẫn tín hiệu.</td><td><span class="badge verified">TỆP JSON GỐC</span></td></tr>
+        <tr><td>Bộ kiểm thử tích hợp</td><td><strong>90 kiểm thử đạt / 5.26 s</strong></td><td>Kho mã trên máy tại thời điểm 04/08/2026.</td><td><span class="badge verified">ĐÃ CHẠY LẠI</span></td></tr>
+        <tr><td>Kịch bản T01</td><td>min TTC <strong>≈1.03 s</strong>; 30 s</td><td>Phát lại nhãn chuẩn của dữ liệu mẫu, 600 khung hình.</td><td><span class="badge verified">KẾT QUẢ CỐ ĐỊNH</span></td></tr>
+      </tbody>
+    </table>
+    <h3>Các điều kiện cần đạt trước khi chốt mã nguồn</h3>
+    <table class="tight">
+      <thead><tr><th>Mốc kiểm tra</th><th>Ngưỡng đội đặt ra</th><th>Hiện trạng</th></tr></thead>
+      <tbody>
+        <tr><td>G1 · Có thể chạy lại</td><td>Chạy lại từ đầu tạo đúng CSV, chỉ số và danh sách tệp trên 6 bộ dữ liệu mẫu.</td><td>Đã có báo cáo; cần gom mã nguồn, checkpoint và mã băm.</td></tr>
+        <tr><td>G2 · Toàn bộ quy trình sản phẩm</td><td>Ít nhất một bộ dữ liệu mẫu chạy qua model thật → kết hợp kết quả → CarSky → màn hình.</td><td>Chưa đạt; hiện dùng mô phỏng/nhãn chuẩn.</td></tr>
+        <tr><td>G3 · Độ trễ</td><td>C2 ≥20 FPS; C1 có số đo thời gian xử lý và cách demo phù hợp.</td><td>C2 đạt; C1 chưa đạt thời gian thực.</td></tr>
+        <tr><td>G4 · Khả năng xử lý lỗi</td><td>Đặt lại chuyến đi, dữ liệu thiếu/rỗng và khởi động lại Broker đều cho kết quả đúng dự kiến.</td><td>Đã kiểm tra một phần; cần bảng kiểm thử lỗi cho toàn bộ quy trình.</td></tr>
+        <tr><td>G5 · Bằng chứng đồng nhất</td><td>Commit + cấu hình + mã băm model + mã lần chạy + video phải khớp nhau.</td><td>CarSky đã có; các tệp model cần đưa vào kho mã.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">8</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">07 · Khó khăn, rủi ro & hỗ trợ</span><h2>Ưu tiên lớn nhất là kết nối đúng model với CarSky, không phải làm đẹp giao diện</h2></div>
+      <div class="section-index">9</div>
+    </div>
+
+    <table>
+      <thead><tr><th>Rủi ro</th><th>Tác động</th><th>Cách xử lý / quyết định</th><th>Hỗ trợ mong muốn</th></tr></thead>
+      <tbody>
+        <tr><td><strong>C1 chưa chạy theo thời gian thực</strong><br>độ trễ cửa sổ + thời gian xử lý trên T4 còn cao</td><td>Chưa thể công bố mô hình va chạm chạy theo thời gian thực.</td><td>Đo chi tiết thời gian xử lý, dùng FP16/batch, giảm window/stride có kiểm soát; giữ chế độ phát lại dữ liệu lưu sẵn nếu chất lượng giảm.</td><td>Đề nghị cố vấn góp ý cách cân bằng độ chính xác, độ trễ và cấu hình phần cứng trên xe.</td></tr>
+        <tr><td><strong>C2 domain shift/T06</strong></td><td>Giảm Macro F1, cảnh báo sai.</td><td>Subject-safe LOSO, visibility gate, hard-negative mining, per-state confusion audit.</td><td>Xác nhận quy trình và ý nghĩa nhãn cho microsleep–drowsy.</td></tr>
+        <tr><td><strong>Các tệp model đang nằm rải rác</strong></td><td>Chưa thể chạy lại kết quả từ kho mã tích hợp.</td><td>Quy chuẩn tệp bàn giao, checksum, lockfile, lệnh chạy một bước và mục lục bằng chứng chung.</td><td>Không cần hạ tầng mới; các nhóm kỹ thuật cần bàn giao đúng mốc kiểm tra.</td></tr>
+        <tr><td><strong>Broker chưa gửi dữ liệu trực tiếp đến màn hình</strong></td><td>Màn hình chưa hiển thị tín hiệu đang chạy từ Broker.</td><td>Xây cầu nối nhỏ để đọc dữ liệu; dấu thời gian, số thứ tự, trạng thái kết nối và phương án khi dữ liệu quá cũ.</td><td>Hướng dẫn từ CarSky cho kênh dữ liệu chính thức đến AAOS app.</td></tr>
+        <tr><td><strong>Conduit chưa cấu hình</strong></td><td>REST ADB 502; khả năng tự động điều khiển màn hình bị hạn chế.</td><td>Dùng ADB Widget để demo; lưu gói lệnh và hướng dẫn chạy; không phụ thuộc Conduit.</td><td>BTC xác nhận đây là giới hạn của không gian dự án hay cấu hình có thể bật.</td></tr>
+        <tr><td><strong>An toàn / quyền riêng tư</strong></td><td>Cảnh báo quá nhiều, video cabin nhạy cảm.</td><td>Khi lỗi thì không phát cảnh báo sai, chỉ đưa ra khuyến nghị và trích xuất đặc trưng ngay trên thiết bị, không lưu video gốc mặc định, nhật ký kiểm tra.</td><td>Đề nghị cố vấn xem lại mức cảnh báo trên giao diện HMI và thời gian lưu dữ liệu.</td></tr>
+      </tbody>
+    </table>
+    <h3>Các tình huống lỗi đã kiểm tra trên CarSky</h3>
+    <div class="grid-2">
+      <div class="card red"><h3>Dữ liệu gửi lên / schema</h3><ul><li>Tín hiệu không tồn tại: HTTP 400.</li><li>Float null bị từ chối; một lô dữ liệu có thể không được xử lý toàn vẹn.</li><li>Đường kết nối tạo thành vòng lặp không được hỗ trợ.</li></ul></div>
+      <div class="card amber"><h3>Khi chạy / API</h3><ul><li>Đường dẫn API khi chạy có khác nhau giữa các nhóm API.</li><li>Thiếu dịch vụ Conduit: HTTP 502.</li><li>Sai định dạng credential và phương thức API đã được xử lý trong CLI.</li></ul></div>
+    </div>
+    <div class="callout warning"><strong>Nguyên tắc an toàn:</strong> mọi tín hiệu quá cũ, bị thiếu hoặc sai schema đều phải hạ mức tin cậy hoặc tắt can thiệp; không suy diễn giá trị “an toàn” từ dữ liệu hỏng.</div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">9</div>
+  </section>
+
+  <section class="page ">
+    <div class="topline">
+      <div><span class="eyebrow">08 · Kế hoạch công việc còn lại</span><h2>Năm mốc công việc theo thứ tự phụ thuộc, không dùng các ngày chưa chắc chắn</h2></div>
+      <div class="section-index">10</div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-row"><strong>Mốc 1</strong><div><strong>Chốt tệp kỹ thuật C1/C2.</strong> Đưa mã nguồn, checkpoint/gói model, tệp cấu hình, danh sách phiên bản thư viện và lệnh chạy lại vào cùng bộ hồ sơ nộp; ghi SHA-256.</div><span class="badge progress">ƯU TIÊN 1</span></div>
+      <div class="timeline-row"><strong>Mốc 2</strong><div><strong>Quy ước kết quả của model.</strong> Chuẩn hóa timestamp/frame_id, confidence, state reset, cách xử lý dữ liệu thiếu và schema kết quả dùng chung.</div><span class="badge progress">ƯU TIÊN 1</span></div>
+      <div class="timeline-row"><strong>Mốc 3</strong><div><strong>Model → CarSky.</strong> Tích hợp C2 trước vì đã đạt tốc độ thời gian thực; với C1 chọn một cách chạy chính thức sau khi đo thời gian xử lý (thời gian thực đã tối ưu hoặc phát lại dữ liệu lưu sẵn và công bố rõ).</div><span class="badge planned">VIỆC QUAN TRỌNG</span></div>
+      <div class="timeline-row"><strong>Mốc 4</strong><div><strong>Broker → màn hình trực tiếp.</strong> Thay dữ liệu nhúng sẵn bằng cầu nối đọc dữ liệu từ Broker; hiển thị trạng thái kết nối, độ cũ của dữ liệu và nguồn MODEL/MÔ PHỎNG/NHÃN CHUẨN.</div><span class="badge planned">VIỆC QUAN TRỌNG</span></div>
+      <div class="timeline-row"><strong>Mốc 5</strong><div><strong>Chốt bộ bằng chứng.</strong> Chạy 6 bộ dữ liệu mẫu, bảng kiểm thử lỗi, độ trễ, video ≤10 phút; chốt bảng nội dung–bằng chứng và diễn tập phần hỏi đáp.</div><span class="badge planned">CHỐT NỘP</span></div>
+    </div>
+    <h3>Điều kiện hoàn thành</h3>
+    <table class="tight">
+      <thead><tr><th>Hạng mục</th><th>Hoàn thành khi</th><th>Không chấp nhận</th></tr></thead>
+      <tbody>
+        <tr><td>C1</td><td>6 bộ dữ liệu mẫu chạy lại được; báo cáo khớp mã băm gói model; có số đo độ trễ để chọn cách chạy.</td><td>Chỉ có số trong trang trình chiếu/DOCX.</td></tr>
+        <tr><td>C2</td><td>6 bộ dữ liệu mẫu + kiểm thử causal/reset; checkpoint khớp schema; bộ chuyển đổi phát kết quả thật.</td><td>Đánh giá trộn subject hoặc state leak.</td></tr>
+        <tr><td>C3</td><td>Quy tắc có phiên bản; lý do/hành động cho kết quả cố định; kiểm thử trường hợp đặc biệt và mức công bằng.</td><td>Điểm số không có công thức giải thích.</td></tr>
+        <tr><td>CarSky</td><td>Kết quả model xuất hiện trên Central Broker và AAOS; khởi động lại/phát lại vẫn cho kết quả ổn định.</td><td>Màn hình không nhận tín hiệu đang chạy.</td></tr>
+        <tr><td>Bộ hồ sơ nộp</td><td>Commit, tệp kỹ thuật, cấu hình, video và bảng nội dung–bằng chứng phải cùng một phiên bản.</td><td>Demo và tài liệu dùng phiên bản khác nhau.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout success"><strong>Thứ tự ưu tiên:</strong> ưu tiên khả năng chạy lại và kết nối model với CarSky; chỉ làm đẹp giao diện, bản đồ đội xe và gợi ý nâng cao sau Mốc 4.</div>
+
+    <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
+    <div class="page-no">10</div>
+  </section>
+</body>
+</html>

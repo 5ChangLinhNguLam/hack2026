@@ -1,0 +1,7 @@
+trip_id,n_frames,harsh_brake_count__json,harsh_brake_count__recomputed,harsh_brake_count__delta,harsh_accel_count__json,harsh_accel_count__recomputed,harsh_accel_count__delta,harsh_corner_count__json,harsh_corner_count__recomputed,harsh_corner_count__delta,near_miss_count__json,near_miss_count__recomputed,near_miss_count__delta,speeding_pct_time__json,speeding_pct_time__recomputed,speeding_pct_time__delta,tailgating_pct_time__json,tailgating_pct_time__recomputed,tailgating_pct_time__delta,avg_headway_sec__json,avg_headway_sec__recomputed,avg_headway_sec__delta,max_risk_score__json,max_risk_score__recomputed,max_risk_score__delta,avg_risk_score__json,avg_risk_score__recomputed,avg_risk_score__delta
+T01-Sample,600,14,14,0.0,53,53,0.0,2,2,0.0,7,7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.46,1.46,0.0,60.0,60.0,0.0,2.3,2.32,0.02
+T02-Sample,600,11,11,0.0,53,53,0.0,0,0,0.0,18,18,0.0,0.0,0.0,0.0,2.5,2.5,0.0,2.27,2.27,0.0,100.0,100.0,0.0,5.2,5.25,0.05
+T03-Sample,600,34,34,0.0,141,141,0.0,41,41,0.0,26,26,0.0,11.17,11.17,0.0,5.83,5.83,0.0,2.2,2.2,0.0,100.0,100.0,0.0,10.1,10.14,0.04
+T04-Sample,600,18,18,0.0,45,45,0.0,25,25,0.0,30,30,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.48,6.48,0.0,100.0,100.0,0.0,12.4,12.44,0.04
+T05-Sample,600,41,41,0.0,90,90,0.0,0,0,0.0,13,13,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.09,4.09,0.0,100.0,100.0,0.0,13.6,13.59,-0.01
+T06-Sample,600,47,47,0.0,98,98,0.0,0,0,0.0,42,42,0.0,3.5,3.5,0.0,4.17,4.17,0.0,2.66,2.66,0.0,100.0,100.0,0.0,17.8,17.76,-0.04

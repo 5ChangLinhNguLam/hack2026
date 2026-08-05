@@ -1,0 +1,10 @@
+trip_id,state,n_distinct_alertness,alertness_values,expected_fact4,match_fact4
+T01-Sample,alert,1,0.95,0.95,True
+T01-Sample,distracted,1,0.45,0.45,True
+T02-Sample,drowsy,1,0.35,0.35,True
+T03-Sample,yawning,1,0.55,0.55,True
+T04-Sample,alert,1,0.95,0.95,True
+T04-Sample,distracted,1,0.45,0.45,True
+T05-Sample,microsleep,1,0.05,0.05,True
+T06-Sample,distracted,1,0.45,0.45,True
+T06-Sample,drowsy,1,0.35,0.35,True

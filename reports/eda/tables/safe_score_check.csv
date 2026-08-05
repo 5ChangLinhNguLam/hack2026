@@ -1,0 +1,7 @@
+trip_id,safe_json,penalty_total,safe_pre_clamp,safe_recomputed,delta,clamped,margin_to_zero,pen_harsh_brake,pen_harsh_accel,pen_harsh_corner,pen_near_miss,pen_speeding,pen_tailgating
+T01-Sample,0,187.0,-87.0,0.0,0.0,True,87.0,42.0,106.0,4.0,35.0,0.0,0.0
+T02-Sample,0,229.25,-129.25,0.0,0.0,True,129.25,33.0,106.0,0.0,90.0,0.0,0.25
+T03-Sample,0,598.259,-498.259,0.0,0.0,True,498.259,102.0,282.0,82.0,130.0,1.675,0.583
+T04-Sample,0,344.0,-244.0,0.0,0.0,True,244.0,54.0,90.0,50.0,150.0,0.0,0.0
+T05-Sample,0,368.0,-268.0,0.0,0.0,True,268.0,123.0,180.0,0.0,65.0,0.0,0.0
+T06-Sample,0,547.942,-447.942,0.0,0.0,True,447.942,141.0,196.0,0.0,210.0,0.525,0.417
