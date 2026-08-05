@@ -708,7 +708,7 @@ def build_html(style_source: Path, compact_v2: bool = False) -> str:
     @media print { html, body { background: white; } .page { margin: 0; } }
     """
     title = "Báo cáo tiến độ đợt 2 — 5 Chàng Lính Ngự Lâm — SafeLoop"
-    return f"""<!doctype html>
+    rendered = f"""<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
@@ -721,6 +721,7 @@ def build_html(style_source: Path, compact_v2: bool = False) -> str:
 </body>
 </html>
 """
+    return re.sub(r"[ \t]+$", "", rendered, flags=re.M)
 
 
 def main() -> int:

@@ -1,7 +1,7 @@
 # Báo cáo tích hợp CarSky — 5ChangLinhNguLam / SafeLoop
 
-Ngày kiểm chứng: 03/08/2026  
-Tenant: `https://hackathon-1.carsky.io`  
+Ngày kiểm chứng: 03/08/2026<br>
+Tenant: `https://hackathon-1.carsky.io`<br>
 Phạm vi: discovery, telemetry REST, KUKSA, widget, blueprint export, Script Node, deployment lab, observability, failure paths và giới hạn runtime.
 
 ## 1. Kết luận điều hành

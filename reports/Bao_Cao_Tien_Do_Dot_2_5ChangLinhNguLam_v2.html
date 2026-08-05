@@ -304,7 +304,7 @@
       .page { margin: 0; box-shadow: none; }
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
-  
+
     .architecture { border: 1px solid var(--line); border-radius: 3mm; padding: 2mm; background: #fbfdff; }
     .architecture svg { display: block; width: 100%; height: auto; font-family: Inter, 'Segoe UI', Arial, sans-serif; font-size: 18px; fill: var(--ink); }
     .legend { margin-top: 2mm; }
@@ -333,7 +333,7 @@
       <div><span class="eyebrow">01 · Tóm tắt giải pháp</span><h2>Một sản phẩm, ba tầng giá trị</h2></div>
       <div class="section-index">1</div>
     </div>
-    
+
     <p class="lede"><strong>SafeLoop</strong> là hệ thống hỗ trợ lái xe chạy trên nền tảng xe kết nối (Connected Car): nhận kết quả từ <strong>C1 dự đoán nguy cơ va chạm</strong> và <strong>C2 nhận biết trạng thái người lái</strong>, hợp nhất theo ngữ cảnh thành cảnh báo ưu tiên, đồng thời tích lũy <strong>C3 Safe Driving Score</strong> cho tài xế và đội xe.</p>
     <div class="grid-3">
       <div class="card blue"><h3>C1 · Nhìn ra đường</h3><p>Dự đoán thời gian còn lại trước va chạm (TTC) từ video bằng V-JEPA2 và head lai classification–regression; ưu tiên độ chính xác vùng TTC nguy hiểm.</p><span class="badge provided">ĐÃ ĐO TRÊN DỮ LIỆU LƯU SẴN</span></div>
@@ -350,7 +350,7 @@
     </table>
     <div class="callout success"><strong>Giá trị đã chứng minh ở giữa kỳ:</strong> hai mô hình thử nghiệm đã có kết quả trên 6 bộ dữ liệu mẫu; một bản demo thu gọn C1+C2+C3 đã chạy trên CarSky và hiển thị trên màn hình Android Automotive.</div>
     <div class="callout warning"><strong>Phạm vi kết quả đã công bố:</strong> bản demo hiện dùng dữ liệu mô phỏng thay đổi theo thời gian và phát lại nhãn chuẩn của T01. Đội chưa công bố rằng mô hình C1/C2 thật đã chạy toàn bộ quy trình trên CarSky.</div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">1</div>
   </section>
@@ -360,7 +360,7 @@
       <div><span class="eyebrow">02 · Phạm vi đã cam kết trong đề xuất</span><h2>Giữ nguyên mục tiêu, làm từng phần có thể kiểm chứng</h2></div>
       <div class="section-index">2</div>
     </div>
-    
+
     <table>
       <thead><tr><th>Cam kết trong đề xuất</th><th>Hiện trạng đợt 2</th><th>Bằng chứng / phần còn thiếu</th></tr></thead>
       <tbody>
@@ -378,7 +378,7 @@
       <div class="card soft"><h3>Những điều chưa công bố ở đợt 2</h3><p>Chưa công bố sản phẩm đã sẵn sàng dùng thực tế, C1 đã chạy theo thời gian thực, mô hình thật đã nối CarSky hoặc chứng nhận an toàn hay can thiệp điều khiển xe.</p></div>
     </div>
     <div class="callout"><strong>Điểm mới do đội tự phát triển:</strong> quy ước dữ liệu VSS mở rộng, chương trình mô phỏng kết hợp C1/C2, bộ tính điểm C3, công cụ phát lại nhãn chuẩn T01, màn hình AAOS và công cụ cài đặt/kiểm tra CarSky.</div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">2</div>
   </section>
@@ -388,7 +388,7 @@
       <div><span class="eyebrow">03 · Kiến trúc và luồng xử lý toàn bộ hệ thống</span><h2>Một quy ước dữ liệu chung từ kết quả AI đến màn hình</h2></div>
       <div class="section-index">3</div>
     </div>
-    
+
     <div class="architecture">
       <svg viewBox="0 0 1000 470" role="img" aria-label="SafeLoop end-to-end architecture">
         <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1266e3"/></marker></defs>
@@ -410,7 +410,7 @@
       <tr><td>C2</td><td><code>Vehicle.Driver.AttentiveProbability</code>, <code>DistractionLevel</code>, <code>FatigueLevel</code>, <code>IsEyesOnRoad</code>, <code>Vehicle.ADAS.DMS.IsWarning</code></td><td>Trạng thái và mức độ rủi ro cabin.</td></tr>
     </table>
     <div class="legend"><span class="badge verified">ĐÃ CHẠY: mô phỏng → Broker</span> <span class="badge progress">ĐANG LÀM: model → bộ chuyển đổi dữ liệu</span> <span class="badge planned">KẾ HOẠCH: Broker → màn hình trực tiếp</span></div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">3</div>
   </section>
@@ -420,7 +420,7 @@
       <div><span class="eyebrow">04 · Kết quả đã hoàn thành</span><h2>C1: mô hình TTC đã cải thiện rõ ở vùng nguy hiểm</h2></div>
       <div class="section-index">4</div>
     </div>
-    
+
     <div class="grid-4">
       <div class="metric"><div class="value">53.2</div><div class="label">Composite / 6 bộ dữ liệu mẫu<br>mốc so sánh mặc định: 37.2</div></div>
       <div class="metric"><div class="value">1.780s</div><div class="label">MAE Critical<br>giảm 66.6% từ 5.338s</div></div>
@@ -446,7 +446,7 @@
       <tbody><tr><td>T03</td><td>54.3</td><td>0.507</td><td>0.558</td><td>0.081</td></tr><tr><td>T02</td><td>48.6</td><td>5.604</td><td>0.971</td><td>0.000</td></tr><tr><td>T01</td><td>48.4</td><td>0.682</td><td>0.202</td><td>0.134</td></tr><tr><td>T06</td><td>35.5</td><td>3.374</td><td>0.750</td><td>0.074</td></tr><tr><td>T04</td><td>26.1</td><td>4.661</td><td>0.779</td><td>0.051</td></tr><tr><td>T05</td><td>10.1</td><td>17.200</td><td>0.338</td><td>0.138</td></tr></tbody>
     </table>
     <div class="callout risk"><strong>Giới hạn quan trọng:</strong> cửa sổ 16 khung hình tạo độ trễ xấp xỉ 1 s; inference T4 đang 165–168 s cho chuyến đi 30 s (~225 cửa sổ dữ liệu). Vì vậy C1 hiện là kết quả đo trên dữ liệu lưu sẵn, chưa phải quy trình thời gian thực.</div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">4</div>
   </section>
@@ -456,7 +456,7 @@
       <div><span class="eyebrow">04 · Kết quả đã hoàn thành</span><h2>C2: pipeline causal đủ tốc độ xử lý video theo thời gian thực</h2></div>
       <div class="section-index">5</div>
     </div>
-    
+
     <div class="grid-4">
       <div class="metric"><div class="value">81.1</div><div class="label">Composite / 6 bộ dữ liệu mẫu<br>3,600 khung hình</div></div>
       <div class="metric"><div class="value">27.65</div><div class="label">FPS trên NVIDIA T4<br>đầu vào 640×384</div></div>
@@ -482,7 +482,7 @@
       <tbody><tr><td>T01</td><td>99.5</td><td>0.995</td><td>0.995</td><td>Rất ổn định</td></tr><tr><td>T02</td><td>73.1</td><td>0.663</td><td>0.798</td><td>Còn nhầm trạng thái</td></tr><tr><td>T03</td><td>99.6</td><td>0.995</td><td>0.997</td><td>Rất ổn định</td></tr><tr><td>T04</td><td>80.1</td><td>0.805</td><td>0.797</td><td>Đạt mức khá</td></tr><tr><td>T05</td><td>94.8</td><td>0.932</td><td>0.965</td><td>Ổn định</td></tr><tr><td>T06</td><td>39.4</td><td>0.428</td><td>0.359</td><td>Trường hợp khó cần phân tích</td></tr></tbody>
     </table>
     <div class="callout warning"><strong>Rủi ro của model:</strong> domain shift ở drowsy, tín hiệu chồng lấn T06, mất cân bằng microsleep, góc mặt nghiêng làm hệ thống nhận nhầm mắt nhắm. Cách xử lý: visibility gate, hard-negative mining, per-subject audit và checkpoint/schema fingerprint.</div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">5</div>
   </section>
@@ -492,7 +492,7 @@
       <div><span class="eyebrow">04 · Kết quả đã hoàn thành</span><h2>Bản demo CarSky: đã triển khai, có tín hiệu trực tiếp và màn hình AAOS</h2></div>
       <div class="section-index">6</div>
     </div>
-    
+
     <div class="grid-4">
       <div class="metric"><div class="value">RUNNING</div><div class="label">Triển khai trên CarSky<br>namespace room-nckuqalz</div></div>
       <div class="metric"><div class="value">11/11</div><div class="label">Có đủ tín hiệu VSS<br>không thiếu đường dẫn tín hiệu</div></div>
@@ -515,7 +515,7 @@
       <div class="callout success"><strong>Kiểm tra luồng dữ liệu:</strong> Script Node timer 50 ms đã tạo 60/60 lần cập nhật cho ba tín hiệu vận hành xe; phù hợp hơn phát dữ liệu qua REST (~3.3 message/s trong lần kiểm tra 5 khung hình).</div>
       <div class="callout warning"><strong>Giới hạn môi trường:</strong> Conduit service chưa cấu hình nên REST ADB trả 502. Đội dùng ADB Widget của CarSky để kiểm tra AAOS; không coi đây là lỗi của sản phẩm.</div>
     </div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">6</div>
   </section>
@@ -525,7 +525,7 @@
       <div><span class="eyebrow">05 · Demo tính năng cốt lõi</span><h2>Kịch bản 8 phút: nội dung nào cũng có bằng chứng</h2></div>
       <div class="section-index">7</div>
     </div>
-    
+
     <div class="timeline">
       <div class="timeline-row"><strong>0:00–0:45</strong><div><strong>Vấn đề và kết quả mong muốn.</strong> Nếu chỉ có TTC hoặc DMS riêng lẻ, hệ thống chưa biết tình huống nào cần ưu tiên. SafeLoop kết hợp hai nguồn thông tin.</div><span class="badge planned">SLIDE 1</span></div>
       <div class="timeline-row"><strong>0:45–2:15</strong><div><strong>Kết quả C1.</strong> Mở kết quả đánh giá trên 6 bộ dữ liệu mẫu; chỉ ra Composite 53.2, MAE Critical 1.780 s và trường hợp T05.</div><span class="badge provided">DỮ LIỆU LƯU SẴN</span></div>
@@ -545,7 +545,7 @@
     </ol>
     <div class="callout"><strong>Kết quả cần quan sát:</strong> mã lần triển khai, giá trị tín hiệu thay đổi qua ít nhất ba lần đọc, màn hình chuyển trạng thái, điểm và mức trừ điểm được cộng dồn, và nhật ký và danh sách tệp khớp với tệp kỹ thuật.</div>
     <div class="callout risk"><strong>Phương án dự phòng:</strong> nếu màn hình/ADB lỗi, tiếp tục demo Signal Watch + màn hình trên máy với cùng dữ liệu T01 và công khai lý do. Không đổi sang video giả làm dữ liệu đang chạy.</div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">7</div>
   </section>
@@ -555,7 +555,7 @@
       <div><span class="eyebrow">06 · KPI & số liệu ban đầu</span><h2>Tổng hợp KPI: kết quả đo, nguồn và mức tin cậy</h2></div>
       <div class="section-index">8</div>
     </div>
-    
+
     <table>
       <thead><tr><th>KPI</th><th>Kết quả</th><th>Nguồn / điều kiện</th><th>Mức bằng chứng</th></tr></thead>
       <tbody>
@@ -581,7 +581,7 @@
         <tr><td>G5 · Bằng chứng đồng nhất</td><td>Commit + cấu hình + mã băm model + mã lần chạy + video phải khớp nhau.</td><td>CarSky đã có; các tệp model cần đưa vào kho mã.</td></tr>
       </tbody>
     </table>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">8</div>
   </section>
@@ -591,7 +591,7 @@
       <div><span class="eyebrow">07 · Khó khăn, rủi ro & hỗ trợ</span><h2>Ưu tiên lớn nhất là kết nối đúng model với CarSky, không phải làm đẹp giao diện</h2></div>
       <div class="section-index">9</div>
     </div>
-    
+
     <table>
       <thead><tr><th>Rủi ro</th><th>Tác động</th><th>Cách xử lý / quyết định</th><th>Hỗ trợ mong muốn</th></tr></thead>
       <tbody>
@@ -609,7 +609,7 @@
       <div class="card amber"><h3>Khi chạy / API</h3><ul><li>Đường dẫn API khi chạy có khác nhau giữa các nhóm API.</li><li>Thiếu dịch vụ Conduit: HTTP 502.</li><li>Sai định dạng credential và phương thức API đã được xử lý trong CLI.</li></ul></div>
     </div>
     <div class="callout warning"><strong>Nguyên tắc an toàn:</strong> mọi tín hiệu quá cũ, bị thiếu hoặc sai schema đều phải hạ mức tin cậy hoặc tắt can thiệp; không suy diễn giá trị “an toàn” từ dữ liệu hỏng.</div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">9</div>
   </section>
@@ -619,7 +619,7 @@
       <div><span class="eyebrow">08 · Kế hoạch công việc còn lại</span><h2>Năm mốc công việc theo thứ tự phụ thuộc, không dùng các ngày chưa chắc chắn</h2></div>
       <div class="section-index">10</div>
     </div>
-    
+
     <div class="timeline">
       <div class="timeline-row"><strong>Mốc 1</strong><div><strong>Chốt tệp kỹ thuật C1/C2.</strong> Đưa mã nguồn, checkpoint/gói model, tệp cấu hình, danh sách phiên bản thư viện và lệnh chạy lại vào cùng bộ hồ sơ nộp; ghi SHA-256.</div><span class="badge progress">ƯU TIÊN 1</span></div>
       <div class="timeline-row"><strong>Mốc 2</strong><div><strong>Quy ước kết quả của model.</strong> Chuẩn hóa timestamp/frame_id, confidence, state reset, cách xử lý dữ liệu thiếu và schema kết quả dùng chung.</div><span class="badge progress">ƯU TIÊN 1</span></div>
@@ -639,7 +639,7 @@
       </tbody>
     </table>
     <div class="callout success"><strong>Thứ tự ưu tiên:</strong> ưu tiên khả năng chạy lại và kết nối model với CarSky; chỉ làm đẹp giao diện, bản đồ đội xe và gợi ý nâng cao sau Mốc 4.</div>
-    
+
     <div class="footer">5 Chàng Lính Ngự Lâm · SafeLoop · Báo cáo tiến độ đợt 2</div>
     <div class="page-no">10</div>
   </section>

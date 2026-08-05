@@ -4,13 +4,21 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from tools.build_t01_demo import build_dashboard, build_lua, build_trace
 from tripkit import TripLoader
 
+ROOT = Path(__file__).resolve().parents[1]
+T01_DIR = ROOT / "data/T01-Sample"
+pytestmark = pytest.mark.skipif(
+    not T01_DIR.is_dir(),
+    reason="T01-Sample dataset is not included in the repository",
+)
+
 
 def test_t01_trace_is_gt_based_and_reaches_official_final_score():
-    root = Path(__file__).resolve().parents[1]
-    loader = TripLoader(root / "data/T01-Sample")
+    loader = TripLoader(T01_DIR)
     trace = build_trace(loader, step=4)
 
     assert len(trace) == 151
@@ -22,9 +30,8 @@ def test_t01_trace_is_gt_based_and_reaches_official_final_score():
 
 
 def test_dashboard_is_self_contained_and_never_serializes_infinity():
-    root = Path(__file__).resolve().parents[1]
-    loader = TripLoader(root / "data/T01-Sample")
-    template = (root / "carsky/screen/safeloop_dashboard.html").read_text()
+    loader = TripLoader(T01_DIR)
+    template = (ROOT / "carsky/screen/safeloop_dashboard.html").read_text()
 
     html = build_dashboard(template, loader)
 
@@ -36,8 +43,7 @@ def test_dashboard_is_self_contained_and_never_serializes_infinity():
 
 
 def test_lua_keeps_all_native_20hz_frames_and_gt_marker():
-    root = Path(__file__).resolve().parents[1]
-    loader = TripLoader(root / "data/T01-Sample")
+    loader = TripLoader(T01_DIR)
 
     lua = build_lua(loader)
 
