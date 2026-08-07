@@ -4,8 +4,11 @@ data/
 
 # Output dự đoán
 predictions/
+/drive_state/phase_2/run_artifacts_v13/
+/runs/phase1/
 
 # Python
+.venv/
 __pycache__/
 *.pyc
 *.egg-info/
