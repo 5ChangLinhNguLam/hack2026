@@ -1,0 +1,72 @@
+{
+  "schema_version": "safeloop.carsky-replay.v1",
+  "observed_at": "2026-08-03T23:07:42+07:00",
+  "base_url": "https://hackathon-1.carsky.io",
+  "target": {
+    "device_name": "5ChangLinhNguLam",
+    "room_id": "ehlbxyyc4px2it-cip50w",
+    "deployment_id": "7KpCh37iq_1A-vkxJf91n",
+    "node_key": "central-broker-vss",
+    "kind": "kuksa"
+  },
+  "input": {
+    "trip": "T01-Sample",
+    "dataset_fps": 20,
+    "frame_ids": [10, 11, 12, 13, 14],
+    "messages": 5,
+    "signals_per_message": 3,
+    "expected_last_frame": {
+      "Vehicle.Speed": 9.19,
+      "Vehicle.Acceleration.Longitudinal": 8.24,
+      "Vehicle.Acceleration.Lateral": -0.091
+    }
+  },
+  "execution": {
+    "sink": "carsky-rest",
+    "publish_elapsed_s": 1.537,
+    "publish_rate_messages_per_s": 3.3,
+    "total_cli_wall_s_including_signal_validation": 3.79,
+    "required_messages_per_s": 20,
+    "meets_20_hz_requirement": false
+  },
+  "readback": {
+    "values": {
+      "Vehicle.Speed": 9.1899995803833,
+      "Vehicle.Acceleration.Longitudinal": 8.239999771118164,
+      "Vehicle.Acceleration.Lateral": -0.09099999815225601
+    },
+    "float32_tolerance_passed": true
+  },
+  "restore": {
+    "initial_values": {
+      "Vehicle.Speed": 0,
+      "Vehicle.Acceleration.Longitudinal": null,
+      "Vehicle.Acceleration.Lateral": null
+    },
+    "attempted_exact_restore": true,
+    "http_status": 502,
+    "error": "UPSTREAM_ERROR",
+    "message": "Signal source: Unexpected error: Error: failed to parse value (failed on signals[1] \"Vehicle.Acceleration.Longitudinal\"; 1 of 3 already applied — batch is not atomic)",
+    "contract_drift": "OpenAPI accepts null scalar, but the live KUKSA float parser rejects null",
+    "batch_is_atomic": false,
+    "safe_recovery": {
+      "request": {
+        "Vehicle.Acceleration.Longitudinal": 0.0,
+        "Vehicle.Acceleration.Lateral": 0.0
+      },
+      "response": {
+        "ok": true,
+        "sent": 2
+      },
+      "final_values": {
+        "Vehicle.Speed": 0,
+        "Vehicle.Acceleration.Longitudinal": 0,
+        "Vehicle.Acceleration.Lateral": 0
+      },
+      "passed": true
+    }
+  },
+  "result": "passed_with_documented_rest_limit",
+  "credential_stored": false,
+  "latency_claimed": false
+}

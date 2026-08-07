@@ -1,0 +1,6 @@
+from_state,n_transitions_out,to_alert,p_alert,to_distracted,p_distracted,to_drowsy,p_drowsy,to_yawning,p_yawning,to_microsleep,p_microsleep
+alert,598,598,1.0,0,0.0,0,0.0,0,0.0,0,0.0
+distracted,899,2,0.002225,897,0.997775,0,0.0,0,0.0,0,0.0
+drowsy,899,0,0.0,1,0.001112,898,0.998888,0,0.0,0,0.0
+yawning,599,0,0.0,0,0.0,0,0.0,599,1.0,0,0.0
+microsleep,599,0,0.0,0,0.0,0,0.0,0,0.0,599,1.0

@@ -15,3 +15,22 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 build/
+
+# CarSky runtime config/credential — không commit
+.carsky.env
+/carsky-credential*
+
+# Tài liệu đầu vào/nội bộ và ảnh giao diện tham khảo
+/docs/dot2_team/
+/docs/images/
+/docs/Email-BanGiao-5ChangLinhNguLam.md
+
+# Bản báo cáo trung gian; chỉ giữ bản v2 cuối cùng
+/reports/Bao_Cao_Tien_Do_Dot_2_5ChangLinhNguLam.docx
+/reports/Bao_Cao_Tien_Do_Dot_2_5ChangLinhNguLam.html
+/reports/Bao_Cao_Tien_Do_Dot_2_5ChangLinhNguLam.pdf
+/reports/C2_GiuaKy_5ChangLinhNguLam.html
+/reports/C2_GiuaKy_5ChangLinhNguLam.pdf
+
+# EDA: figures nặng không commit, chỉ commit tables + findings
+reports/eda/figures/

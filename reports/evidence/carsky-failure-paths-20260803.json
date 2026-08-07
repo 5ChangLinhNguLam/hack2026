@@ -1,0 +1,75 @@
+{
+  "schema_version": "safeloop.carsky-failure-paths.v1",
+  "observed_at": "2026-08-03T23:32:18+07:00",
+  "base_url": "https://hackathon-1.carsky.io",
+  "checks": [
+    {
+      "id": "unknown-signal-path",
+      "target": "main deployment",
+      "request_path": "SafeLoop.DoesNotExist",
+      "http_status": 400,
+      "error": "VALIDATION_ERROR",
+      "message": "Signal source: Unknown signal path: SafeLoop.DoesNotExist",
+      "valid_signal_values_unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "null-float-restore",
+      "target": "main deployment",
+      "http_status": 502,
+      "error": "UPSTREAM_ERROR",
+      "live_behavior": "KUKSA rejected null for a float after applying the first item",
+      "openapi_allows_null": true,
+      "batch_atomic": false,
+      "safe_recovery_to_zero_passed": true
+    },
+    {
+      "id": "periodic-send-kuksa",
+      "target": "integration lab",
+      "request": {
+        "path": "Vehicle.Speed",
+        "value": 12.34,
+        "interval_ms": 50
+      },
+      "http_status": 400,
+      "error": "VALIDATION_ERROR",
+      "message": "Signal source: Periodic (cyclic) send is not supported by this signal source.",
+      "active_paths_after_test": [],
+      "final_values_neutralized": true
+    },
+    {
+      "id": "documented-add-pin-route",
+      "target": "integration lab blueprint",
+      "route": "POST /api/v1/nodes/{nodeId}/pins",
+      "documented_in_openapi": true,
+      "runtime_http_status": 404,
+      "runtime_message": "Route not found",
+      "working_fallback": "POST /api/v1/blueprints/{id}/batch"
+    },
+    {
+      "id": "multi-container-log-route",
+      "target": "Script Node",
+      "without_container_parameter_http_status": 502,
+      "cause": "pod contains script-node and sidecar containers",
+      "working_fallback": "add query parameter container=script-node",
+      "fallback_passed": true
+    },
+    {
+      "id": "container-exec",
+      "target": "existing Container Node",
+      "http_status": 503,
+      "error": "SERVICE_UNAVAILABLE",
+      "message": "Conduit service not configured"
+    },
+    {
+      "id": "local-container-build",
+      "docker_client_version": "29.6.1",
+      "docker_daemon_available": false,
+      "cause": "permission denied for /var/run/docker.sock",
+      "alternative_build_tools_found": [],
+      "impact": "No SafeLoop Container image was built or pushed in this session"
+    }
+  ],
+  "operational_conclusion": "Use REST for discovery, smoke tests and bounded control; use an in-room Script Node or a team-built Container for the 20 Hz production data plane. Treat signal batches as non-atomic and never restore float signals with null on this runtime.",
+  "credential_stored": false
+}

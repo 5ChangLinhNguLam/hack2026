@@ -46,6 +46,9 @@ dms2-benchmark = "drive_state.phase_2.cli.benchmark:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["tripkit*", "drive_state*"]
+[tool.setuptools]
+packages = ["tripkit", "safeloop"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]

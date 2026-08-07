@@ -1,0 +1,8 @@
+trip_id,n_frames_with_state,n_alert,pct_alert,n_distracted,pct_distracted,n_drowsy,pct_drowsy,n_yawning,pct_yawning,n_microsleep,pct_microsleep,n_classes_present,imbalance_ratio
+T01-Sample,600,300,50.0,300,50.0,0,0.0,0,0.0,0,0.0,2,1.0
+T02-Sample,600,0,0.0,0,0.0,600,100.0,0,0.0,0,0.0,1,1.0
+T03-Sample,600,0,0.0,0,0.0,0,0.0,600,100.0,0,0.0,1,1.0
+T04-Sample,600,300,50.0,300,50.0,0,0.0,0,0.0,0,0.0,2,1.0
+T05-Sample,600,0,0.0,0,0.0,0,0.0,0,0.0,600,100.0,1,1.0
+T06-Sample,600,0,0.0,300,50.0,300,50.0,0,0.0,0,0.0,2,1.0
+TỔNG (6 trip),3600,600,16.67,900,25.0,900,25.0,600,16.67,600,16.67,5,1.5
