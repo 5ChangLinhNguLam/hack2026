@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "bundle": "driver_state_phase_2_v13",
+  "pipeline": "MobileNetV3 + causal ocular/gate/temporal LSTM",
+  "fps": 20.0,
+  "classes": ["alert", "drowsy", "microsleep", "yawning", "distraction"],
+  "sha256": {
+    "face_landmarker.task": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff",
+    "version-RFB-320.onnx": "34cd7e60aeff28744c657de7a3dc64e872d506741de66987f3426f2b79f88017",
+    "visual/best.pt": "9d6fca08f765588122ba06b1a6f9431fc2e5710fd1dff056102be7a00d04a543",
+    "ocular/best.pt": "4ce4d0b946f27e1467277647f4e3255a4921aeba0abd974fbfcff5c7d4bc40c3",
+    "gate_ocular/best.pt": "923d0be1e65aee0c7d48f6c324324348e956781879441f60baf9a1ceadc81d5c",
+    "temporal/best.pt": "3334eb08e99b64feff708d5a5a6ffbd54c9d2810a6bb0f1749aacd4aa9b501fe"
+  }
+}

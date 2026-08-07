@@ -1,0 +1,233 @@
+{
+  "expected_trips": 10,
+  "completed_trips": 10,
+  "processed_frames": 18000,
+  "summaries": [
+    {
+      "trip_id": "T01d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "alert": 1318,
+        "distracted": 482
+      },
+      "state_transitions": 94,
+      "mean_confidence": 0.8322,
+      "low_confidence_frames_lt_0_5": 6,
+      "latency_mean_ms": 40.628,
+      "latency_p95_ms": 46.356,
+      "capacity_fps": 24.61,
+      "wall_seconds": 79.98,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T01d.csv"
+    },
+    {
+      "trip_id": "T02d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "yawning": 1521,
+        "alert": 279
+      },
+      "state_transitions": 4,
+      "mean_confidence": 0.9864,
+      "low_confidence_frames_lt_0_5": 1,
+      "latency_mean_ms": 39.392,
+      "latency_p95_ms": 46.455,
+      "capacity_fps": 25.39,
+      "wall_seconds": 77.57,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T02d.csv"
+    },
+    {
+      "trip_id": "T03d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "distracted": 420,
+        "alert": 1359,
+        "drowsy": 21
+      },
+      "state_transitions": 35,
+      "mean_confidence": 0.8922,
+      "low_confidence_frames_lt_0_5": 16,
+      "latency_mean_ms": 39.411,
+      "latency_p95_ms": 46.6,
+      "capacity_fps": 25.37,
+      "wall_seconds": 77.996,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T03d.csv"
+    },
+    {
+      "trip_id": "T04d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "alert": 934,
+        "distracted": 22,
+        "drowsy": 819,
+        "yawning": 25
+      },
+      "state_transitions": 105,
+      "mean_confidence": 0.9701,
+      "low_confidence_frames_lt_0_5": 7,
+      "latency_mean_ms": 38.864,
+      "latency_p95_ms": 46.648,
+      "capacity_fps": 25.73,
+      "wall_seconds": 76.521,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T04d.csv"
+    },
+    {
+      "trip_id": "T05d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "distracted": 308,
+        "alert": 885,
+        "drowsy": 52,
+        "microsleep": 555
+      },
+      "state_transitions": 32,
+      "mean_confidence": 0.9152,
+      "low_confidence_frames_lt_0_5": 6,
+      "latency_mean_ms": 39.623,
+      "latency_p95_ms": 46.978,
+      "capacity_fps": 25.24,
+      "wall_seconds": 77.692,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T05d.csv"
+    },
+    {
+      "trip_id": "T06d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "drowsy": 542,
+        "alert": 881,
+        "distracted": 19,
+        "yawning": 358
+      },
+      "state_transitions": 69,
+      "mean_confidence": 0.933,
+      "low_confidence_frames_lt_0_5": 9,
+      "latency_mean_ms": 38.997,
+      "latency_p95_ms": 46.076,
+      "capacity_fps": 25.64,
+      "wall_seconds": 76.797,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T06d.csv"
+    },
+    {
+      "trip_id": "T07d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "distracted": 1611,
+        "alert": 189
+      },
+      "state_transitions": 16,
+      "mean_confidence": 0.9482,
+      "low_confidence_frames_lt_0_5": 1,
+      "latency_mean_ms": 39.713,
+      "latency_p95_ms": 46.764,
+      "capacity_fps": 25.18,
+      "wall_seconds": 78.051,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T07d.csv"
+    },
+    {
+      "trip_id": "T08d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "yawning": 188,
+        "alert": 797,
+        "drowsy": 815
+      },
+      "state_transitions": 76,
+      "mean_confidence": 0.9472,
+      "low_confidence_frames_lt_0_5": 7,
+      "latency_mean_ms": 39.71,
+      "latency_p95_ms": 46.816,
+      "capacity_fps": 25.18,
+      "wall_seconds": 78.015,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T08d.csv"
+    },
+    {
+      "trip_id": "T09d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "alert": 315,
+        "drowsy": 1364,
+        "yawning": 25,
+        "microsleep": 59,
+        "distracted": 37
+      },
+      "state_transitions": 81,
+      "mean_confidence": 0.9697,
+      "low_confidence_frames_lt_0_5": 9,
+      "latency_mean_ms": 39.549,
+      "latency_p95_ms": 46.707,
+      "capacity_fps": 25.28,
+      "wall_seconds": 77.473,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T09d.csv"
+    },
+    {
+      "trip_id": "T10d",
+      "frames": 1800,
+      "duration_seconds": 89.95,
+      "replay_source": "hack2026.tripkit.TripReplayer",
+      "dms": "labels_20fps MobileNetV3 + ocular/temporal LSTM",
+      "checkpoint_bundle": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/models/webcam_gB_10_drowsy_v13_confident_episode",
+      "device": "cuda",
+      "state_counts": {
+        "drowsy": 366,
+        "microsleep": 99,
+        "yawning": 163,
+        "distracted": 1092,
+        "alert": 80
+      },
+      "state_transitions": 83,
+      "mean_confidence": 0.9396,
+      "low_confidence_frames_lt_0_5": 2,
+      "latency_mean_ms": 39.167,
+      "latency_p95_ms": 46.313,
+      "capacity_fps": 25.53,
+      "wall_seconds": 76.909,
+      "csv": "/home/ubuntu/workspaces/thiennh/labels_dms_redacted_eval/artifacts/redacted_v13/T10d.csv"
+    }
+  ],
+  "failures": [],
+  "peak_cuda_memory_mib": 83.87
+}

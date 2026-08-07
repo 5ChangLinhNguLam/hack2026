@@ -1,0 +1,227 @@
+{
+  "n_trips": 6,
+  "overall_mae_critical": 97.668,
+  "overall_inv_ttc_mae": 0.1337,
+  "overall_f1": 0.0,
+  "overall_composite_score": 22.0,
+  "ranking": [
+    {
+      "trip_id": "T01-Sample",
+      "score": 28.8
+    },
+    {
+      "trip_id": "T05-Sample",
+      "score": 27.1
+    },
+    {
+      "trip_id": "T04-Sample",
+      "score": 24.9
+    },
+    {
+      "trip_id": "T02-Sample",
+      "score": 22.2
+    },
+    {
+      "trip_id": "T03-Sample",
+      "score": 20.1
+    },
+    {
+      "trip_id": "T06-Sample",
+      "score": 8.9
+    }
+  ],
+  "per_trip": [
+    {
+      "trip_id": "T01-Sample",
+      "n_frames": 600,
+      "n_finite_gt": 57,
+      "n_critical_zone": 12,
+      "n_danger_zone": 10,
+      "mae_overall": 83.023,
+      "mae_critical": 97.433,
+      "rmse_critical": 97.435,
+      "inv_ttc_mae": 0.0202,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_positive_rate": 0.0,
+      "accuracy": 0.983,
+      "composite_score": 28.8
+    },
+    {
+      "trip_id": "T02-Sample",
+      "n_frames": 600,
+      "n_finite_gt": 35,
+      "n_critical_zone": 19,
+      "n_danger_zone": 18,
+      "mae_overall": 90.211,
+      "mae_critical": 98.597,
+      "rmse_critical": 98.599,
+      "inv_ttc_mae": 0.1298,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_positive_rate": 0.0,
+      "accuracy": 0.97,
+      "composite_score": 22.2
+    },
+    {
+      "trip_id": "T03-Sample",
+      "n_frames": 600,
+      "n_finite_gt": 61,
+      "n_critical_zone": 32,
+      "n_danger_zone": 29,
+      "mae_overall": 93.347,
+      "mae_critical": 98.187,
+      "rmse_critical": 98.19,
+      "inv_ttc_mae": 0.1653,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_positive_rate": 0.0,
+      "accuracy": 0.952,
+      "composite_score": 20.1
+    },
+    {
+      "trip_id": "T04-Sample",
+      "n_frames": 600,
+      "n_finite_gt": 121,
+      "n_critical_zone": 76,
+      "n_danger_zone": 52,
+      "mae_overall": 87.856,
+      "mae_critical": 97.208,
+      "rmse_critical": 97.21,
+      "inv_ttc_mae": 0.0853,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_positive_rate": 0.0,
+      "accuracy": 0.913,
+      "composite_score": 24.9
+    },
+    {
+      "trip_id": "T05-Sample",
+      "n_frames": 600,
+      "n_finite_gt": 66,
+      "n_critical_zone": 47,
+      "n_danger_zone": 35,
+      "mae_overall": 94.992,
+      "mae_critical": 97.172,
+      "rmse_critical": 97.173,
+      "inv_ttc_mae": 0.049,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_positive_rate": 0.0,
+      "accuracy": 0.942,
+      "composite_score": 27.1
+    },
+    {
+      "trip_id": "T06-Sample",
+      "n_frames": 600,
+      "n_finite_gt": 262,
+      "n_critical_zone": 97,
+      "n_danger_zone": 60,
+      "mae_overall": 92.592,
+      "mae_critical": 97.41,
+      "rmse_critical": 97.415,
+      "inv_ttc_mae": 0.3524,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_positive_rate": 0.0,
+      "accuracy": 0.9,
+      "composite_score": 8.9
+    }
+  ],
+  "challenge2": {
+    "overall_composite_score": 81.1,
+    "per_trip": [
+      {
+        "trip_id": "T01-Sample",
+        "n_frames_scored": 600,
+        "accuracy": 0.995,
+        "macro_f1": 0.995,
+        "per_class_f1": {
+          "alert": 0.995,
+          "drowsy": 0.0,
+          "yawning": 0.0,
+          "distracted": 0.995,
+          "microsleep": 0.0
+        },
+        "composite_score": 99.5
+      },
+      {
+        "trip_id": "T02-Sample",
+        "n_frames_scored": 600,
+        "accuracy": 0.663,
+        "macro_f1": 0.798,
+        "per_class_f1": {
+          "alert": 0.0,
+          "drowsy": 0.798,
+          "yawning": 0.0,
+          "distracted": 0.0,
+          "microsleep": 0.0
+        },
+        "composite_score": 73.1
+      },
+      {
+        "trip_id": "T03-Sample",
+        "n_frames_scored": 600,
+        "accuracy": 0.995,
+        "macro_f1": 0.997,
+        "per_class_f1": {
+          "alert": 0.0,
+          "drowsy": 0.0,
+          "yawning": 0.997,
+          "distracted": 0.0,
+          "microsleep": 0.0
+        },
+        "composite_score": 99.6
+      },
+      {
+        "trip_id": "T04-Sample",
+        "n_frames_scored": 600,
+        "accuracy": 0.805,
+        "macro_f1": 0.797,
+        "per_class_f1": {
+          "alert": 0.758,
+          "drowsy": 0.0,
+          "yawning": 0.0,
+          "distracted": 0.837,
+          "microsleep": 0.0
+        },
+        "composite_score": 80.1
+      },
+      {
+        "trip_id": "T05-Sample",
+        "n_frames_scored": 600,
+        "accuracy": 0.932,
+        "macro_f1": 0.965,
+        "per_class_f1": {
+          "alert": 0.0,
+          "drowsy": 0.0,
+          "yawning": 0.0,
+          "distracted": 0.0,
+          "microsleep": 0.965
+        },
+        "composite_score": 94.8
+      },
+      {
+        "trip_id": "T06-Sample",
+        "n_frames_scored": 600,
+        "accuracy": 0.428,
+        "macro_f1": 0.359,
+        "per_class_f1": {
+          "alert": 0.0,
+          "drowsy": 0.0,
+          "yawning": 0.0,
+          "distracted": 0.718,
+          "microsleep": 0.0
+        },
+        "composite_score": 39.4
+      }
+    ]
+  },
+  "challenge3": null
+}
