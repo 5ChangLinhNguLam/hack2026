@@ -1,6 +1,8 @@
 # Dataset — tuyệt đối không commit
 /data/
 *.npy
+!/drive_state/phase_2/data/
+!/drive_state/phase_2/data/**
 
 # Output dự đoán
 predictions/
