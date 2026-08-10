@@ -6,9 +6,11 @@
 predictions/
 /drive_state/phase_2/run_artifacts_v13/
 /runs/phase1/
+/runs/c1/
 
 # Python
 .venv/
+.venv-c1-train/
 __pycache__/
 *.pyc
 *.egg-info/

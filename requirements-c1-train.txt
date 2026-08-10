@@ -1,0 +1,19 @@
+# Direct, reproducible C1 training dependencies.
+#
+# Resolve changes from this direct-dependency list, but reproduce training
+# with `python -m pip install -r requirements-c1-train.lock` inside
+# `.venv-c1-train`.  The baseline `.venv` remains untouched.
+--extra-index-url https://download.pytorch.org/whl/cu128
+
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+numpy==2.2.6
+opencv-python==5.0.0.93
+pandas==2.3.3
+pytest==9.1.1
+scikit-learn==1.7.2
+scipy==1.15.3
+onnx==1.22.0
+onnxscript==0.7.1
+onnxruntime-gpu==1.23.2
+tensorboard==2.21.0
