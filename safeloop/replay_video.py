@@ -1,4 +1,4 @@
-"""Combined C1/C2/C3 dashboard rendering for live replay and MP4 output."""
+"""Combined official-score and product-metric dashboard rendering."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from .combined_replay import CombinedFramePrediction
 
 
 PANEL_SIZE = (640, 360)
+FOOTER_HEIGHT = 96
 WINDOW_NAME = "SafeLoop C1 + C2 + C3"
 WHITE = (245, 245, 245)
 GREY = (165, 175, 185)
@@ -45,6 +46,20 @@ def _text(
 
 def _ttc_text(value: float) -> str:
     return f"{value:.2f} s" if math.isfinite(value) else "INF"
+
+
+def _safe_score_color(value: float) -> tuple[int, int, int]:
+    if value >= 80.0:
+        return GREEN
+    if value >= 60.0:
+        return AMBER
+    return RED
+
+
+def _event_count(counts: object, name: str) -> int:
+    if not hasattr(counts, "get"):
+        return 0
+    return int(counts.get(name, 0))
 
 
 def _road_panel(frame: CombinedFramePrediction) -> np.ndarray:
@@ -102,28 +117,56 @@ def _driver_panel(frame: CombinedFramePrediction) -> np.ndarray:
 
 
 def render_combined_dashboard(frame: CombinedFramePrediction) -> np.ndarray:
-    """Render one synchronized 1280x432 BGR dashboard frame."""
+    """Render one synchronized 1280x456 BGR dashboard frame.
+
+    The footer deliberately keeps three different score contracts visible:
+    official C3 and Drive Quality are higher-is-safer, while Context Risk is
+    higher-is-more-dangerous.
+    """
 
     content = np.hstack((_road_panel(frame), _driver_panel(frame)))
-    footer = np.full((72, content.shape[1], 3), BACKGROUND, dtype=np.uint8)
+    footer = np.full(
+        (FOOTER_HEIGHT, content.shape[1], 3), BACKGROUND, dtype=np.uint8
+    )
     _text(
         footer,
         f"{frame.source_bundle.trip_id}  frame {frame.frame_id}  t={frame.timestamp:.2f}s",
-        (16, 27),
+        (16, 25),
         color=WHITE,
-        scale=0.55,
+        scale=0.5,
         thickness=1,
     )
     c3 = frame.c3
-    completion = "FULL TRIP" if c3.trip_complete else "PREFIX ONLY"
+    completion = "FULL_TRIP" if c3.trip_complete else "PREFIX"
     _text(
         footer,
-        f"C3 SAFE EST. {c3.safe_score_estimate:.1f}/100  {c3.grade}  {completion}",
-        (410, 27),
-        color=GREEN if c3.safe_score_estimate >= 80.0 else AMBER,
-        scale=0.55,
+        f"C3 OFFICIAL {c3.safe_score_estimate:.1f}/100 {c3.grade} {completion}",
+        (285, 25),
+        color=_safe_score_color(c3.safe_score_estimate),
+        scale=0.5,
         thickness=1,
     )
+
+    quality = frame.drive_quality
+    quality_scope = str(quality.scope)
+    if quality.score_available:
+        quality_text = (
+            f"DRIVE QUALITY {quality.score_pct:.1f}/100 "
+            f"{quality.grade} {quality_scope}"
+        )
+        quality_color = _safe_score_color(float(quality.score_pct))
+    else:
+        quality_text = f"DRIVE QUALITY N/A {quality_scope}"
+        quality_color = GREY
+    _text(
+        footer,
+        quality_text,
+        (650, 25),
+        color=quality_color,
+        scale=0.5,
+        thickness=1,
+    )
+
     risk = frame.contextual_risk
     risk_color = RED if risk.level in {"HIGH", "CRITICAL"} else (
         AMBER if risk.level == "CAUTION" else GREEN
@@ -131,22 +174,39 @@ def render_combined_dashboard(frame: CombinedFramePrediction) -> np.ndarray:
     _text(
         footer,
         f"CONTEXT RISK {risk.score_pct:.0f}/100  {risk.level}",
-        (970, 27),
+        (1030, 25),
         color=risk_color,
-        scale=0.55,
+        scale=0.45,
         thickness=1,
     )
     _text(
         footer,
         (
-            f"C3 frames: near {c3.near_miss_frames} | brake {c3.harsh_brake_frames} | "
+            f"OFFICIAL frames: near {c3.near_miss_frames} | "
+            f"brake {c3.harsh_brake_frames} | "
             f"accel {c3.harsh_accel_frames} | corner {c3.harsh_corner_frames} | "
-            f"speeding {c3.speeding_pct_time:.1f}%  |  "
-            f"ACTION {risk.action}"
+            f"speeding {c3.speeding_pct_time:.1f}%"
         ),
-        (16, 58),
+        (16, 55),
         color=GREY,
-        scale=0.48,
+        scale=0.44,
+        thickness=1,
+    )
+    events = quality.event_counts_window
+    _text(
+        footer,
+        (
+            f"DRIVE QUALITY {quality_scope}: events near "
+            f"{_event_count(events, 'near_miss')} | brake "
+            f"{_event_count(events, 'harsh_brake')} | accel "
+            f"{_event_count(events, 'harsh_accel')} | corner "
+            f"{_event_count(events, 'harsh_corner')} | speeding "
+            f"{quality.speeding_pct_window:.1f}% | penalty "
+            f"{quality.total_penalty:.1f}  |  ACTION {risk.action}"
+        ),
+        (16, 83),
+        color=GREY,
+        scale=0.42,
         thickness=1,
     )
     return np.vstack((content, footer))
@@ -196,6 +256,7 @@ class ReplayVideoWriter:
 
 
 __all__ = [
+    "FOOTER_HEIGHT",
     "PANEL_SIZE",
     "ReplayVideoWriter",
     "WINDOW_NAME",

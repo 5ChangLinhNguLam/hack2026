@@ -7,6 +7,8 @@ Một lệnh chạy đồng thời:
 - C1 từ `C1/student_ttc.pth` trên camera đường `kitti/image_2`;
 - C2 từ `models/driver_state_phase_2_v13` trên camera tài xế `driver/`;
 - C3 tích lũy điểm an toàn cấp trip từ ego telemetry và raw TTC của C1;
+- Drive Quality gom các frame vi phạm thành sự kiện trong cửa sổ 60 giây để
+  tạo điểm coaching có độ phân giải tốt hơn cho sản phẩm;
 - contextual risk kết hợp C1+C2 cho cảnh báo sản phẩm tức thời;
 - một `TripLoader` và một `TripReplayer` duy nhất cho mỗi trip.
 
@@ -19,6 +21,7 @@ TripLoader -> TripReplayer 20 Hz
                   +-- driver  -> C2 GeneralDMS update 20 Hz
                   |
                   +-- ego + raw TTC -> C3 safe-score accumulator 20 Hz
+                  |                       -> Drive Quality 60-second window
                   |
                   +-- C1 + C2 -> contextual warning policy 20 Hz
                                   |
@@ -85,10 +88,12 @@ python -m safeloop.replay_models \
 # predictions/safeloop_models/videos/T01-Sample.mp4
 ```
 
-Video dashboard có kích thước 1280×432, 20 FPS: camera đường và TTC C1 ở bên
+Video dashboard có kích thước 1280×456, 20 FPS: camera đường và TTC C1 ở bên
 trái; camera tài xế, trạng thái và DMS warning C2 ở bên phải. Ghi MP4 không làm
-thay đổi raw TTC hoặc CSV dùng để chấm. Thanh dưới tách rõ `C3 SAFE EST.`
-(cao là an toàn) và `CONTEXT RISK` (cao là nguy hiểm).
+thay đổi raw TTC hoặc CSV dùng để chấm. Thanh dưới tách rõ `C3 OFFICIAL` và
+`DRIVE QUALITY` (cả hai đều cao là an toàn) với `CONTEXT RISK` (cao là nguy
+hiểm). Hai dòng breakdown cũng tách số frame official khỏi số sự kiện Drive
+Quality.
 
 Omit `--trip` để chạy `T01d..T10d`; có thể lặp `--trip` để chạy nhiều trip.
 Mỗi trip tạo runtime C2 mới để state face detector/temporal không rò sang trip
@@ -125,6 +130,7 @@ frame_id,timestamp,predicted_ttc,predicted_driver_state,predicted_risk_score
 - `c1_model_updated` để phân biệt inference và forward-fill;
 - toàn bộ probability/PERCLOS/VSS diagnostics hiện có của C2;
 - C3 safe-score estimate, penalty, năm bộ đếm và cờ theo từng frame;
+- Drive Quality, phạm vi cửa sổ, penalty và bốn bộ đếm sự kiện;
 - contextual risk level/action/reasons riêng, không gọi nhầm là C3 score;
 - latency riêng của từng model.
 
@@ -166,15 +172,55 @@ là `PREFIX ONLY`, chưa phải điểm cuối trip.
 C3 là phép tính rule-based O(1) theo frame, không cần train và không cần GPU.
 GPU/CPU trong lệnh replay chỉ ảnh hưởng hai model C1 và C2.
 
+### Drive Quality cho sản phẩm
+
+Official C3 đếm từng frame vi phạm theo đúng evaluator. Vì dữ liệu chạy ở
+20 Hz, một hành vi kéo dài một giây có thể bị phạt 20 lần và làm điểm official
+chạm 0 rất sớm. Drive Quality giải quyết riêng vấn đề hiển thị/coaching bằng
+cách đếm **sự kiện**, nhưng không thay thế hay hiệu chỉnh official C3.
+
+Runtime giữ tối đa 60 giây gần nhất. Với từng tín hiệu `near_miss`,
+`harsh_brake`, `harsh_accel` và `harsh_corner`:
+
+- một chuỗi frame `true` tạo một sự kiện;
+- khoảng gián đoạn `false` không quá 0,5 giây vẫn thuộc cùng sự kiện;
+- khoảng gián đoạn dài hơn 0,5 giây mới tách thành sự kiện mới;
+- speeding vẫn là tỷ lệ phần trăm frame vượt tốc độ trong cửa sổ, không đổi
+  thành số sự kiện.
+
+Công thức sản phẩm v1:
+
+```text
+penalty = 5*near_miss_events
+        + 3*harsh_brake_events
+        + 2*harsh_accel_events
+        + 2*harsh_corner_events
+        + 0.15*speeding_pct
+
+drive_quality = clamp(100 - penalty, 0, 100)
+```
+
+Không ngoại suy prefix thành cả chuyến và không nhân penalty theo tỷ lệ/phút.
+`scope` trên HMI cho biết chính xác phần dữ liệu đang được tính:
+
+- `PREFIX`: phần trip quan sát được chưa quá 60 giây và trip chưa kết thúc;
+- `FULL_TRIP`: toàn bộ trip đã kết thúc với thời lượng không quá 60 giây;
+- `ROLLING_60S`: chỉ 60 giây gần nhất khi thời gian quan sát vượt 60 giây.
+
+Điểm có ngay từ frame đầu, không có giai đoạn warm-up giả lập. Drive Quality
+chỉ được ghi vào dashboard, diagnostic CSV và `product_drive_quality` trong
+report. Nó không thêm/sửa cột submission, không đi vào evaluator và không được
+gọi là điểm Challenge 3 chính thức.
+
 `replay_report.json` tổng hợp số frame, cadence, state counts, latency, C3
-estimate cuối và contextual-risk breakdown. C1
+estimate cuối, Drive Quality và contextual-risk breakdown. C1
 không xuất bbox, collision target hoặc obstacle distance; không được suy diễn
 `speed × TTC` thành khoảng cách để phát lên CarSky.
 
 ## API orchestration
 
 `safeloop.combined_replay.CombinedModelReplay` chỉ làm một việc: với mỗi
-`FrameBundle`, gọi C1, C2, C3 accumulator và contextual-risk policy theo đúng
-thứ tự. Nó không tạo replayer thứ hai và không đọc lại trip. C3 production không
-dùng `C3Accumulator` trong `mock_pipeline.py`; class đó chỉ phục vụ kịch bản mock
-16 giây và có công thức khác evaluator.
+`FrameBundle`, gọi C1, C2, C3 accumulator, Drive Quality và contextual-risk
+policy theo đúng thứ tự. Nó không tạo replayer thứ hai và không đọc lại trip.
+C3 production không dùng `C3Accumulator` trong `mock_pipeline.py`; class đó chỉ
+phục vụ kịch bản mock 16 giây và có công thức khác evaluator.

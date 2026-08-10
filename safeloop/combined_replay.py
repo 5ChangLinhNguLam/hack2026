@@ -30,6 +30,10 @@ class C3Processor(Protocol):
     ) -> Any: ...
 
 
+class DriveQualityProcessor(Protocol):
+    def update(self, c3_frame: Any) -> Any: ...
+
+
 class ContextualRiskProcessor(Protocol):
     def evaluate(self, c1: Any, c2: Any) -> Any: ...
 
@@ -41,6 +45,7 @@ class CombinedFramePrediction:
     c1: Any
     c2: Any
     c3: Any
+    drive_quality: Any
     contextual_risk: Any
     source_bundle: Any | None = field(default=None, repr=False, compare=False)
 
@@ -49,6 +54,7 @@ class CombinedFramePrediction:
             ("C1", self.c1),
             ("C2", self.c2),
             ("C3", self.c3),
+            ("Drive Quality", self.drive_quality),
         ):
             if int(prediction.frame_id) != self.frame_id:
                 raise ValueError(
@@ -92,12 +98,14 @@ class CombinedModelReplay:
         c1: C1Processor,
         c2: C2Processor,
         c3: C3Processor,
+        drive_quality: DriveQualityProcessor,
         contextual_risk: ContextualRiskProcessor,
     ) -> None:
         self.frames = frames
         self.c1 = c1
         self.c2 = c2
         self.c3 = c3
+        self.drive_quality = drive_quality
         self.contextual_risk = contextual_risk
 
     def __iter__(self) -> Iterator[CombinedFramePrediction]:
@@ -112,6 +120,7 @@ class CombinedModelReplay:
                 bundle,
                 predicted_ttc_s=collision.predicted_ttc_s,
             )
+            drive_quality = self.drive_quality.update(safe_score)
             risk = self.contextual_risk.evaluate(collision, driver)
             yield CombinedFramePrediction(
                 frame_id=int(bundle.frame_id),
@@ -119,6 +128,7 @@ class CombinedModelReplay:
                 c1=collision,
                 c2=driver,
                 c3=safe_score,
+                drive_quality=drive_quality,
                 contextual_risk=risk,
                 source_bundle=bundle,
             )
@@ -131,4 +141,5 @@ __all__ = [
     "CombinedFramePrediction",
     "CombinedModelReplay",
     "ContextualRiskProcessor",
+    "DriveQualityProcessor",
 ]

@@ -132,10 +132,12 @@ CSV chính có một dòng cho mỗi frame với năm cột dùng cho đủ ba c
 `frame_id,timestamp,predicted_ttc,predicted_driver_state,predicted_risk_score`.
 C1 giữ đúng nhịp
 10 Hz đã train và forward-fill nhân quả sang stream 20 Hz; C2 chạy từng frame
-20 Hz; C3 tích lũy công thức evaluator từ ego telemetry và raw TTC. Contextual
-risk C1+C2 được xuất riêng cho HMI, không đánh tráo với safe score C3. `--show`
-mở dashboard live; `--write-video` ghi MP4 để xem trên server headless. Chi
-tiết contract, diagnostics và lệnh GPU:
+20 Hz; C3 tích lũy công thức evaluator từ ego telemetry và raw TTC. Dashboard
+tách ba khái niệm: `C3 OFFICIAL` bám evaluator, `DRIVE QUALITY` là điểm sản
+phẩm theo sự kiện trong cửa sổ 60 giây, còn `CONTEXT RISK` là nguy cơ tức thời
+từ C1+C2. Drive Quality chỉ có trong HMI/diagnostics/report, không thay đổi năm
+cột submission. `--show` mở dashboard live; `--write-video` ghi MP4 để xem
+trên server headless. Chi tiết công thức, contract và lệnh GPU:
 `docs/SAFELOOP_COMBINED_REPLAY.md`.
 
 ## SafeLoop telemetry — thin slice CarSky REST

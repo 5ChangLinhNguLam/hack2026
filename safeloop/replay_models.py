@@ -68,6 +68,25 @@ C3_DIAGNOSTIC_FIELDS = (
     "c3_trip_complete",
     "c3_tailgating_penalty_omitted",
 )
+DRIVE_QUALITY_DIAGNOSTIC_FIELDS = (
+    "drive_quality_score_available",
+    "drive_quality_score_pct",
+    "drive_quality_grade",
+    "drive_quality_total_penalty",
+    "drive_quality_scope",
+    "drive_quality_observed_seconds",
+    "drive_quality_window_ready",
+    "drive_quality_near_miss_events_window",
+    "drive_quality_harsh_brake_events_window",
+    "drive_quality_harsh_accel_events_window",
+    "drive_quality_harsh_corner_events_window",
+    "drive_quality_speeding_pct_window",
+    "drive_quality_new_near_miss_event",
+    "drive_quality_new_harsh_brake_event",
+    "drive_quality_new_harsh_accel_event",
+    "drive_quality_new_harsh_corner_event",
+    "drive_quality_trip_complete",
+)
 CONTEXTUAL_RISK_DIAGNOSTIC_FIELDS = (
     "contextual_risk_score_pct",
     "contextual_risk_level",
@@ -98,6 +117,7 @@ def diagnostic_row(
         "c1_model_frame_id": c1.model_frame_id,
         "c1_latency_ms": round(c1.latency_ms, 3),
         **frame.c3.diagnostic_row(),
+        **frame.drive_quality.diagnostic_row(),
         **frame.contextual_risk.diagnostic_row(),
         **{
             key: value
@@ -200,6 +220,7 @@ def run_trip(
     from C1.runtime import StudentTTCRuntime
     from .c3 import Challenge3Accumulator
     from .contextual_risk import ContextualRiskPolicy
+    from .drive_quality import DriveQualityAccumulator
     from drive_state.phase_2.cli.replay import (
         DIAGNOSTIC_FIELDS as DMS_DIAGNOSTIC_FIELDS,
         diagnostic_row as dms_diagnostic_row,
@@ -224,6 +245,7 @@ def run_trip(
         *SUBMISSION_FIELDS,
         *C1_DIAGNOSTIC_FIELDS,
         *C3_DIAGNOSTIC_FIELDS,
+        *DRIVE_QUALITY_DIAGNOSTIC_FIELDS,
         *CONTEXTUAL_RISK_DIAGNOSTIC_FIELDS,
         *(
             field
@@ -269,6 +291,7 @@ def run_trip(
         speed_limit_kmh=loader.metadata.get("speed_limit_kmh"),
         expected_frames=loader.n_frames,
     )
+    drive_quality = DriveQualityAccumulator()
     contextual_risk = ContextualRiskPolicy()
 
     # Fresh instances per trip prevent temporal/face-detector state leakage.
@@ -296,6 +319,7 @@ def run_trip(
                 c1=c1,
                 c2=c2,
                 c3=c3,
+                drive_quality=drive_quality,
                 contextual_risk=contextual_risk,
             )
             for frame_count, prediction in enumerate(combined, start=1):
@@ -406,6 +430,7 @@ def run_trip(
             ),
         },
         "challenge3_estimate": c3.summary(),
+        "product_drive_quality": drive_quality.summary(),
         "product_contextual_risk": {
             "semantics": "instantaneous C1+C2 product risk",
             "score_direction": "higher_is_more_dangerous",
@@ -512,7 +537,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(failure, ensure_ascii=False), file=sys.stderr, flush=True)
 
     report: dict[str, object] = {
-        "pipeline": "C1 StudentTTC + C2 drive_state.phase_2 + C3 safe score",
+        "pipeline": (
+            "C1 StudentTTC + C2 drive_state.phase_2 + C3 safe score "
+            "+ Drive Quality"
+        ),
         "replay_source": "one shared tripkit.TripReplayer per trip",
         "c1_checkpoint": str(args.c1_checkpoint),
         "c2_bundle": str(args.c2_bundle),
@@ -536,6 +564,7 @@ __all__ = [
     "C1_DIAGNOSTIC_FIELDS",
     "C3_DIAGNOSTIC_FIELDS",
     "CONTEXTUAL_RISK_DIAGNOSTIC_FIELDS",
+    "DRIVE_QUALITY_DIAGNOSTIC_FIELDS",
     "SUBMISSION_FIELDS",
     "build_parser",
     "diagnostic_row",
