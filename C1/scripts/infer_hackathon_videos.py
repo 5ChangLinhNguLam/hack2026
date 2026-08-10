@@ -8,9 +8,9 @@ matplotlib render tốn ~50 ms/frame (7-8 phút chỉ để vẽ) và 620 MB ả
 Ở đây overlay vẽ thẳng bằng cv2 rồi đẩy ngay vào VideoWriter, không frame nào
 nằm lại trong RAM.
 
-Kiến trúc model KHÔNG chép lại ở đây. Script đọc đúng cell định nghĩa StudentTTC
-trong notebook rồi exec -- một nguồn sự thật duy nhất, sửa notebook là script
-theo ngay, không có chuyện hai bên lệch nhau âm thầm.
+Kiến trúc model KHÔNG chép lại ở đây. Script import implementation deployable
+từ ``C1.model`` và feature contract từ ``C1.features``; production không exec
+notebook.
 
     python scripts/infer_hackathon_videos.py
     python scripts/infer_hackathon_videos.py --trips T01d T02d --fourcc avc1
@@ -32,9 +32,8 @@ import cv2
 import numpy as np
 import torch
 
-# Console Windows mặc định cp1252. Script này exec code lấy từ notebook, mà
-# notebook in tiếng Việt -> UnicodeEncodeError ném ra từ giữa exec(), nhìn như
-# lỗi kiến trúc model chứ không lộ ra là lỗi encoding.
+# Console Windows mặc định cp1252; giữ cấu hình UTF-8 để log tiếng Việt từ
+# runtime/imported modules không gây UnicodeEncodeError.
 for _s in (sys.stdout, sys.stderr):
     try:
         _s.reconfigure(encoding="utf-8", errors="replace")
@@ -42,7 +41,9 @@ for _s in (sys.stdout, sys.stderr):
         pass
 
 ROOT = Path(__file__).resolve().parents[1]
-NB = ROOT / "notebooks" / "infer_checkpoint.ipynb"
+REPOSITORY_ROOT = ROOT.parent
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
 IMG_SIZE = (224, 224)      # (W, H) -- phải trùng lúc train
 STRIDE = 2                 # nguồn 20 fps -> 10 fps như lúc train
 OUT_FPS = 10.0
@@ -58,31 +59,15 @@ WHITE = (255, 255, 255)
 
 
 def load_arch():
-    """Exec MỌI cell đánh dấu `# @arch` trong notebook, trả về namespace chung.
+    """Return the canonical importable architecture namespace."""
+    from C1.features import FEATURES_USED, build_scalars
+    from C1.model import StudentTTC
 
-    Trước đây chỉ exec đúng cell chứa `class StudentTTC`. Không đủ nữa: đặc tả
-    feature vô hướng (FEAT_USE, build_scalars) nằm ở một cell riêng TRƯỚC đó, và
-    chép nó sang đây là tạo bản sao thứ hai của phép chuẩn hoá — hai bản lệch
-    nhau một hằng số thì model vẫn chạy, vẫn ra số, chỉ là sai. Đánh dấu bằng
-    marker để notebook tự khai báo phần nào thuộc "kiến trúc".
-    """
-    nb = json.loads(NB.read_text(encoding="utf-8"))
-    cells = [("".join(c["source"])) for c in nb["cells"] if c["cell_type"] == "code"]
-    arch = [s for s in cells if s.lstrip().startswith("# @arch")]
-    if not any("class StudentTTC" in s for s in arch):
-        raise SystemExit(
-            f"không thấy cell `# @arch` nào định nghĩa StudentTTC trong {NB} — "
-            f"thêm dòng `# @arch` lên đầu cell kiến trúc")
-
-    # `pip` được định nghĩa ở cell 1 của notebook; ở đây chỉ cần một stub báo lỗi
-    # rõ ràng thay vì để NameError khi timm quá cũ.
-    def pip(*pkgs):
-        raise SystemExit(f"thiếu gói: pip install {' '.join(pkgs)}")
-
-    ns = {"__name__": "nb_arch", "torch": torch, "np": np, "pip": pip}
-    for k, src in enumerate(arch):
-        exec(compile(src, f"{NB}:@arch[{k}]", "exec"), ns)
-    return ns
+    return {
+        "StudentTTC": StudentTTC,
+        "FEAT_USE": FEATURES_USED,
+        "build_scalars": build_scalars,
+    }
 
 
 def ttc_style(t):
@@ -323,7 +308,7 @@ def main():
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     ns = load_arch()
-    ck = torch.load(args.ckpt, map_location="cpu", weights_only=False)
+    ck = torch.load(args.ckpt, map_location="cpu", weights_only=True)
     # aux_depth=False: head depth là công cụ REGULARIZE lúc train, `step()` không
     # bao giờ gọi nó. Dựng nó ở đây chỉ tốn tham số, và làm mọi checkpoint cũ
     # (chưa có head đó) trượt assert bên dưới vì thiếu key.
@@ -331,8 +316,9 @@ def main():
     # trọng số là thứ duy nhất biết nó đã được train với gì. Nhờ vậy checkpoint
     # chỉ-ảnh cũ (không có khoá n_scalar -> 0) vẫn chạy được ở đây.
     model = ns["StudentTTC"](backbone=ck["backbone"], pretrained=False,
-                             shift_at=ck["shift_at"], aux_depth=False,
-                             n_scalar=ck.get("n_scalar", 0)).to(device)
+                             shift_at=ck["shift_at"], auxiliary_depth=False,
+                             n_scalar=ck.get("n_scalar", 0),
+                             tcn_dilations=ck.get("tcn_dil", (1, 2, 4, 8))).to(device)
     state = {k: v for k, v in ck["state"].items() if not k.startswith("head_depth.")}
     missing, unexpected = model.load_state_dict(state, strict=False)
     assert not missing and not unexpected, (missing[:5], unexpected[:5])

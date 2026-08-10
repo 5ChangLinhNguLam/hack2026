@@ -113,6 +113,28 @@ python -m tripkit.validate data/                                   # kiểm tra 
 
 Contract API (tên field đã khoá với downstream): xem `docs/Task_1.2_TripReplayer_Spec_ClaudeCode.md` mục 3.
 
+## Một replay cho model C1 + C2
+
+Runtime chính dùng checkpoint `C1/student_ttc.pth` cho camera đường và bundle
+`models/driver_state_phase_2_v13` cho camera tài xế. Cả hai nhận frame từ đúng
+một `TripReplayer`:
+
+```bash
+pip install -e ".[c1-runtime,dms-phase2]"
+
+python -m safeloop.replay_models \
+  --dataset data --trip T01-Sample --device auto \
+  --mode realtime --show \
+  --write-video --output-dir predictions/safeloop_models
+```
+
+CSV chính có một dòng cho mỗi frame với bốn cột dùng để chấm C1+C2:
+`frame_id,timestamp,predicted_ttc,predicted_driver_state`. C1 giữ đúng nhịp
+10 Hz đã train và forward-fill nhân quả sang stream 20 Hz; C2 chạy từng frame
+20 Hz. `--show` mở dashboard live; `--write-video` ghi MP4 để xem trên server
+headless. Chi tiết contract, diagnostics và lệnh GPU:
+`docs/SAFELOOP_COMBINED_REPLAY.md`.
+
 ## SafeLoop telemetry — thin slice CarSky REST
 
 Phát ego telemetry hợp lệ (không lẫn ground truth/event label) dưới dạng
@@ -229,7 +251,11 @@ T01-Sample   62      1.420s     0.480   0.080   52.3
 
 Baseline chỉ đạt composite ~50 nghĩa là còn **rất nhiều khoảng trống** để vượt qua.
 
-## SafeLoop C1 — một camera, TTC + lane + matrix-light mô phỏng
+## SafeLoop C1 physics — pipeline nghiên cứu cũ
+
+Các lệnh dưới đây là nhánh physics/detector phục vụ ablation, lane và
+matrix-light. Unified replay ở trên **không** dùng nhánh này; C1 production đã
+chuyển sang source/checkpoint trong `C1/`.
 
 Chạy C1 physics v2 từ đúng `image_2`; mặc định detector stride 3 và range-TTC
 đã hiệu chỉnh được bật:
