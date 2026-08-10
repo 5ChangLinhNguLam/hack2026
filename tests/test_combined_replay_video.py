@@ -55,13 +55,30 @@ def prediction() -> CombinedFramePrediction:
         timestamp=0.1,
         c1=c1,
         c2=FakeDmsPrediction(),
+        c3=SimpleNamespace(
+            frame_id=2,
+            timestamp=0.1,
+            safe_score_estimate=81.0,
+            grade="B",
+            trip_complete=False,
+            near_miss_frames=1,
+            harsh_brake_frames=2,
+            harsh_accel_frames=3,
+            harsh_corner_frames=4,
+            speeding_pct_time=5.0,
+        ),
+        contextual_risk=SimpleNamespace(
+            score_pct=72.0,
+            level="HIGH",
+            action="VISUAL_AUDIO_HAPTIC_WARNING",
+        ),
         source_bundle=FakeBundle(),
     )
 
 
 def test_dashboard_renders_synchronized_road_and_driver_panels() -> None:
     frame = render_combined_dashboard(prediction())
-    assert frame.shape == (396, 1280, 3)
+    assert frame.shape == (432, 1280, 3)
     assert frame.dtype == np.uint8
 
 
@@ -78,6 +95,6 @@ def test_mp4_writer_records_rendered_frames(tmp_path) -> None:
         assert capture.isOpened()
         assert int(capture.get(cv2.CAP_PROP_FRAME_COUNT)) == 2
         assert int(capture.get(cv2.CAP_PROP_FRAME_WIDTH)) == 1280
-        assert int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT)) == 396
+        assert int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT)) == 432
     finally:
         capture.release()

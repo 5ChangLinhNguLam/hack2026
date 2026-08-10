@@ -28,6 +28,27 @@ class C1FramePrediction:
     model_frame_id: int
     latency_ms: float
 
+    def __post_init__(self) -> None:
+        if self.frame_id < 0 or self.model_frame_id < 0:
+            raise ValueError("C1 frame IDs must be non-negative")
+        if self.model_frame_id > self.frame_id:
+            raise ValueError("C1 model_frame_id cannot be ahead of source frame")
+        if not math.isfinite(self.timestamp) or self.timestamp < 0.0:
+            raise ValueError("C1 timestamp must be finite and non-negative")
+        if (
+            not math.isfinite(self.collision_probability)
+            or not 0.0 <= self.collision_probability <= 1.0
+        ):
+            raise ValueError("C1 collision probability must be finite in [0, 1]")
+        for name, value in (
+            ("predicted_ttc_s", self.predicted_ttc_s),
+            ("display_ttc_s", self.display_ttc_s),
+        ):
+            if math.isnan(value) or value == float("-inf") or value < 0.0:
+                raise ValueError(f"C1 {name} must be non-negative or +inf")
+        if not math.isfinite(self.latency_ms) or self.latency_ms < 0.0:
+            raise ValueError("C1 latency must be finite and non-negative")
+
     def submission_row(self) -> dict[str, int | float | str]:
         value: float | str = (
             round(self.predicted_ttc_s, 6)

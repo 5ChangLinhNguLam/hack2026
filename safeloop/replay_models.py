@@ -1,4 +1,4 @@
-"""Replay C1 road-risk and C2 driver-state models in one trip stream.
+"""Replay C1, C2 and C3 in one trip stream.
 
 Example::
 
@@ -21,6 +21,7 @@ import os
 from pathlib import Path
 from statistics import mean
 import sys
+import time
 from typing import Any, Mapping, Sequence
 
 import numpy as np
@@ -36,6 +37,7 @@ SUBMISSION_FIELDS = (
     "timestamp",
     "predicted_ttc",
     "predicted_driver_state",
+    "predicted_risk_score",
 )
 C1_DIAGNOSTIC_FIELDS = (
     "c1_collision_probability",
@@ -45,6 +47,33 @@ C1_DIAGNOSTIC_FIELDS = (
     "c1_model_updated",
     "c1_model_frame_id",
     "c1_latency_ms",
+)
+C3_DIAGNOSTIC_FIELDS = (
+    "c3_safe_score_estimate",
+    "c3_risk_score_pct",
+    "c3_grade",
+    "c3_total_penalty",
+    "c3_processed_frames",
+    "c3_near_miss_frames",
+    "c3_harsh_brake_frames",
+    "c3_harsh_accel_frames",
+    "c3_harsh_corner_frames",
+    "c3_speeding_frames",
+    "c3_speeding_pct_time",
+    "c3_is_near_miss",
+    "c3_is_harsh_brake",
+    "c3_is_harsh_accel",
+    "c3_is_harsh_corner",
+    "c3_is_speeding",
+    "c3_trip_complete",
+    "c3_tailgating_penalty_omitted",
+)
+CONTEXTUAL_RISK_DIAGNOSTIC_FIELDS = (
+    "contextual_risk_score_pct",
+    "contextual_risk_level",
+    "contextual_risk_action",
+    "contextual_risk_brake_request_pct",
+    "contextual_risk_reasons",
 )
 
 
@@ -68,6 +97,8 @@ def diagnostic_row(
         "c1_model_updated": c1.model_updated,
         "c1_model_frame_id": c1.model_frame_id,
         "c1_latency_ms": round(c1.latency_ms, 3),
+        **frame.c3.diagnostic_row(),
+        **frame.contextual_risk.diagnostic_row(),
         **{
             key: value
             for key, value in c2_values.items()
@@ -116,6 +147,37 @@ def _write_json_atomic(path: Path, payload: Mapping[str, object]) -> None:
     temporary.replace(path)
 
 
+def _partial_output_path(path: Path) -> Path:
+    return path.parent / "partial" / path.name
+
+
+def _archive_existing_outputs(
+    output_dir: Path,
+    *,
+    archive_id: str,
+    paths: Sequence[Path],
+) -> list[Path]:
+    """Move stale outputs out of submission locations before a new run.
+
+    The operation is recoverable: files are retained under
+    ``<output-dir>/archive/<archive-id>/`` with their relative layout.
+    """
+
+    archived: list[Path] = []
+    for path in dict.fromkeys(paths):
+        if not path.exists():
+            continue
+        try:
+            relative = path.relative_to(output_dir)
+        except ValueError as exc:
+            raise ValueError(f"replay output is outside output_dir: {path}") from exc
+        destination = output_dir / "archive" / archive_id / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        path.replace(destination)
+        archived.append(destination)
+    return archived
+
+
 def run_trip(
     trip_path: Path,
     *,
@@ -136,6 +198,8 @@ def run_trip(
 ) -> dict[str, object]:
     # Heavy modules are lazy so tripkit/base tests do not require the ML stack.
     from C1.runtime import StudentTTCRuntime
+    from .c3 import Challenge3Accumulator
+    from .contextual_risk import ContextualRiskPolicy
     from drive_state.phase_2.cli.replay import (
         DIAGNOSTIC_FIELDS as DMS_DIAGNOSTIC_FIELDS,
         diagnostic_row as dms_diagnostic_row,
@@ -152,11 +216,15 @@ def run_trip(
     loader = TripLoader(trip_path)
     end = loader.n_frames if limit is None else min(loader.n_frames, limit)
     replayer = TripReplayer(loader, mode=mode, speed=speed, end=end)
-    submission_path = output_dir / f"{loader.trip_id}.csv"
-    diagnostic_path = output_dir / "diagnostics" / f"{loader.trip_id}.csv"
+    final_submission_path = output_dir / f"{loader.trip_id}.csv"
+    final_diagnostic_path = output_dir / "diagnostics" / f"{loader.trip_id}.csv"
+    partial_submission_path = _partial_output_path(final_submission_path)
+    partial_diagnostic_path = _partial_output_path(final_diagnostic_path)
     diagnostic_fields = (
         *SUBMISSION_FIELDS,
         *C1_DIAGNOSTIC_FIELDS,
+        *C3_DIAGNOSTIC_FIELDS,
+        *CONTEXTUAL_RISK_DIAGNOSTIC_FIELDS,
         *(
             field
             for field in DMS_DIAGNOSTIC_FIELDS
@@ -170,15 +238,38 @@ def run_trip(
     c1_latencies: list[float] = []
     c2_latencies: list[float] = []
     states: Counter[str] = Counter()
+    contextual_levels: Counter[str] = Counter()
+    contextual_actions: Counter[str] = Counter()
+    contextual_scores: list[float] = []
     bundle = DMSBundle.at(c2_bundle)
     bundle.validate()
-    video_path = output_dir / "videos" / f"{loader.trip_id}.mp4"
+    final_video_path = output_dir / "videos" / f"{loader.trip_id}.mp4"
+    partial_video_path = _partial_output_path(final_video_path)
+    archived_outputs = _archive_existing_outputs(
+        output_dir,
+        archive_id=f"{loader.trip_id}-{time.time_ns()}",
+        paths=(
+            final_submission_path,
+            partial_submission_path,
+            final_diagnostic_path,
+            partial_diagnostic_path,
+            final_video_path,
+            partial_video_path,
+        ),
+    )
     video_writer = (
-        ReplayVideoWriter(video_path, fps=loader.fps, fourcc=video_fourcc)
+        ReplayVideoWriter(
+            partial_video_path, fps=loader.fps, fourcc=video_fourcc
+        )
         if write_video
         else None
     )
     stopped_by_user = False
+    c3 = Challenge3Accumulator(
+        speed_limit_kmh=loader.metadata.get("speed_limit_kmh"),
+        expected_frames=loader.n_frames,
+    )
+    contextual_risk = ContextualRiskPolicy()
 
     # Fresh instances per trip prevent temporal/face-detector state leakage.
     try:
@@ -196,11 +287,17 @@ def run_trip(
             device=device,
             fps=loader.fps,
         ) as c2, _AtomicCsv(
-            submission_path, SUBMISSION_FIELDS
+            partial_submission_path, SUBMISSION_FIELDS
         ) as submission, _AtomicCsv(
-            diagnostic_path, diagnostic_fields
+            partial_diagnostic_path, diagnostic_fields
         ) as diagnostics:
-            combined = CombinedModelReplay(replayer, c1=c1, c2=c2)
+            combined = CombinedModelReplay(
+                replayer,
+                c1=c1,
+                c2=c2,
+                c3=c3,
+                contextual_risk=contextual_risk,
+            )
             for frame_count, prediction in enumerate(combined, start=1):
                 submission.writerow(prediction.submission_row())
                 diagnostics.writerow(
@@ -214,6 +311,11 @@ def run_trip(
                     c1_latencies.append(float(prediction.c1.latency_ms))
                 c2_latencies.append(float(prediction.c2.latency_ms))
                 states[str(prediction.c2.state)] += 1
+                contextual_levels[prediction.contextual_risk.level] += 1
+                contextual_actions[prediction.contextual_risk.action] += 1
+                contextual_scores.append(
+                    float(prediction.contextual_risk.score_pct)
+                )
 
                 if show or video_writer is not None:
                     dashboard = render_combined_dashboard(prediction)
@@ -249,10 +351,32 @@ def run_trip(
                 cv2.destroyWindow(WINDOW_NAME)
             except cv2.error:
                 pass
+    trip_complete = frame_count == loader.n_frames and not stopped_by_user
+    if trip_complete:
+        partial_submission_path.replace(final_submission_path)
+        partial_diagnostic_path.replace(final_diagnostic_path)
+        submission_path = final_submission_path
+        diagnostic_path = final_diagnostic_path
+        if video_writer is not None and video_writer.frames > 0:
+            partial_video_path.replace(final_video_path)
+            video_path: Path | None = final_video_path
+        else:
+            video_path = None
+    else:
+        submission_path = partial_submission_path
+        diagnostic_path = partial_diagnostic_path
+        video_path = (
+            partial_video_path
+            if video_writer is not None and video_writer.frames > 0
+            else None
+        )
     return {
         "trip_id": loader.trip_id,
         "frames": frame_count,
         "source_fps": loader.fps,
+        "trip_complete": trip_complete,
+        "output_kind": "submission" if trip_complete else "partial_debug",
+        "archived_previous_outputs": [str(path) for path in archived_outputs],
         "c1": {
             "source": str(c1_checkpoint),
             "model_hz": loader.fps / c1_stride,
@@ -281,13 +405,25 @@ def run_trip(
                 else 0.0
             ),
         },
+        "challenge3_estimate": c3.summary(),
+        "product_contextual_risk": {
+            "semantics": "instantaneous C1+C2 product risk",
+            "score_direction": "higher_is_more_dangerous",
+            "policy_version": contextual_risk.version,
+            "max_score_pct": (
+                round(max(contextual_scores), 3) if contextual_scores else 0.0
+            ),
+            "mean_score_pct": (
+                round(mean(contextual_scores), 3)
+                if contextual_scores
+                else 0.0
+            ),
+            "level_counts": dict(contextual_levels),
+            "action_counts": dict(contextual_actions),
+        },
         "submission_csv": str(submission_path),
         "diagnostic_csv": str(diagnostic_path),
-        "video": (
-            str(video_path)
-            if video_writer is not None and video_writer.frames > 0
-            else None
-        ),
+        "video": str(video_path) if video_path is not None else None,
         "stopped_by_user": stopped_by_user,
     }
 
@@ -295,7 +431,7 @@ def run_trip(
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m safeloop.replay_models",
-        description="Chạy C1 từ C1/ và C2 trong cùng một TripReplayer.",
+        description="Chạy C1, C2 và C3 trong cùng một TripReplayer.",
     )
     parser.add_argument("--dataset", type=Path, required=True)
     parser.add_argument(
@@ -321,7 +457,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--show",
         action="store_true",
-        help="hiển thị dashboard C1+C2 trực tiếp; q/ESC để dừng",
+        help="hiển thị dashboard C1+C2+C3 trực tiếp; q/ESC để dừng",
     )
     parser.add_argument(
         "--write-video",
@@ -376,18 +512,20 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(failure, ensure_ascii=False), file=sys.stderr, flush=True)
 
     report: dict[str, object] = {
-        "pipeline": "C1 StudentTTC + C2 drive_state.phase_2",
+        "pipeline": "C1 StudentTTC + C2 drive_state.phase_2 + C3 safe score",
         "replay_source": "one shared tripkit.TripReplayer per trip",
         "c1_checkpoint": str(args.c1_checkpoint),
         "c2_bundle": str(args.c2_bundle),
         "completed_trips": len(summaries),
+        "full_trips": sum(bool(item["trip_complete"]) for item in summaries),
         "processed_frames": sum(int(item["frames"]) for item in summaries),
         "summaries": summaries,
         "failures": failures,
     }
     _write_json_atomic(args.output_dir / "replay_report.json", report)
     print(f"REPORT={args.output_dir / 'replay_report.json'}", flush=True)
-    return 0 if not failures else 1
+    stopped = any(bool(item["stopped_by_user"]) for item in summaries)
+    return 0 if not failures and not stopped else 1
 
 
 if __name__ == "__main__":
@@ -396,6 +534,8 @@ if __name__ == "__main__":
 
 __all__ = [
     "C1_DIAGNOSTIC_FIELDS",
+    "C3_DIAGNOSTIC_FIELDS",
+    "CONTEXTUAL_RISK_DIAGNOSTIC_FIELDS",
     "SUBMISSION_FIELDS",
     "build_parser",
     "diagnostic_row",

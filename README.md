@@ -113,7 +113,7 @@ python -m tripkit.validate data/                                   # kiểm tra 
 
 Contract API (tên field đã khoá với downstream): xem `docs/Task_1.2_TripReplayer_Spec_ClaudeCode.md` mục 3.
 
-## Một replay cho model C1 + C2
+## Một replay cho C1 + C2 + C3
 
 Runtime chính dùng checkpoint `C1/student_ttc.pth` cho camera đường và bundle
 `models/driver_state_phase_2_v13` cho camera tài xế. Cả hai nhận frame từ đúng
@@ -128,11 +128,14 @@ python -m safeloop.replay_models \
   --write-video --output-dir predictions/safeloop_models
 ```
 
-CSV chính có một dòng cho mỗi frame với bốn cột dùng để chấm C1+C2:
-`frame_id,timestamp,predicted_ttc,predicted_driver_state`. C1 giữ đúng nhịp
+CSV chính có một dòng cho mỗi frame với năm cột dùng cho đủ ba challenge:
+`frame_id,timestamp,predicted_ttc,predicted_driver_state,predicted_risk_score`.
+C1 giữ đúng nhịp
 10 Hz đã train và forward-fill nhân quả sang stream 20 Hz; C2 chạy từng frame
-20 Hz. `--show` mở dashboard live; `--write-video` ghi MP4 để xem trên server
-headless. Chi tiết contract, diagnostics và lệnh GPU:
+20 Hz; C3 tích lũy công thức evaluator từ ego telemetry và raw TTC. Contextual
+risk C1+C2 được xuất riêng cho HMI, không đánh tráo với safe score C3. `--show`
+mở dashboard live; `--write-video` ghi MP4 để xem trên server headless. Chi
+tiết contract, diagnostics và lệnh GPU:
 `docs/SAFELOOP_COMBINED_REPLAY.md`.
 
 ## SafeLoop telemetry — thin slice CarSky REST

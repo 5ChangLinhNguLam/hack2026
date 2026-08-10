@@ -7,7 +7,7 @@ torch = pytest.importorskip("torch")
 pytest.importorskip("timm")
 
 import C1.runtime as runtime_module
-from C1.runtime import StudentTTCRuntime
+from C1.runtime import C1FramePrediction, StudentTTCRuntime
 
 
 class FakeModel:
@@ -63,3 +63,31 @@ def test_runtime_updates_at_10hz_and_forward_fills(monkeypatch, tmp_path) -> Non
     assert predictions[1].model_frame_id == 0
     assert predictions[3].model_frame_id == 2
     assert len(fake.features) == 2
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    (
+        ("collision_probability", float("nan")),
+        ("collision_probability", 1.1),
+        ("predicted_ttc_s", float("nan")),
+        ("predicted_ttc_s", float("-inf")),
+        ("predicted_ttc_s", -0.1),
+        ("display_ttc_s", float("nan")),
+    ),
+)
+def test_prediction_rejects_invalid_model_output(field, value) -> None:
+    values = {
+        "frame_id": 0,
+        "timestamp": 0.0,
+        "collision_probability": 0.5,
+        "predicted_ttc_s": 2.0,
+        "display_ttc_s": 2.0,
+        "is_warning": False,
+        "model_updated": True,
+        "model_frame_id": 0,
+        "latency_ms": 1.0,
+    }
+    values[field] = value
+    with pytest.raises(ValueError, match="C1"):
+        C1FramePrediction(**values)

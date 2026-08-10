@@ -1,4 +1,4 @@
-"""Combined C1/C2 dashboard rendering for live replay and MP4 output."""
+"""Combined C1/C2/C3 dashboard rendering for live replay and MP4 output."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from .combined_replay import CombinedFramePrediction
 
 
 PANEL_SIZE = (640, 360)
-WINDOW_NAME = "SafeLoop C1 + C2"
+WINDOW_NAME = "SafeLoop C1 + C2 + C3"
 WHITE = (245, 245, 245)
 GREY = (165, 175, 185)
 GREEN = (80, 220, 135)
@@ -102,16 +102,51 @@ def _driver_panel(frame: CombinedFramePrediction) -> np.ndarray:
 
 
 def render_combined_dashboard(frame: CombinedFramePrediction) -> np.ndarray:
-    """Render one synchronized 1280x396 BGR dashboard frame."""
+    """Render one synchronized 1280x432 BGR dashboard frame."""
 
     content = np.hstack((_road_panel(frame), _driver_panel(frame)))
-    footer = np.full((36, content.shape[1], 3), BACKGROUND, dtype=np.uint8)
+    footer = np.full((72, content.shape[1], 3), BACKGROUND, dtype=np.uint8)
     _text(
         footer,
         f"{frame.source_bundle.trip_id}  frame {frame.frame_id}  t={frame.timestamp:.2f}s",
-        (16, 25),
+        (16, 27),
         color=WHITE,
         scale=0.55,
+        thickness=1,
+    )
+    c3 = frame.c3
+    completion = "FULL TRIP" if c3.trip_complete else "PREFIX ONLY"
+    _text(
+        footer,
+        f"C3 SAFE EST. {c3.safe_score_estimate:.1f}/100  {c3.grade}  {completion}",
+        (410, 27),
+        color=GREEN if c3.safe_score_estimate >= 80.0 else AMBER,
+        scale=0.55,
+        thickness=1,
+    )
+    risk = frame.contextual_risk
+    risk_color = RED if risk.level in {"HIGH", "CRITICAL"} else (
+        AMBER if risk.level == "CAUTION" else GREEN
+    )
+    _text(
+        footer,
+        f"CONTEXT RISK {risk.score_pct:.0f}/100  {risk.level}",
+        (970, 27),
+        color=risk_color,
+        scale=0.55,
+        thickness=1,
+    )
+    _text(
+        footer,
+        (
+            f"C3 frames: near {c3.near_miss_frames} | brake {c3.harsh_brake_frames} | "
+            f"accel {c3.harsh_accel_frames} | corner {c3.harsh_corner_frames} | "
+            f"speeding {c3.speeding_pct_time:.1f}%  |  "
+            f"ACTION {risk.action}"
+        ),
+        (16, 58),
+        color=GREY,
+        scale=0.48,
         thickness=1,
     )
     return np.vstack((content, footer))
