@@ -368,6 +368,21 @@ def test_finite_robust_danger_is_not_overwritten_by_previous_physics() -> None:
     assert warning
 
 
+def test_nonfinite_publication_never_reports_successful_estimator_reason() -> None:
+    runtime = P2DeployableRuntime(GEOMETRY, P2Variant.FULL)
+    candidate = replace(
+        _candidate(),
+        raw_physics_ttc_s=float("inf"),
+        robust_ttc_s=float("inf"),
+        robust_reason_code="ok",
+    )
+    selection = _selection(float("inf"))
+
+    reason = runtime._invalid_reason(selection, (candidate,))
+
+    assert reason == "estimator_rejected"
+
+
 def test_reset_clears_runtime_continuity_state() -> None:
     runtime = P2DeployableRuntime(GEOMETRY, P2Variant.FULL)
     runtime._remember_full_output(

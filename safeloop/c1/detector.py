@@ -82,6 +82,23 @@ class OpenCVDnnYoloDetector:
         return "cpu"
 
     def detect(self, image_bgr: np.ndarray) -> list[Detection]:
+        blob, scale, pad_x, pad_y = self._prepare_input(image_bgr)
+        self.net.setInput(blob)
+        raw = self.net.forward()
+        return self._postprocess(
+            raw,
+            image_shape=image_bgr.shape,
+            scale=scale,
+            pad_x=pad_x,
+            pad_y=pad_y,
+        )
+
+    def _prepare_input(
+        self,
+        image_bgr: np.ndarray,
+    ) -> tuple[np.ndarray, float, int, int]:
+        """Create the exact NCHW float input shared by detector backends."""
+
         if image_bgr.ndim != 3 or image_bgr.shape[2] != 3:
             raise ValueError(f"Ảnh detector phải có shape HxWx3, gặp {image_bgr.shape}")
 
@@ -93,11 +110,22 @@ class OpenCVDnnYoloDetector:
             swapRB=True,
             crop=False,
         )
-        self.net.setInput(blob)
-        raw = self.net.forward()
+        return blob, scale, pad_x, pad_y
+
+    def _postprocess(
+        self,
+        raw: np.ndarray | Sequence[np.ndarray],
+        *,
+        image_shape: Sequence[int],
+        scale: float,
+        pad_x: int,
+        pad_y: int,
+    ) -> list[Detection]:
+        """Decode one raw YOLO output with the baseline's filtering and NMS."""
+
         rows = self._prediction_rows(raw)
 
-        h, w = image_bgr.shape[:2]
+        h, w = image_shape[:2]
         boxes_xywh: list[list[int]] = []
         candidates: list[Detection] = []
         scores: list[float] = []
