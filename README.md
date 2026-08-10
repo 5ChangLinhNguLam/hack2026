@@ -229,6 +229,43 @@ T01-Sample   62      1.420s     0.480   0.080   52.3
 
 Baseline chỉ đạt composite ~50 nghĩa là còn **rất nhiều khoảng trống** để vượt qua.
 
+## SafeLoop C1 — một camera, TTC + lane + matrix-light mô phỏng
+
+Chạy C1 physics v2 từ đúng `image_2`; mặc định detector stride 3 và range-TTC
+đã hiệu chỉnh được bật:
+
+```bash
+python3 -m safeloop.c1.replay data/T02-Sample \
+  --detector-stride 3 --video predictions/T02-c1.mp4 --evaluate
+
+# HUD tổng hợp C1 + lane + virtual matrix-light
+python3 -m safeloop.c1.perception_replay data/T02-Sample \
+  --video predictions/T02-perception.mp4 --evaluate
+```
+
+Sinh pseudo-label có confidence cho 10 trip bị che TTC, rồi chuyển sang schema
+submission. Pseudo-label không phải ground truth:
+
+```bash
+python3 -m safeloop.c1.cache_detections data/T01d --stride 3
+python3 -m safeloop.c1.pseudo_label data/T01d
+python3 -m safeloop.c1.submission \
+  predictions/c1_pseudo_labels/T01d.csv \
+  predictions/c1_submission/T01d.csv \
+  --minimum-confidence 0.30
+```
+
+Đánh giá offline các phần có thể kiểm chứng:
+
+```bash
+python3 tools/evaluate_c1_matrix_light.py
+python3 tools/evaluate_c1_lane.py
+```
+
+Matrix-light hiện chỉ xuất grid-space request cho mô phỏng/HMI, không có CAN,
+GPIO hoặc actuator. Báo cáo và giới hạn đo lường nằm ở
+`docs/C1_Optimization_Matrix_Lane_Report.md`.
+
 **`evaluation.py` chấm được cả 3 challenge**, tự động — không cần cờ nào thêm. Nếu file CSV bạn nộp có cột
 `predicted_driver_state` và/hoặc `predicted_risk_score` (không chỉ `predicted_ttc`), báo cáo sẽ in
 thêm phần Challenge 2 / Challenge 3 tương ứng; thiếu cột nào thì bỏ qua phần đó (không bị trừ điểm vì

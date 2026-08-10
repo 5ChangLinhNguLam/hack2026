@@ -1,5 +1,5 @@
 # Dataset — tuyệt đối không commit
-data/
+/data/
 *.npy
 
 # Output dự đoán
