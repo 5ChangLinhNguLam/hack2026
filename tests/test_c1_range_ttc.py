@@ -10,6 +10,7 @@ from safeloop.c1.range_ttc import (
     RangeTTCConfig,
     RangeTTCReason,
     estimate_causal_range_ttc,
+    project_range_ttc_result,
 )
 
 
@@ -144,6 +145,56 @@ def test_stateful_predict_does_not_append_synthetic_range() -> None:
     assert estimator.history == history_before
     assert coast.reason_code == RangeTTCReason.OK
     assert coast.ttc_s < result.ttc_s
+
+
+def test_observe_appends_without_running_or_inventing_a_fit() -> None:
+    estimator = CausalRangeTTCEstimator()
+
+    estimator.observe(timestamp_s=0.1, range_m=20.0)
+    estimator.observe(timestamp_s=0.2, range_m=19.0)
+
+    assert estimator.history == (
+        RangeObservation(0.1, 20.0),
+        RangeObservation(0.2, 19.0),
+    )
+    result = estimator.predict(timestamp_s=0.2)
+    assert result.sample_count == 2
+
+    with pytest.raises(ValueError, match="increase strictly"):
+        estimator.observe(timestamp_s=0.2, range_m=18.0)
+
+
+def test_cached_range_projection_matches_refit_and_expires_stale() -> None:
+    config = RangeTTCConfig(max_extrapolation_s=0.2)
+    estimator = CausalRangeTTCEstimator(config)
+    anchor = None
+    for observation in _observations([0.0, 0.1, 0.2, 0.3]):
+        anchor = estimator.update(
+            timestamp_s=observation.timestamp_s,
+            range_m=observation.range_m,
+            safety_buffer_m=4.5,
+        )
+    assert anchor is not None
+
+    direct = estimator.predict(timestamp_s=0.4, safety_buffer_m=4.5)
+    projected = project_range_ttc_result(
+        anchor,
+        evaluation_timestamp_s=0.4,
+        safety_buffer_m=4.5,
+        config=config,
+    )
+
+    assert projected.reason_code == direct.reason_code
+    assert projected.ttc_s == pytest.approx(direct.ttc_s, abs=1e-9)
+    assert projected.range_m == pytest.approx(direct.range_m, abs=1e-9)
+    stale = project_range_ttc_result(
+        anchor,
+        evaluation_timestamp_s=0.51,
+        safety_buffer_m=4.5,
+        config=config,
+    )
+    assert stale.reason_code == RangeTTCReason.STALE_HISTORY
+    assert math.isinf(stale.ttc_s)
 
 
 def test_stale_coast_returns_reason_instead_of_unbounded_extrapolation() -> None:

@@ -450,6 +450,12 @@ class P2DeployableRuntime:
         if assessment.path_score < 0.20:
             return "no_in_path_target"
         if not math.isfinite(assessment.selected_ttc_s):
+            # ``ok`` describes the internal range fit, not the publication
+            # decision.  A non-finite selected TTC with an otherwise healthy
+            # fit was rejected by selector/uncertainty gates and must not be
+            # reported as a successful diagnostic reason.
+            if candidate.robust_reason_code == "ok":
+                return "estimator_rejected"
             return candidate.robust_reason_code
         return "low_target_evidence"
 

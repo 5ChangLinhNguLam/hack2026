@@ -6,6 +6,7 @@ not part of this package's inference path.
 """
 
 from .detector import OpenCVDnnYoloDetector
+from .ort_detector import OnnxRuntimeYoloDetector
 from .lean_loader import (
     C1Image2IntegrityError,
     C1Image2IntegrityReport,
@@ -26,6 +27,7 @@ __all__ = [
     "MonocularC1Pipeline",
     "MonocularTTCTracker",
     "OpenCVDnnYoloDetector",
+    "OnnxRuntimeYoloDetector",
     "ReplayStats",
     "TrackRisk",
     "TrackerConfig",

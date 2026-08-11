@@ -210,6 +210,17 @@ def _deduplicate_observations(
     )
     if not causal:
         return np.asarray([], dtype=np.float64), np.asarray([], dtype=np.float64)
+    if all(
+        causal[index - 1][0] != causal[index][0]
+        for index in range(1, len(causal))
+    ):
+        # Stateful runtime histories are strictly increasing.  Avoid hundreds
+        # of tiny NumPy median calls while preserving duplicate handling for
+        # the public stateless API.
+        return (
+            np.fromiter((row[0] for row in causal), dtype=np.float64),
+            np.fromiter((row[1] for row in causal), dtype=np.float64),
+        )
 
     unique_times: list[float] = []
     unique_ranges: list[float] = []
@@ -482,6 +493,86 @@ def estimate_causal_range_ttc(
     )
 
 
+def project_range_ttc_result(
+    anchor: RangeTTCResult,
+    *,
+    evaluation_timestamp_s: float,
+    safety_buffer_m: float = 0.0,
+    config: RangeTTCConfig | None = None,
+) -> RangeTTCResult:
+    """Project an unchanged robust fit to a later causal timestamp in O(1).
+
+    The robust slope and residual statistics only change when a real range
+    observation is appended.  Between detector updates this helper advances
+    the fitted range, propagates slope uncertainty, and applies the same
+    safety-buffer/staleness semantics without refitting identical history.
+    """
+
+    cfg = config or RangeTTCConfig()
+    timestamp = float(evaluation_timestamp_s)
+    safety_buffer = float(safety_buffer_m)
+    if not math.isfinite(timestamp):
+        raise ValueError("evaluation_timestamp_s must be finite")
+    if not math.isfinite(safety_buffer) or safety_buffer < 0.0:
+        raise ValueError("safety_buffer_m must be finite and non-negative")
+    elapsed = timestamp - float(anchor.evaluation_timestamp_s)
+    if elapsed < 0.0:
+        raise ValueError("projection timestamp cannot precede the fit anchor")
+    if elapsed == 0.0:
+        return anchor
+
+    last_age = float(anchor.last_observation_age_s) + elapsed
+    closing_speed = float(anchor.closing_speed_mps)
+    range_m = float(anchor.range_m)
+    if math.isfinite(range_m) and math.isfinite(closing_speed):
+        range_m -= closing_speed * elapsed
+    range_uncertainty = float(anchor.range_uncertainty_m)
+    closing_uncertainty = float(anchor.closing_speed_uncertainty_mps)
+    if math.isfinite(range_uncertainty) and math.isfinite(closing_uncertainty):
+        range_uncertainty = math.hypot(
+            range_uncertainty, elapsed * closing_uncertainty
+        )
+
+    reason = anchor.reason_code
+    ttc_s = float("inf")
+    ttc_uncertainty = float("inf")
+    if reason in {RangeTTCReason.OK, RangeTTCReason.WITHIN_SAFETY_BUFFER}:
+        if last_age > cfg.max_extrapolation_s:
+            reason = RangeTTCReason.STALE_HISTORY
+        elif not math.isfinite(closing_speed) or closing_speed <= 0.0:
+            reason = RangeTTCReason.NON_CLOSING
+        else:
+            clearance = range_m - safety_buffer
+            if clearance <= 0.0:
+                reason = RangeTTCReason.WITHIN_SAFETY_BUFFER
+                ttc_s = 0.0
+                ttc_uncertainty = range_uncertainty / closing_speed
+            else:
+                reason = RangeTTCReason.OK
+                ttc_s = clearance / closing_speed
+                ttc_uncertainty = math.hypot(
+                    range_uncertainty / closing_speed,
+                    clearance
+                    * closing_uncertainty
+                    / (closing_speed * closing_speed),
+                )
+
+    return RangeTTCResult(
+        evaluation_timestamp_s=timestamp,
+        range_m=range_m,
+        closing_speed_mps=closing_speed,
+        ttc_s=ttc_s,
+        range_uncertainty_m=range_uncertainty,
+        closing_speed_uncertainty_mps=closing_uncertainty,
+        ttc_uncertainty_s=ttc_uncertainty,
+        reason_code=reason,
+        sample_count=anchor.sample_count,
+        inlier_count=anchor.inlier_count,
+        outlier_count=anchor.outlier_count,
+        last_observation_age_s=last_age,
+    )
+
+
 class CausalRangeTTCEstimator:
     """Small stateful wrapper that retains only a bounded causal history."""
 
@@ -498,13 +589,14 @@ class CausalRangeTTCEstimator:
     def reset(self) -> None:
         self._history.clear()
 
-    def update(
-        self,
-        *,
-        timestamp_s: float,
-        range_m: float,
-        safety_buffer_m: float = 0.0,
-    ) -> RangeTTCResult:
+    def observe(self, *, timestamp_s: float, range_m: float) -> None:
+        """Append one real measurement without fitting the history.
+
+        Runtime policies that maintain many candidate tracks can retain every
+        causal observation cheaply, then evaluate only the selected target.
+        ``predict`` remains side-effect free and never invents a coast sample.
+        """
+
         timestamp_s = float(timestamp_s)
         range_m = float(range_m)
         if not math.isfinite(timestamp_s):
@@ -514,6 +606,15 @@ class CausalRangeTTCEstimator:
         if self._history and timestamp_s <= self._history[-1].timestamp_s:
             raise ValueError("timestamps must increase strictly")
         self._history.append(RangeObservation(timestamp_s, range_m))
+
+    def update(
+        self,
+        *,
+        timestamp_s: float,
+        range_m: float,
+        safety_buffer_m: float = 0.0,
+    ) -> RangeTTCResult:
+        self.observe(timestamp_s=timestamp_s, range_m=range_m)
         return estimate_causal_range_ttc(
             self.history,
             evaluation_timestamp_s=timestamp_s,
