@@ -1,0 +1,24 @@
+{
+  "schema_version": "safeloop.carsky-native-config.v1",
+  "base_blueprint_id": "rEg5AvGuzcKQHtihPiW0q",
+  "candidate_blueprint_id": null,
+  "target_device_id": "h5sjc3jtzl8vzl9wyqokv",
+  "blueprint_name": "SafeLoop Native Candidate",
+  "deployment_name": "SafeLoop-Native-T01",
+  "gateway": {
+    "node_label": "IVI Gateway",
+    "addon_contract": "safeloop.native-gateway-addon.v1",
+    "kuksa": {
+      "contract": "safeloop.standard-vss.v1",
+      "reference_room_id": "h5sjc3jtzl8vzl9wyqokv",
+      "reference_node_key": "central-broker-vss"
+    }
+  },
+  "hmi": {
+    "transport": "udp-ethernet",
+    "switch_label": "IVI Switch",
+    "android_node_label": "IVI - Android",
+    "target_host": "10.99.0.14",
+    "port": 48100
+  }
+}

@@ -19,6 +19,7 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 build/
+/.carsky-build/
 
 # CarSky runtime config/credential — không commit
 .carsky.env
@@ -35,6 +36,7 @@ build/
 /reports/Bao_Cao_Tien_Do_Dot_2_5ChangLinhNguLam.pdf
 /reports/C2_GiuaKy_5ChangLinhNguLam.html
 /reports/C2_GiuaKy_5ChangLinhNguLam.pdf
+/reports/5ChangLinhNguLam_Final_R2_DRAFT.docx
 
 # EDA: figures nặng không commit, chỉ commit tables + findings
 reports/eda/figures/
