@@ -1,5 +1,6 @@
 package com.fptautomotive.safeloop;
 
+import android.content.Context;
 import android.os.SystemClock;
 
 import java.io.ByteArrayOutputStream;
@@ -7,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CodingErrorAction;
@@ -30,8 +32,9 @@ public final class HttpsSseDecisionReceiver implements DecisionReceiver {
         void disconnect();
     }
 
-    interface ConnectionFactory {
+    interface ConnectionFactory extends AutoCloseable {
         Connection open(URL url, String bearerToken) throws IOException;
+        @Override default void close() {}
     }
 
     interface Sleeper {
@@ -45,10 +48,11 @@ public final class HttpsSseDecisionReceiver implements DecisionReceiver {
     private static final class PlatformConnection implements Connection {
         private final HttpsURLConnection connection;
 
-        PlatformConnection(URL url, String token) throws IOException {
-            HttpURLConnection candidate = (HttpURLConnection) url.openConnection();
+        PlatformConnection(URLConnection candidate, String token) throws IOException {
             if (!(candidate instanceof HttpsURLConnection)) {
-                candidate.disconnect();
+                if (candidate instanceof HttpURLConnection) {
+                    ((HttpURLConnection) candidate).disconnect();
+                }
                 throw new IOException("decision stream must use HTTPS");
             }
             connection = (HttpsURLConnection) candidate;
@@ -68,6 +72,21 @@ public final class HttpsSseDecisionReceiver implements DecisionReceiver {
         @Override public void disconnect() { connection.disconnect(); }
     }
 
+    private static final class PlatformConnectionFactory implements ConnectionFactory {
+        private final AndroidNetworkConnectionOpener opener;
+
+        PlatformConnectionFactory(Context context) {
+            opener = new AndroidNetworkConnectionOpener(context);
+        }
+
+        @Override
+        public Connection open(URL url, String token) throws IOException {
+            return new PlatformConnection(opener.open(url), token);
+        }
+
+        @Override public void close() { opener.close(); }
+    }
+
     private final URL streamUrl;
     private final String bearerToken;
     private final DecisionPacketParser parser;
@@ -81,6 +100,7 @@ public final class HttpsSseDecisionReceiver implements DecisionReceiver {
     private Connection connection;
 
     public HttpsSseDecisionReceiver(
+            Context context,
             String streamUrl,
             String bearerToken,
             DecisionPacketParser parser,
@@ -88,11 +108,22 @@ public final class HttpsSseDecisionReceiver implements DecisionReceiver {
         this(
                 validateUrl(streamUrl),
                 validateToken(bearerToken),
-                parser,
-                listener,
-                PlatformConnection::new,
+                requireDependency(parser),
+                requireDependency(listener),
+                platformConnectionFactory(context),
                 SystemClock::elapsedRealtime,
                 Thread::sleep);
+    }
+
+    private static <T> T requireDependency(T value) {
+        if (value == null) {
+            throw new IllegalArgumentException("SSE receiver dependencies are required");
+        }
+        return value;
+    }
+
+    private static ConnectionFactory platformConnectionFactory(Context context) {
+        return new PlatformConnectionFactory(context);
     }
 
     HttpsSseDecisionReceiver(
@@ -116,7 +147,7 @@ public final class HttpsSseDecisionReceiver implements DecisionReceiver {
         this.sleeper = sleeper;
     }
 
-    private static URL validateUrl(String value) {
+    static URL validateUrl(String value) {
         try {
             URL url = new URL(value == null ? "" : value);
             if (!"https".equalsIgnoreCase(url.getProtocol())
@@ -315,5 +346,9 @@ public final class HttpsSseDecisionReceiver implements DecisionReceiver {
         if (activeThread != null) activeThread.interrupt();
     }
 
-    @Override public void close() { stop(); }
+    @Override
+    public void close() {
+        stop();
+        connectionFactory.close();
+    }
 }

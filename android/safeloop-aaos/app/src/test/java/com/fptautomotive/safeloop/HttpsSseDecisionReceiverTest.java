@@ -105,9 +105,7 @@ public final class HttpsSseDecisionReceiverTest {
                 "https://token@safeloop.sonnet.io.vn/v1/decisions/stream",
                 "https://safeloop.sonnet.io.vn/v1/decisions/stream?token=x"}) {
             try {
-                new HttpsSseDecisionReceiver(
-                        value, TOKEN, new DecisionPacketParser(), new RecordingListener(
-                                new CountDownLatch(1)));
+                HttpsSseDecisionReceiver.validateUrl(value);
                 fail("unsafe stream URL accepted");
             } catch (IllegalArgumentException expected) {
                 // Expected.

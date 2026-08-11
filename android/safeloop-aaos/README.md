@@ -176,8 +176,9 @@ logcat -d -t 300 | grep -E 'SafeLoop|AndroidRuntime'
 ## Acceptance gates
 
 1. `testDebugUnitTest`, `lintDebug`, and `assembleDebug` pass on JDK 17/SDK 35.
-2. APK manifest contains only `INTERNET`; no A8 secret, model, dataset, HTML,
-   cleartext HTTP client, VHAL write permission, or `distractionOptimized=true`.
+2. APK manifest contains only the normal `INTERNET` and `ACCESS_NETWORK_STATE`
+   permissions; no A8 secret, model, dataset, HTML, cleartext HTTP client, VHAL
+   write permission, or `distractionOptimized=true`.
 3. App cold-starts as `NO_DATA`; valid 20 Hz packets become `LIVE` without a
    blank/white WebView screen.
 4. Fault injection covers oversize/malformed JSON, inconsistent expiry fields,

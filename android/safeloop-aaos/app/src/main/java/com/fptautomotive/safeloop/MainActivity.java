@@ -47,7 +47,7 @@ public final class MainActivity extends Activity implements DecisionReceiver.Lis
             cloudTransport = true;
             String cloudToken = getIntent().getStringExtra(EXTRA_CLOUD_STREAM_TOKEN);
             receiver = new HttpsSseDecisionReceiver(
-                    cloudUrl, cloudToken, new DecisionPacketParser(), this);
+                    this, cloudUrl, cloudToken, new DecisionPacketParser(), this);
         } else {
             cloudTransport = false;
             int requestedPort = getIntent().getIntExtra(

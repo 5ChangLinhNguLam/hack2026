@@ -29,7 +29,10 @@ def test_manifest_is_minimal_automotive_read_only_app() -> None:
         for element in activity.findall("intent-filter/category")
     }
 
-    assert permissions == {"android.permission.INTERNET"}
+    assert permissions == {
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+    }
     assert features["android.hardware.type.automotive"] == "true"
     assert "android.intent.category.CAR_LAUNCHER" in categories
     assert ANDROID + "appCategory" not in application.attrib
