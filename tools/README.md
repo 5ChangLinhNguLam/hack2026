@@ -1,5 +1,41 @@
 # tools/
 
+## carsky_recorded_stream_sender.py — nguồn test realtime, không dùng đáp án
+
+Script chỉ nhận bundle `safeloop.carsky.demo-bundle.v1` đã tạo bởi
+`prepare_carsky_demo.py`; thư mục dataset `data/Txx-Sample`, file prediction,
+label, target, event và depth bị từ chối. Mỗi tick giữ nguyên
+`source_sequence`/timestamp media gốc, nhưng lấy `capture_timestamp_ms` epoch
+ngay lúc phát, với nhãn bắt buộc `RECORDED_STREAM + LIVE_MODEL`.
+
+```bash
+python tools/prepare_carsky_demo.py /path/to/T02-Sample \
+  --output-root .carsky-build/demo
+python tools/carsky_recorded_stream_sender.py \
+  .carsky-build/demo/T02-Sample --verify-only
+python tools/carsky_recorded_stream_sender.py \
+  .carsky-build/demo/T02-Sample \
+  --session-id p2-t02-boot-1 --generation 0 --limit 20
+```
+
+CLI mặc định dùng adapter JSONL local, không kết nối AWS và không in bytes ảnh.
+Adapter vẫn nhận đủ payload road+cabin+ego. `TransportAdapter` là ranh giới để
+nối WebRTC/SRT/Kinesis sau này; khóa mapping chính xác là
+`(session_id, generation, source_sequence)`, cộng `media_id` và RTP timestamp
+90 kHz riêng cho từng stream.
+
+CLI này không gọi model hoặc `LiveInferenceController`; vì vậy riêng output
+JSONL không phải bằng chứng inference/soak `LIVE_MODEL`. Harness soak phải nối
+adapter vào decode BGR + controller và đo model độc lập, nhưng vẫn dùng đúng
+identity/timestamp của sender này.
+
+`PersistentMediaTransform` và `TransformingTransportAdapter` là hook cho hai
+pipeline codec H.264 chạy xuyên suốt session. Hook mở đúng một lần, không chạy
+FFmpeg theo từng frame, và từ chối output làm đổi identity/RTP mapping. Repo
+hiện chưa tuyên bố H.264 encode/decode soak: raw pipe của FFmpeg 4.4 không cung
+cấp side channel đủ để chứng minh mapping; không được ghép output bằng thứ tự
+callback decoder.
+
 ## safe_extract.py — Giải nén zip lớn không bị fail giữa chừng
 
 **Vấn đề:** `unzip` của Ubuntu (và trình giải nén GUI) sẽ **dừng toàn bộ** khi
