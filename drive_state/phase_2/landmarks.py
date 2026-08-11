@@ -530,6 +530,15 @@ class FaceBoxLandmarkDetector:
         self.padding = padding
         self.latest_detection: FaceDetection | None = None
 
+    def reset(self) -> None:
+        """Clear detector state before a new independent camera session."""
+
+        self.latest_detection = None
+        for component in (self.face_detector, self.landmark_detector):
+            reset = getattr(component, "reset", None)
+            if callable(reset):
+                reset()
+
     def detect(self, image: Image.Image) -> Sequence[NormalizedLandmark] | None:
         image = image.convert("RGB")
         detection = self.face_detector.detect(image)

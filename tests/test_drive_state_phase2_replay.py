@@ -3,7 +3,17 @@ from types import SimpleNamespace
 
 import pytest
 
-from drive_state.phase_2.replay import DMSBundle, frame_prediction_from_runtime
+from drive_state.phase_2.cli.demo import LSTMDemoPipeline
+from drive_state.phase_2.face_detection import (
+    PeriodicFaceDetector,
+    TrackedFaceDetector,
+)
+from drive_state.phase_2.landmarks import FaceBoxLandmarkDetector
+from drive_state.phase_2.replay import (
+    DMSBundle,
+    GeneralDMS,
+    frame_prediction_from_runtime,
+)
 
 
 def runtime_prediction(**overrides: object) -> SimpleNamespace:
@@ -78,3 +88,48 @@ def test_probability_contract_rejects_invalid_distribution() -> None:
 def test_bundle_validation_lists_missing_files(tmp_path: Path) -> None:
     with pytest.raises(FileNotFoundError, match="visual/best.pt"):
         DMSBundle.at(tmp_path).validate()
+
+
+class _ResetProbe:
+    def __init__(self) -> None:
+        self.reset_calls = 0
+
+    def reset(self) -> None:
+        self.reset_calls += 1
+
+
+def test_face_detector_reset_propagates_through_the_causal_chain() -> None:
+    leaf = _ResetProbe()
+    tracked = TrackedFaceDetector(leaf)
+    periodic = PeriodicFaceDetector(tracked, interval_frames=5)
+    landmarks = _ResetProbe()
+    regions = FaceBoxLandmarkDetector(periodic, landmarks)
+
+    tracked._last = object()  # type: ignore[assignment]
+    tracked._missed = 2
+    periodic._last = object()  # type: ignore[assignment]
+    periodic._frame_index = 4
+    regions.latest_detection = object()  # type: ignore[assignment]
+
+    regions.reset()
+
+    assert regions.latest_detection is None
+    assert periodic._last is None
+    assert periodic._frame_index == 0
+    assert tracked._last is None
+    assert tracked._missed == 0
+    assert leaf.reset_calls == 1
+    assert landmarks.reset_calls == 1
+
+
+def test_general_dms_reset_clears_runtime_and_visual_state() -> None:
+    runtime = _ResetProbe()
+    regions = _ResetProbe()
+    pipeline = LSTMDemoPipeline(runtime=runtime, region_detector=regions)  # type: ignore[arg-type]
+    dms = object.__new__(GeneralDMS)
+    dms.pipeline = pipeline
+
+    dms.reset()
+
+    assert runtime.reset_calls == 1
+    assert regions.reset_calls == 1

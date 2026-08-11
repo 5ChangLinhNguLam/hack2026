@@ -229,7 +229,7 @@ class GeneralDMS:
         )
 
     def reset(self) -> None:
-        self.pipeline.runtime.reset()
+        self.pipeline.reset()
 
     def close(self) -> None:
         self.pipeline.close()

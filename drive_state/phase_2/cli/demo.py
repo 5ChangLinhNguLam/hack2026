@@ -102,6 +102,12 @@ class LSTMDemoPipeline:
             timestamp=timestamp,
         )
 
+    def reset(self) -> None:
+        """Reset both temporal inference and the causal visual tracker."""
+
+        self.runtime.reset()
+        self.region_detector.reset()
+
     def close(self) -> None:
         self.region_detector.close()
 

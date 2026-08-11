@@ -159,6 +159,9 @@ class PeriodicFaceDetector:
     def reset(self) -> None:
         self._frame_index = 0
         self._last = None
+        reset = getattr(self.detector, "reset", None)
+        if callable(reset):
+            reset()
 
     def detect(self, image: Image.Image) -> FaceDetection | None:
         # Before the first valid box, retry on every frame. Otherwise one miss
@@ -200,6 +203,15 @@ class TrackedFaceDetector:
         self.smoothing = smoothing
         self._last: FaceDetection | None = None
         self._missed = 0
+
+    def reset(self) -> None:
+        """Drop every causal face-tracking value from the previous stream."""
+
+        self._last = None
+        self._missed = 0
+        reset = getattr(self.detector, "reset", None)
+        if callable(reset):
+            reset()
 
     def _smooth(self, current: FaceDetection) -> FaceDetection:
         if self._last is None:
