@@ -1,9 +1,11 @@
 """Stateful model/session controller for the AWS fast bridge.
 
-One worker owns C1/C2/C3 and all temporal state.  Ingress has exactly one
-pending slot.  A gap, reconnect or overwrite advances an internal generation;
-the worker resets every model before using the replacement tick and discards
-any result completed by an older generation.
+One worker owns C1/C2/C3 and all temporal state.  Live ingress has exactly one
+pending slot.  A gap, reconnect or live overwrite advances an internal
+generation; the worker resets every model before using the replacement tick
+and discards any result completed by an older generation.  Recorded demos use
+bounded backpressure instead: their source thread waits for the preceding tick
+to finish so a slower GPU cannot turn deterministic replay into overflow.
 """
 
 from __future__ import annotations
@@ -165,11 +167,21 @@ class RealModelPipeline:
             self.session.start_session(session_id)
 
     def process(self, tick: InputTick, *, frame_id: int) -> Any:
+        # Recorded inference may be deliberately slower than the bundle's
+        # nominal 20 Hz clock.  Temporal models must still see the original
+        # media timeline; capture_timestamp_ms remains the fresh wall-clock
+        # evidence carried by the outbound decision envelope.
+        model_timestamp_ms = (
+            tick.source_media_timestamp_ms
+            if tick.source_kind == "RECORDED_STREAM"
+            and tick.source_media_timestamp_ms is not None
+            else tick.capture_timestamp_ms
+        )
         frame = LiveFrameInput(
             session_id=self.session.snapshot.session_id or "invalid",
             frame_id=frame_id,
             source_sequence=tick.source_sequence,
-            source_timestamp=tick.capture_timestamp_ms / 1_000.0,
+            source_timestamp=model_timestamp_ms / 1_000.0,
             road_bgr=tick.road_bgr,
             cabin_bgr=tick.cabin_bgr,
             ego=tick.ego,
@@ -257,6 +269,7 @@ class FastBridgeController:
         self._control_lock = threading.Lock()
         self._model_lock = threading.Lock()
         self._pending: tuple[int, InputTick] | None = None
+        self._inference_in_flight = False
         self._closed = False
         self._state = "STOPPED"
         self._revision = 0
@@ -538,16 +551,38 @@ class FastBridgeController:
             self._condition.notify_all()
 
     def ingest(self, tick: InputTick, *, source_run_token: int | None = None) -> bool:
-        now = self.monotonic()
         with self._condition:
+            # Admin Stop/Switch advances this token before clearing the source.
+            # Checking it first makes a recorded producer blocked on
+            # backpressure exit quietly instead of racing Stop into ERROR.
+            if source_run_token is not None and source_run_token != self._source_run_token:
+                return False
             if self._closed or self._state not in {"STARTING", "RUNNING", "DEGRADED"}:
                 raise FastBridgeError("no active source accepts input")
             if tick.source_kind != self._source_kind or tick.telemetry_source != self._telemetry_source:
                 raise FastBridgeError("input provenance differs from the active demo")
-            if source_run_token is not None and source_run_token != self._source_run_token:
-                return False
             if tick.source_kind == "LIVE_CAMERA" and not self._live_connected:
                 raise FastBridgeError("live input arrived without an active WSS source")
+
+            # Recorded input is finite, ordered evidence.  Never overwrite it
+            # merely because inference is slower than its nominal 20 Hz media
+            # clock.  Capacity remains bounded (one worker, no queued history),
+            # and Stop/Switch wakes this wait by advancing source_run_token.
+            while tick.source_kind == "RECORDED_STREAM" and (
+                self._pending is not None or self._inference_in_flight
+            ):
+                self._condition.wait(timeout=0.1)
+                if (
+                    source_run_token is not None
+                    and source_run_token != self._source_run_token
+                ):
+                    return False
+                if self._closed:
+                    return False
+                if self._state not in {"STARTING", "RUNNING", "DEGRADED"}:
+                    raise FastBridgeError("recorded source stopped during backpressure")
+
+            now = self.monotonic()
             if self._external_session_id is None:
                 self._external_session_id = tick.session_id
                 self._internal_session_id = self._internal_id(
@@ -650,6 +685,9 @@ class FastBridgeController:
                 self._watchdog_locked(now)
                 item = self._pending
                 self._pending = None
+                if item is not None:
+                    self._inference_in_flight = True
+                    self._condition.notify_all()
             if item is None:
                 continue
             generation, tick = item
@@ -733,6 +771,10 @@ class FastBridgeController:
                     self._last_error = f"{type(exc).__name__}: {exc}"[:200]
                     self._pending = None
                     self._emit_event_locked("INFERENCE_ERROR")
+            finally:
+                with self._condition:
+                    self._inference_in_flight = False
+                    self._condition.notify_all()
 
     def update_sse_metrics(self, *, subscribers: int, last_write_ms: int | None) -> None:
         with self._condition:

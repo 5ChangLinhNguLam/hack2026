@@ -15,6 +15,12 @@ publishes warning-only `safeloop.decision.v1` snapshots.
 - `CARSKY_BROKER` is disabled until a real CarSky Cloud Bridge exists.
 - There is no model-output replay path in this service.
 
+Recorded demos apply bounded backpressure when inference is slower than the
+bundle's 20 Hz media clock. Every frame is still processed in order with its
+original media timestamp; the outbound capture timestamp remains current so
+Android freshness checks stay valid. The displayed decision rate may therefore
+be below 20 Hz on a slower GPU, without repeatedly resetting model state.
+
 Decision v1 starts its TTL when Android receives a packet. It does not carry a
 trusted capture-age/clock-health contract. This is therefore a fast HMI demo,
 not a production freshness contract and not an autonomous-braking interface.
@@ -103,3 +109,10 @@ adb shell am start -n com.fptautomotive.safeloop/.MainActivity \
 
 With no `cloud_stream_url`, the app retains the room-local UDP 48100 receiver.
 The two transports never run together.
+
+For HTTPS SSE, the app observes Android networks with `ConnectivityManager` and
+binds each reconnect to the best currently usable `Network`. It prefers a
+validated Wi-Fi route, falls back to another validated Internet route, and only
+then tries an unsuspended Internet-capable route that Android has not validated.
+The binding applies to that connection (including DNS) rather than the whole
+process; TLS hostname and certificate verification remain platform-default.

@@ -7,7 +7,7 @@ import time
 import numpy as np
 
 from safeloop.aws_live_contract import InputTick
-from safeloop.aws_live_runtime import FastBridgeController
+from safeloop.aws_live_runtime import FastBridgeController, RealModelPipeline
 from safeloop.combined_replay import CombinedFramePrediction
 from safeloop.contextual_risk import ContextualRiskDecision
 
@@ -89,6 +89,38 @@ class FakeModels:
 
     def close(self):
         pass
+
+
+class FakeRecordedBundle:
+    trip_id = "T02-Sample"
+    metadata = MappingProxyType(
+        {"speed_limit_kmh": 60.0, "weather": MappingProxyType({})}
+    )
+
+    def __init__(self, frame_count: int = 40) -> None:
+        self.frames = tuple(range(frame_count))
+
+    def tick(self, index, *, session_id, capture_timestamp_ms):
+        image = np.zeros((8, 8, 3), dtype=np.uint8)
+        image.setflags(write=False)
+        return InputTick(
+            session_id=session_id,
+            source_sequence=index,
+            capture_timestamp_ms=capture_timestamp_ms,
+            source_kind="RECORDED_STREAM",
+            telemetry_source="RECORDED_DATA",
+            metadata=self.metadata,
+            ego=MappingProxyType(
+                {
+                    "speed_kmh": 0.0,
+                    "longitudinal_accel": 0.0,
+                    "lateral_accel": 0.0,
+                }
+            ),
+            road_bgr=image,
+            cabin_bgr=image,
+            source_media_timestamp_ms=index * 50,
+        )
 
 
 def tick(sequence: int, *, session: str = "source-a") -> InputTick:
@@ -181,3 +213,55 @@ def test_capacity_one_overflow_resets_generation_and_discards_old_result() -> No
         assert controller.status()["counts"]["discarded_generation_results"] >= 1
     finally:
         controller.close()
+
+
+def test_slow_recorded_models_apply_backpressure_without_starvation_or_reset() -> None:
+    published = []
+    models = FakeModels(delay=0.12)
+    controller = FastBridgeController(models, on_decision=published.append)
+    try:
+        started = controller.start_recorded(
+            FakeRecordedBundle(), expected_revision=0
+        )
+        wait_for(lambda: len(published) >= 6, timeout=3.0)
+
+        assert [item.source_sequence for item in published[:6]] == list(range(6))
+        assert [item.envelope.sequence for item in published[:6]] == list(range(6))
+        assert [sequence for _, sequence in models.processed[:6]] == list(range(6))
+        status = controller.status()
+        assert status["counts"].get("overflow_drops", 0) == 0
+        assert status["counts"].get("generation_resets", 0) == 0
+        assert status["counts"].get("discarded_generation_results", 0) == 0
+        assert status["counts"]["model_resets"] == 1
+        assert len(models.sessions) == 1
+
+        stop_started = time.monotonic()
+        stopped = controller.stop(expected_revision=started.revision)
+        assert stopped.state == "STOPPED"
+        assert time.monotonic() - stop_started < 0.5
+    finally:
+        controller.close()
+
+
+def test_recorded_model_timestamp_uses_media_clock_not_slow_wall_clock() -> None:
+    captured = []
+
+    class FakeSession:
+        snapshot = SimpleNamespace(session_id="recorded-session")
+
+        def process(self, frame):
+            captured.append(frame)
+            return frame
+
+    pipeline = RealModelPipeline.__new__(RealModelPipeline)
+    pipeline.session = FakeSession()
+    recorded = FakeRecordedBundle(frame_count=2).tick(
+        1,
+        session_id="T02-Sample-0",
+        capture_timestamp_ms=1_900_000_000_000,
+    )
+
+    pipeline.process(recorded, frame_id=1)
+
+    assert captured[0].source_timestamp == 0.05
+    assert recorded.capture_timestamp_ms == 1_900_000_000_000
