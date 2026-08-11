@@ -33,6 +33,10 @@ class FakePrediction:
     challenge: str
 
     @property
+    def model_updated(self) -> bool:
+        return self.challenge == "c1" and self.frame_id % 2 == 0
+
+    @property
     def predicted_ttc_s(self) -> float:
         if self.challenge != "c1":
             raise AttributeError("only C1 has TTC")

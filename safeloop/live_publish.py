@@ -54,6 +54,7 @@ class LivePublishReceipt:
     """Immediate acknowledgement that a snapshot entered the latest slot."""
 
     session_id: str
+    generation: int
     sequence: int
     coalesced_previous: bool
 
@@ -78,6 +79,7 @@ class _Snapshot:
     frame: Any
     envelope: Any
     session_id: str
+    generation: int
     sequence: int
 
 
@@ -95,15 +97,23 @@ def _bounded_timeout(value: float, *, field: str) -> float:
 
 def _snapshot(frame: Any, envelope: Any) -> _Snapshot:
     session_id = getattr(envelope, "session_id", None)
+    generation = getattr(envelope, "generation", 0)
     sequence = getattr(envelope, "sequence", None)
     if not isinstance(session_id, str) or not session_id.strip():
         raise ValueError("envelope.session_id must be a non-empty string")
     if isinstance(sequence, bool) or not isinstance(sequence, int) or sequence < 0:
         raise ValueError("envelope.sequence must be a non-negative integer")
+    if (
+        isinstance(generation, bool)
+        or not isinstance(generation, int)
+        or generation < 0
+    ):
+        raise ValueError("envelope.generation must be a non-negative integer")
     return _Snapshot(
         frame=frame,
         envelope=envelope,
         session_id=session_id,
+        generation=generation,
         sequence=sequence,
     )
 
@@ -112,10 +122,12 @@ class LatestOnlyKuksaMirror:
     """Mirror live snapshots without ever blocking inference on broker I/O.
 
     ``publish`` only takes a short in-process lock and never invokes the
-    wrapped publisher.  For one session, sequences must increase strictly.
-    Changing an active session requires sequence zero, and a retired session
-    can never return.  This prevents races between producers from putting an
-    older snapshot on the wire after a newer accepted snapshot.
+    wrapped publisher. For one generation, sequences must increase strictly.
+    A capacity-one upstream handoff may coalesce the sequence-zero heartbeat,
+    so the first observed snapshot of a newer generation or session may have
+    any valid sequence. A retired session or generation can never return.
+    This prevents races between producers from putting an older snapshot on
+    the wire after a newer accepted snapshot without requiring a retry queue.
 
     ``close`` stops acceptance immediately, drains the newest pending
     snapshot, asks the worker-owned publisher to close, and joins for a
@@ -157,6 +169,7 @@ class LatestOnlyKuksaMirror:
         self._latest_error: str | None = None
 
         self._active_session: str | None = None
+        self._active_generation: int | None = None
         self._highest_accepted_sequence: int | None = None
         self._retired_sessions: OrderedDict[str, None] = OrderedDict()
 
@@ -178,11 +191,24 @@ class LatestOnlyKuksaMirror:
             # A mirror may attach after inference has already started, so the
             # first observed sequence does not have to be zero.
             self._active_session = item.session_id
+            self._active_generation = item.generation
             self._highest_accepted_sequence = item.sequence
             return
 
         if item.session_id == self._active_session:
+            assert self._active_generation is not None
             assert self._highest_accepted_sequence is not None
+            if item.generation < self._active_generation:
+                raise LivePublishOrderError(
+                    "stale generation cannot return to the active session"
+                )
+            if item.generation > self._active_generation:
+                # The upstream latest-only slot may have coalesced the reset
+                # heartbeat. Treat this as the first observed sequence for
+                # the new generation rather than blocking every later result.
+                self._active_generation = item.generation
+                self._highest_accepted_sequence = item.sequence
+                return
             if item.sequence <= self._highest_accepted_sequence:
                 raise LivePublishOrderError(
                     "duplicate or decreasing sequence for active session"
@@ -193,11 +219,9 @@ class LatestOnlyKuksaMirror:
         if item.session_id in self._retired_sessions:
             self._retired_sessions.move_to_end(item.session_id)
             raise LivePublishOrderError("retired session cannot become active again")
-        if item.sequence != 0:
-            raise LivePublishOrderError("a new session must start at sequence zero")
-
         self._retire(self._active_session)
         self._active_session = item.session_id
+        self._active_generation = item.generation
         self._highest_accepted_sequence = item.sequence
 
     def publish(self, frame: Any, envelope: Any) -> LivePublishReceipt:
@@ -216,6 +240,7 @@ class LatestOnlyKuksaMirror:
             self._condition.notify()
         return LivePublishReceipt(
             session_id=item.session_id,
+            generation=item.generation,
             sequence=item.sequence,
             coalesced_previous=replaced,
         )

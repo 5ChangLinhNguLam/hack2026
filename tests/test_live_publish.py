@@ -19,6 +19,13 @@ class Envelope:
     sequence: int
 
 
+@dataclass(frozen=True)
+class GenerationEnvelope:
+    session_id: str
+    generation: int
+    sequence: int
+
+
 class RecordingPublisher:
     def __init__(self) -> None:
         self.calls: list[tuple[object, Envelope]] = []
@@ -61,6 +68,7 @@ def test_worker_owns_publish_and_close_without_kuksa_dependency() -> None:
 
     receipt = mirror.publish("frame-0", Envelope("drive-a", 0))
     assert receipt.session_id == "drive-a"
+    assert receipt.generation == 0
     assert receipt.sequence == 0
     assert receipt.coalesced_previous is False
     assert mirror.wait_until_idle(1.0)
@@ -163,10 +171,11 @@ def test_order_guard_rejects_duplicates_old_frames_and_retired_sessions() -> Non
             mirror.publish("a-5-again", Envelope("drive-a", 5))
         with pytest.raises(LivePublishOrderError, match="duplicate|decreasing"):
             mirror.publish("a-4", Envelope("drive-a", 4))
-        with pytest.raises(LivePublishOrderError, match="sequence zero"):
-            mirror.publish("b-7", Envelope("drive-b", 7))
-
-        mirror.publish("b-0", Envelope("drive-b", 0))
+        # A capacity-one upstream slot may have coalesced b-0 before this
+        # worker observed the new session.
+        mirror.publish("b-7", Envelope("drive-b", 7))
+        with pytest.raises(LivePublishOrderError, match="duplicate|decreasing"):
+            mirror.publish("b-0", Envelope("drive-b", 0))
         with pytest.raises(LivePublishOrderError, match="retired"):
             mirror.publish("a-6", Envelope("drive-a", 6))
 
@@ -174,7 +183,28 @@ def test_order_guard_rejects_duplicates_old_frames_and_retired_sessions() -> Non
         assert mirror.wait_until_idle(1.0)
         sent = [(item.session_id, item.sequence) for _, item in publisher.calls]
         assert sent == sorted(sent, key=lambda item: (item[0] == "drive-b", item[1]))
-        assert sent[-1] == ("drive-b", 0)
+        assert sent[-1] == ("drive-b", 7)
+    finally:
+        assert mirror.close(timeout_s=1.0)
+
+
+def test_order_guard_allows_coalesced_new_generation_but_rejects_old_generation() -> None:
+    publisher = RecordingPublisher()
+    mirror = LatestOnlyKuksaMirror(publisher)
+    try:
+        # As with a session, the first observed generation may be a late join.
+        first = mirror.publish("g3-5", GenerationEnvelope("drive-a", 3, 5))
+        assert first.generation == 3
+
+        # Sequence zero can be overwritten by the capacity-one runtime slot.
+        mirror.publish("g4-6", GenerationEnvelope("drive-a", 4, 6))
+        with pytest.raises(LivePublishOrderError, match="duplicate|decreasing"):
+            mirror.publish("g4-0", GenerationEnvelope("drive-a", 4, 0))
+        mirror.publish("g4-7", GenerationEnvelope("drive-a", 4, 7))
+        with pytest.raises(LivePublishOrderError, match="stale generation"):
+            mirror.publish("g3-6", GenerationEnvelope("drive-a", 3, 6))
+        with pytest.raises(LivePublishOrderError, match="duplicate|decreasing"):
+            mirror.publish("g4-7-again", GenerationEnvelope("drive-a", 4, 7))
     finally:
         assert mirror.close(timeout_s=1.0)
 
