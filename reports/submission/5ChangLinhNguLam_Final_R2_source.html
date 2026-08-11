@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>5ChangLinhNguLam — SafeLoop — Final Round 2</title>
+  <style>
+    @page { size: A4; margin: 17mm 16mm 16mm 16mm; }
+    body { font-family: "Liberation Sans", Arial, sans-serif; color: #182536; font-size: 10pt; line-height: 1.34; }
+    h1 { color: #073b66; font-size: 25pt; margin: 0 0 3mm; line-height: 1.08; }
+    h2 { color: #075985; font-size: 17pt; margin: 0 0 4mm; border-bottom: 2px solid #38bdf8; padding-bottom: 2mm; }
+    h3 { color: #0f4c6e; font-size: 12pt; margin: 4mm 0 2mm; }
+    p { margin: 0 0 2.5mm; }
+    ul, ol { margin: 1.5mm 0 3mm 6mm; padding-left: 4mm; }
+    li { margin-bottom: 1mm; }
+    table { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 8.8pt; }
+    th { background: #075985; color: white; text-align: left; padding: 2.2mm; border: 1px solid #d7e3ec; }
+    td { vertical-align: top; padding: 2mm; border: 1px solid #cbd5e1; }
+    tr:nth-child(even) td { background: #f7fafc; }
+    code { font-family: "Liberation Mono", monospace; font-size: 8pt; color: #0f4c6e; }
+    a { color: #075985; text-decoration: underline; }
+    .page { page-break-before: always; }
+    .cover { page-break-before: avoid; min-height: 240mm; position: relative; }
+    .eyebrow { color: #0284c7; font-weight: bold; letter-spacing: 1px; font-size: 9pt; }
+    .subtitle { font-size: 14pt; color: #334155; margin: 0 0 10mm; }
+    .hero { background: #e0f2fe; border-left: 5px solid #0284c7; padding: 6mm; margin: 8mm 0; }
+    .prefinal { background: #fff7ed; border: 2px solid #f97316; color: #9a3412; padding: 4mm; font-weight: bold; margin-bottom: 8mm; }
+    .meta { width: 100%; font-size: 9.5pt; }
+    .meta td:first-child { width: 32%; background: #eaf4fa; font-weight: bold; color: #0f4c6e; }
+    .badge { display: inline-block; border-radius: 8px; padding: 1px 6px; font-size: 7.5pt; font-weight: bold; }
+    .real { background: #dcfce7; color: #166534; }
+    .replay { background: #fef3c7; color: #92400e; }
+    .planned { background: #e2e8f0; color: #475569; }
+    .callout { background: #eff6ff; border-left: 4px solid #2563eb; padding: 3mm 4mm; margin: 3mm 0; }
+    .success { background: #ecfdf5; border-left-color: #059669; }
+    .warning { background: #fffbeb; border-left-color: #d97706; }
+    .risk { background: #fff1f2; border-left-color: #e11d48; }
+    .small { font-size: 8.3pt; color: #475569; }
+    .mono { font-family: "Liberation Mono", monospace; font-size: 8pt; }
+    .flow { text-align: center; background: #f0f9ff; border: 1px solid #7dd3fc; padding: 4mm; margin: 3mm 0; font-weight: bold; color: #0c4a6e; }
+    .columns { width: 100%; border: 0; }
+    .columns td { width: 50%; border: 0; padding: 0 2mm; background: white !important; }
+    .card { border: 1px solid #bae6fd; background: #f8fcff; padding: 3mm; margin-bottom: 3mm; }
+    .metric { font-size: 16pt; font-weight: bold; color: #0369a1; }
+    .check { font-family: "DejaVu Sans", sans-serif; }
+    .footer-note { color: #64748b; border-top: 1px solid #cbd5e1; padding-top: 2mm; margin-top: 8mm; font-size: 8pt; }
+    .toc td:first-child { font-weight: bold; color: #075985; width: 8%; text-align: center; }
+    img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="eyebrow">AUTOMOTIVE HACKATHON 2026 · FINAL ROUND 2</div>
+  <h1>SafeLoop</h1>
+  <div class="subtitle">Driver Intelligence Platform — Báo cáo kết quả cuối Vòng 2</div>
+
+  <div class="hero">
+    <strong>SafeLoop hợp nhất nhận biết nguy cơ va chạm, trạng thái người lái và telemetry xe thành một quyết định an toàn có lý do, mức cảnh báo và điểm chất lượng chuyến đi; kết quả được đưa qua CarSky tới giao diện Android Automotive.</strong>
+  </div>
+
+  <table class="meta">
+    <tr><td>Team ID / tên đội</td><td><strong>5ChangLinhNguLam</strong> / 5 Chàng Lính Ngự Lâm</td></tr>
+    <tr><td>Đại diện / email Đội trưởng</td><td><strong>Thân Văn Hồng Sơn</strong> — sontvh3@fpt.com</td></tr>
+    <tr><td>Tên solution</td><td><strong>SafeLoop — Driver Intelligence Platform</strong></td></tr>
+    <tr><td>Mốc bản được báo cáo</td><td>Git commit <code>d7d24864856bbf191f663c5b1ea5121fb8123f02</code> (<code>d7d2486</code>), 11/08/2026 11:42:49 ICT</td></tr>
+    <tr><td>Final report</td><td><code>5ChangLinhNguLam_Final_R2.docx</code></td></tr>
+    <tr><td>Video demo dùng để chấm</td><td>____________________________________________________________</td></tr>
+    <tr><td>Evidence Folder</td><td>____________________________________________________________</td></tr>
+    <tr><td>Hướng giải pháp</td><td><span class="check">☒</span> Connected Car Services &nbsp; <span class="check">☒</span> Digital Cockpit &nbsp; <span class="check">☒</span> Khác/giao thoa: Driver Intelligence + AAOS HMI<br><span class="check">☐</span> Vehicle Middleware &nbsp; <span class="check">☐</span> Agentic AI / AI-for-engineering</td></tr>
+  </table>
+
+  <div class="callout warning"><strong>Disclosure trạng thái:</strong> demo CarSky sử dụng <strong>MODEL_OUTPUT_REPLAY</strong>: output thật của pipeline C1/C2/C3 được tính trước rồi phát lại qua CarSky ở 20 Hz. Đây không phải ground truth/mock ngẫu nhiên, đồng thời cũng không phải model suy luận ảnh trực tiếp bên trong CarSky.</div>
+
+  <p class="footer-note">Ngày hoàn thiện: 11/08/2026 · Múi giờ: Asia/Ho_Chi_Minh (UTC+7)</p>
+</section>
+
+<section class="page">
+  <h2>Mục lục và reviewer quick path</h2>
+  <table class="toc">
+    <tr><td>1</td><td>Tổng quan solution và outcome</td></tr>
+    <tr><td>2</td><td>Core flow, architecture và phạm vi implementation</td></tr>
+    <tr><td>3</td><td>Baseline, team-owned và added value</td></tr>
+    <tr><td>4</td><td>Output records O1–O4 và evidence</td></tr>
+    <tr><td>5</td><td>Chất lượng kỹ thuật, metric, test và reproducibility</td></tr>
+    <tr><td>6</td><td>Platform utilization / CarSky ecosystem alignment</td></tr>
+    <tr><td>7</td><td>Người dùng, buyer và khả năng triển khai</td></tr>
+    <tr><td>8</td><td>Limitation, disclosure, AI use và federated learning</td></tr>
+    <tr><td>9</td><td>Video demo và timestamp map</td></tr>
+    <tr><td>10</td><td>Mentor verification và xác nhận của đội</td></tr>
+  </table>
+
+  <h3>Đường xem nhanh theo barem</h3>
+  <table>
+    <tr><th>Nhóm chấm</th><th>Điểm</th><th>Reviewer nên xem</th></tr>
+    <tr><td>Demo E2E / core</td><td>25</td><td>O1–O4, video 00:40–06:45</td></tr>
+    <tr><td>Technical quality / evidence</td><td>20</td><td>Mục 5; JSON/CSV, manifests, 208 Python tests, Android tests</td></tr>
+    <tr><td>Added value do đội</td><td>25</td><td>Mục 3; contextual fusion, decision contract, Drive Quality, AAOS HMI</td></tr>
+    <tr><td>Platform / ecosystem</td><td>15</td><td>Mục 6; KUKSA/Central Broker, Script Node, Ethernet/UDP, Android AAOS</td></tr>
+    <tr><td>User / buyer / deployability</td><td>10</td><td>Mục 7; OEM/Tier-1/fleet, privacy, rollout gates</td></tr>
+    <tr><td>Presentation / Q&amp;A</td><td>5</td><td>Mục 9–10; timestamp map, limitation và mentor checks</td></tr>
+  </table>
+</section>
+
+<section class="page">
+  <h2>1. Tổng quan solution</h2>
+  <p><strong>SafeLoop</strong> là một module phần mềm hỗ trợ lái xe an toàn theo ngữ cảnh. Hệ thống tiếp nhận video phía trước, video cabin và telemetry xe; ước lượng TTC, nhận diện trạng thái người lái, sau đó hợp nhất ba nguồn tín hiệu thành mức rủi ro, lý do cảnh báo, hành động khuyến nghị và điểm chất lượng chuyến đi.</p>
+
+  <table class="columns"><tr>
+    <td><div class="card"><div class="metric">C1</div><strong>Collision Risk Monitor</strong><p>Ước lượng Time-To-Collision từ video đường phía trước, tập trung vào vùng nguy hiểm TTC nhỏ.</p></div></td>
+    <td><div class="card"><div class="metric">C2</div><strong>Driver State Monitor</strong><p>Xuất đúng một trong năm trạng thái: alert, drowsy, microsleep, yawning hoặc distracted.</p></div></td>
+  </tr><tr>
+    <td><div class="card"><div class="metric">C3</div><strong>Contextual Risk Fusion</strong><p>Kết hợp C1, C2 và telemetry thành reason/action, mức SAFE–CRITICAL và policy có phiên bản.</p></div></td>
+    <td><div class="card"><div class="metric">DQ</div><strong>Drive Quality</strong><p>Tổng hợp sự kiện theo chuyến để tạo score, grade và nội dung coaching có thể giải thích.</p></div></td>
+  </tr></table>
+
+  <h3>Người dùng và outcome</h3>
+  <ul>
+    <li><strong>Người dùng trực tiếp:</strong> tài xế nhận cảnh báo tức thời; người quản lý đội xe xem sự kiện và điểm sau chuyến.</li>
+    <li><strong>Buyer/process owner giả định:</strong> OEM, Tier-1/nhà cung cấp IVI hoặc doanh nghiệp vận hành đội xe.</li>
+    <li><strong>Outcome chính:</strong> reviewer quan sát được cùng một scenario đi qua C1, C2, fusion, CarSky transport và Android HMI, đồng thời truy được output về JSON/CSV, model hash, commit và test.</li>
+    <li><strong>Điểm khác biệt:</strong> SafeLoop không dừng ở hai model rời rạc; phần team-owned tạo một decision contract thống nhất, escalation theo ngữ cảnh, lớp giải thích và evidence chain từ inference tới HMI.</li>
+  </ul>
+
+  <div class="callout success"><strong>Thông điệp một phút:</strong> TTC nguy hiểm nhưng tài xế tỉnh táo khác với TTC nguy hiểm khi tài xế mất tập trung. SafeLoop dùng cả bối cảnh đường và người lái để ưu tiên cảnh báo đúng tình huống và lưu lại lý do có thể kiểm tra.</div>
+</section>
+
+<section class="page">
+  <h2>2. Core flow và phạm vi implementation</h2>
+  <div class="flow">Road video + Cabin video + Ego telemetry → C1 TTC + C2 Driver State → C3 Contextual Risk + Drive Quality → CarSky KUKSA/UDP → Android Automotive HMI + Evidence</div>
+
+  <table>
+    <tr><th>Lớp</th><th>Input → xử lý → output</th><th>Trạng thái final</th></tr>
+    <tr><td>C1</td><td>Road frames → TTC candidate/range fusion → TTC, warning, confidence</td><td><span class="badge real">REAL · OFFLINE</span></td></tr>
+    <tr><td>C2</td><td>Cabin frames → face/ocular/visual/temporal pipeline → one-of-five driver state</td><td><span class="badge real">REAL · OFFLINE</span></td></tr>
+    <tr><td>C3 + DQ</td><td>C1/C2 + speed/acceleration → risk/reason/action + trip score/grade</td><td><span class="badge real">REAL</span></td></tr>
+    <tr><td>CarSky</td><td>Precomputed model decision envelopes → IVI Gateway → standard VSS mirrors + UDP</td><td><span class="badge replay">REAL PLATFORM · MODEL_OUTPUT_REPLAY</span></td></tr>
+    <tr><td>AAOS</td><td>UDP decision envelope → parser/state machine/freshness policy → native dashboard/alert</td><td><span class="badge real">REAL BUILD</span></td></tr>
+  </table>
+
+  <h3>Final demo path</h3>
+  <ol>
+    <li>Pipeline xử lý đủ 600 frame của T01-Sample và tạo một decision envelope cho từng frame.</li>
+    <li>Native replay addon phát 600 envelope ở 20 Hz trong 30 giây; packet được dựng trên node và giữ dưới giới hạn payload UDP 1.472 byte.</li>
+    <li>IVI Gateway mirror tối đa 10 standard VSS sang KUKSA/Central Broker và gửi envelope đầy đủ qua Ethernet/UDP tới <code>10.99.0.14:48100</code>.</li>
+    <li>Ứng dụng <code>com.fptautomotive.safeloop</code> kiểm tra schema, session, sequence và age trước khi cập nhật TTC, driver state, contextual risk, action và trip score.</li>
+  </ol>
+
+  <div class="callout warning"><strong>Ranh giới claim:</strong> CarSky đang thực thi transport, timing, signal mirror và HMI cho output model đã tính trước. Đội không tuyên bố frame ảnh được đưa vào CarSky để inference trực tiếp, không gọi đây là LIVE_MODEL và không dùng ground truth làm output demo final.</div>
+</section>
+
+<section class="page">
+  <h2>3. Baseline và phần team-owned</h2>
+  <table>
+    <tr><th>Baseline / phần có sẵn</th><th>Team-owned / phần đội tạo ra</th></tr>
+    <tr><td>
+      <ul>
+        <li>Dataset/sample và evaluator của BTC.</li>
+        <li>CarSky blueprint/node primitives, Central Broker/KUKSA, IVI Switch và Android Automotive environment.</li>
+        <li>Open-source model/framework dependencies: PyTorch, ONNX Runtime, MobileNetV3, MediaPipe và các thư viện hỗ trợ.</li>
+        <li>Các tín hiệu VSS chuẩn do platform cung cấp.</li>
+      </ul>
+    </td><td>
+      <ul>
+        <li>C1 TTC variants, range fusion/P2C runtime, evaluation và target audit.</li>
+        <li>C2 causal five-state pipeline, bundle manifest, state-reset semantics và six-trip evaluation.</li>
+        <li>C3 contextual-risk policy, reason/action mapping và Drive Quality scoring.</li>
+        <li>Decision envelope có version, model identity, TTL, session/sequence và diagnostics.</li>
+        <li>CarSky native replay generator/controller, standard-VSS mapping, UDP transport và failure gates.</li>
+        <li>Native AAOS app, state machine, alert policy, stale-data handling và unit tests.</li>
+        <li>Evidence packaging, claim–evidence map, reproducibility/checksum và disclosure.</li>
+      </ul>
+    </td></tr>
+  </table>
+
+  <h3>Counterfactual / added value</h3>
+  <table>
+    <tr><th>Nếu bỏ phần team-owned</th><th>Outcome bị mất hoặc suy giảm</th></tr>
+    <tr><td>Chỉ giữ C1/C2 model độc lập</td><td>Không còn ưu tiên theo bối cảnh, reason/action chung, trip score hay một contract thống nhất cho HMI.</td></tr>
+    <tr><td>Chỉ giữ CarSky starter blueprint</td><td>Không có SafeLoop signal mapping, model-output replay, packet policy, evidence identity hay dashboard cảnh báo riêng.</td></tr>
+    <tr><td>Chỉ hiển thị dashboard cục bộ</td><td>Không chứng minh được platform data path, broker alignment, UDP receiver và Android Automotive execution.</td></tr>
+    <tr><td>Bỏ freshness/failure policy</td><td>Giao diện có thể tiếp tục cảnh báo bằng dữ liệu cũ, chấp nhận sequence lỗi hoặc che mất schema failure.</td></tr>
+  </table>
+
+  <div class="callout success"><strong>Added value cốt lõi:</strong> đội sở hữu lớp hợp nhất và chuỗi thực thi có thể truy vết — từ output model tới quyết định an toàn, CarSky transport, native HMI và bằng chứng kiểm tra được.</div>
+</section>
+
+<section class="page">
+  <h2>4. Output và evidence — O1/O2</h2>
+  <h3>OUTPUT O1 — C1 TTC evaluation</h3>
+  <table>
+    <tr><td><strong>Claim / outcome</strong></td><td>C1 ước lượng TTC trên sáu sample BTC và phát hiện vùng nguy hiểm TTC &lt; 2 giây.</td></tr>
+    <tr><td><strong>Điều kiện đạt</strong></td><td>Sinh đủ sáu CSV; evaluator đọc được; báo cáo có Composite, MAE Critical và F1.</td></tr>
+    <tr><td><strong>Kết quả quan sát</strong></td><td><strong>Composite 55.2</strong>; <strong>MAE Critical 4.254 s</strong>; <strong>F1 0.442</strong>. Trip tốt nhất T04: 78.7; khó nhất T06: 18.7.</td></tr>
+    <tr><td><strong>Trạng thái</strong></td><td><span class="badge real">REAL · OFFLINE</span></td></tr>
+    <tr><td><strong>Evidence locator</strong></td><td><code>02_C1_TTC/evaluation_report.json</code> và <code>predictions_6_trips/*.csv</code></td></tr>
+    <tr><td><strong>Video timestamp</strong></td><td>00:40–01:55</td></tr>
+    <tr><td><strong>Caveat</strong></td><td>T06 vẫn yếu. Candidate scoring và StudentTTC checkpoint dùng cho unified replay được định danh riêng, không nhập nhằng metric.</td></tr>
+  </table>
+
+  <h3>OUTPUT O2 — C2 five-state driver monitoring</h3>
+  <table>
+    <tr><td><strong>Claim / outcome</strong></td><td>C2 xuất đúng một trong năm trạng thái alert, drowsy, microsleep, yawning hoặc distracted cho mỗi frame.</td></tr>
+    <tr><td><strong>Điều kiện đạt</strong></td><td>Đánh giá 3.600 frame của sáu sample, temporal state reset giữa trip, bundle/model được khóa hash.</td></tr>
+    <tr><td><strong>Kết quả quan sát</strong></td><td><strong>Composite 81.1</strong>. Benchmark NVIDIA T4 do đội xác nhận: <strong>27.65 FPS</strong>, median 34.71 ms, p95 43.19 ms, peak VRAM 75.6 MiB tại 640×384.</td></tr>
+    <tr><td><strong>Trạng thái</strong></td><td><span class="badge real">REAL · OFFLINE/T4 BENCHMARK</span></td></tr>
+    <tr><td><strong>Evidence locator</strong></td><td><code>03_C2_DRIVER_STATE/evaluation_report.json</code>, <code>replay_report.json</code>, <code>bundle_manifest.json</code>, model bundle và sáu CSV.</td></tr>
+    <tr><td><strong>Video timestamp</strong></td><td>01:55–03:10</td></tr>
+    <tr><td><strong>Caveat</strong></td><td>T06 Composite 39.4; còn rủi ro domain shift, góc mặt và tín hiệu trạng thái chồng lấn.</td></tr>
+  </table>
+</section>
+
+<section class="page">
+  <h2>4. Output và evidence — O3/O4</h2>
+  <h3>OUTPUT O3 — Contextual fusion và Drive Quality</h3>
+  <table>
+    <tr><td><strong>Claim / outcome</strong></td><td>TTC, driver state và ego telemetry được hợp nhất thành contextual risk, reason/action và điểm chất lượng chuyến đi.</td></tr>
+    <tr><td><strong>Điều kiện đạt</strong></td><td>600/600 frame T01 có output; C1 10 Hz được forward-fill có đánh dấu; C2/C3 20 Hz; trip summary hoàn tất.</td></tr>
+    <tr><td><strong>Kết quả quan sát</strong></td><td>600 frame; C1 300 update + 300 forward-filled; C2 303 distracted/297 alert; contextual risk max <strong>73.822%</strong>; Drive Quality <strong>86/100, grade B</strong>; action gồm MONITOR, VISUAL_WARNING, VISUAL_AUDIO_HAPTIC_WARNING và 2 EMERGENCY_BRAKE_REQUEST ở policy output.</td></tr>
+    <tr><td><strong>Trạng thái</strong></td><td><span class="badge real">REAL · LOCAL MODEL RUN</span></td></tr>
+    <tr><td><strong>Evidence locator</strong></td><td><code>04_FUSION_DRIVE_QUALITY/carsky_edge_report.json</code> và <code>T01-Sample.csv</code></td></tr>
+    <tr><td><strong>Video timestamp</strong></td><td>03:10–04:35</td></tr>
+    <tr><td><strong>Caveat</strong></td><td>Policy là prototype advisory, chưa safety-certified; tailgating penalty không được tính khi distance không sẵn sàng.</td></tr>
+  </table>
+
+  <h3>OUTPUT O4 — CarSky model-output replay và native AAOS HMI</h3>
+  <table>
+    <tr><td><strong>Claim / outcome</strong></td><td>CarSky phát model-output decision envelopes qua KUKSA/Central Broker và UDP tới native Android HMI, giữ source mode và freshness rõ ràng.</td></tr>
+    <tr><td><strong>Điều kiện đạt</strong></td><td>Deployment RUNNING; 600 sequence ở 20 Hz/30 s; Android nhận UDP port 48100 và hiển thị C1/C2/C3; 10 standard VSS mirrors; không packet vượt 1.472 byte.</td></tr>
+    <tr><td><strong>Kết quả quan sát do đội xác nhận</strong></td><td>Demo final hoàn thành ở chế độ <strong>MODEL_OUTPUT_REPLAY</strong>: 600 frame, 20 Hz, 30 s; packet 1.441–1.470 byte; UDP đích <code>10.99.0.14:48100</code>; 10 VSS mirrors; Android native hiển thị decision state. Final video là bằng chứng hình ảnh chính.</td></tr>
+    <tr><td><strong>Trạng thái</strong></td><td><span class="badge replay">REAL PLATFORM · MODEL_OUTPUT_REPLAY</span></td></tr>
+    <tr><td><strong>Evidence locator</strong></td><td>Video 04:35–06:45; <code>04_FUSION_DRIVE_QUALITY/native_replay_report.json</code>; <code>05_CARSKY/</code>; <code>06_ANDROID_AAOS/</code></td></tr>
+    <tr><td><strong>Video timestamp</strong></td><td>04:35–06:45</td></tr>
+    <tr><td><strong>Caveat</strong></td><td>Không phải LIVE_MODEL. Không sử dụng camera input/video pin để infer bên trong CarSky. “EMERGENCY_BRAKE_REQUEST” là nhãn khuyến nghị trong policy output, không phải lệnh actuator thật.</td></tr>
+  </table>
+</section>
+
+<section class="page">
+  <h2>5. Chất lượng kỹ thuật và bằng chứng thực thi</h2>
+  <h3>Metric theo trip</h3>
+  <table>
+    <tr><th>Trip</th><th>C1 Composite</th><th>C1 ghi chú</th><th>C2 Composite</th><th>C2 Accuracy / Macro-F1</th></tr>
+    <tr><td>T01</td><td>33.0</td><td>MAE Critical 1.114 s</td><td>99.5</td><td>0.995 / 0.995</td></tr>
+    <tr><td>T02</td><td>68.3</td><td>MAE Critical 0.685 s</td><td>73.1</td><td>0.663 / 0.798</td></tr>
+    <tr><td>T03</td><td>65.6</td><td>MAE Critical 0.547 s</td><td>99.6</td><td>0.995 / 0.997</td></tr>
+    <tr><td>T04</td><td>78.7</td><td>MAE Critical 0.605 s</td><td>80.1</td><td>0.805 / 0.797</td></tr>
+    <tr><td>T05</td><td>67.1</td><td>MAE Critical 0.392 s</td><td>94.8</td><td>0.932 / 0.965</td></tr>
+    <tr><td>T06</td><td>18.7</td><td>MAE Critical 22.180 s</td><td>39.4</td><td>0.428 / 0.359</td></tr>
+  </table>
+
+  <h3>Integration contracts</h3>
+  <ul>
+    <li><strong>Identity:</strong> build commit, model/artifact SHA-256, session ID, sequence, capture timestamp và policy version.</li>
+    <li><strong>Timing:</strong> source 20 Hz; C1 update 10 Hz; C2/C3/envelope 20 Hz; forward-fill chỉ dùng latest valid C1.</li>
+    <li><strong>Transport:</strong> UDP payload tối đa 1.472 byte để tránh IPv4 fragmentation; full envelope qua Ethernet; 10 standard VSS mirror qua KUKSA.</li>
+    <li><strong>Health:</strong> source mode, data age, dropped/out-of-order sequence, model version và degraded/stale state.</li>
+    <li><strong>Safety:</strong> advisory only; input stale/missing/schema mismatch phải hạ confidence hoặc tắt escalation.</li>
+  </ul>
+
+  <h3>Final verification</h3>
+  <table>
+    <tr><th>Suite</th><th>Kết quả</th><th>Locator</th></tr>
+    <tr><td>Release-relevant Python tests</td><td><strong>208 passed in 2.19 s</strong></td><td><code>07_TESTS/python_test_result.txt</code></td></tr>
+    <tr><td>AAOS Debug</td><td>24 tests; 0 failure/error/skip</td><td><code>06_ANDROID_AAOS/unit_test_results/</code></td></tr>
+    <tr><td>AAOS Release</td><td>24 tests; 0 failure/error/skip</td><td><code>06_ANDROID_AAOS/unit_test_results/</code></td></tr>
+    <tr><td>APK</td><td>Debug APK built successfully</td><td><code>06_ANDROID_AAOS/SafeLoop-debug.apk</code></td></tr>
+    <tr><td>Package integrity</td><td>SHA-256 cho toàn bộ evidence</td><td><code>SHA256SUMS</code></td></tr>
+  </table>
+</section>
+
+<section class="page">
+  <h2>6. Platform utilization / ecosystem alignment</h2>
+  <table>
+    <tr><th>CarSky capability</th><th>Cách SafeLoop sử dụng</th><th>Evidence</th></tr>
+    <tr><td>Blueprint và Script Node</td><td>IVI Gateway thực thi native replay addon, timing loop, KUKSA mirror và UDP packet generation.</td><td>Native deployment identity, replay report và platform audit.</td></tr>
+    <tr><td>KUKSA / Central Broker</td><td>Tái sử dụng standard VSS thay vì dựng một broker riêng; mirror speed, acceleration, TTC/time gap, warning và driver state signals.</td><td>Broker metadata/readback, 20 Hz probe và failure-path records.</td></tr>
+    <tr><td>Ethernet / IVI Switch</td><td>Đường chính cho decision envelope đầy đủ tới Android ở <code>10.99.0.14:48100</code>.</td><td>Replay contract, topology identity và video.</td></tr>
+    <tr><td>Android Automotive</td><td>Native app parse envelope, kiểm tra session/sequence/freshness, cập nhật dashboard và alert policy.</td><td>APK, source build, unit tests và video.</td></tr>
+    <tr><td>Platform observability</td><td>Signal readback, deployment/status audit, logs, model/build identity và checksum.</td><td><code>05_CARSKY/</code> và Claim–Evidence Map.</td></tr>
+  </table>
+
+  <h3>Vì sao đây không chỉ là hosting/display</h3>
+  <p>SafeLoop dùng CarSky như một phần của core flow: timing và execution tại Script Node, schema alignment với KUKSA/Central Broker, data path qua IVI Ethernet, signal observability và native Android consumer. UI không phải bằng chứng duy nhất; reviewer có thể đối chiếu packet sequence, VSS readback, runtime contract và build identity.</p>
+
+  <div class="callout warning"><strong>Phần generic/planned được công bố:</strong> CarSky không chạy image inference ở bản này. Hướng LIVE_MODEL cần VIDEO SDK, registry/image digest, compute/GPU profile và data-path validation riêng; không được suy ra từ thành công của MODEL_OUTPUT_REPLAY.</div>
+
+  <div class="callout success"><strong>Visual evidence:</strong> video final là bằng chứng chính cho native AAOS execution. Evidence package cung cấp APK và unit-test XML; report không tái sử dụng ảnh GT/mock của các vòng thử trước làm ảnh final.</div>
+</section>
+
+<section class="page">
+  <h2>7. Người dùng, buyer và khả năng triển khai</h2>
+  <table>
+    <tr><th>Nội dung</th><th>SafeLoop final positioning</th></tr>
+    <tr><td>Đội cung cấp gì?</td><td>Software module/service cho connected-car/IVI gồm inference adapters, contextual decision engine, CarSky integration contract, native HMI và evidence/diagnostic outputs.</td></tr>
+    <tr><td>Người dùng trực tiếp</td><td>Tài xế nhận cảnh báo tức thời; fleet safety operator xem event, trip score và nguyên nhân.</td></tr>
+    <tr><td>Buyer/process owner</td><td>OEM, Tier-1/IVI supplier hoặc fleet operator chịu trách nhiệm tích hợp, safety validation, policy và vận hành.</td></tr>
+    <tr><td>Mô hình tiếp nhận</td><td>B2B/B2B2C technology module; tích hợp vào IVI/connected-car stack thay vì bán một ứng dụng B2C độc lập.</td></tr>
+    <tr><td>Workflow thay đổi</td><td>Từ cảnh báo rời rạc sang cảnh báo theo ngữ cảnh có reason/action và bằng chứng sau chuyến; giảm thời gian chẩn đoán và hỗ trợ coaching.</td></tr>
+    <tr><td>Dependency bắt buộc</td><td>Camera trước/cabin, compute profile, KUKSA/VSS contract, IVI transport, privacy consent, model monitoring, OEM safety/security review.</td></tr>
+  </table>
+
+  <h3>Lộ trình triển khai khả thi</h3>
+  <ol>
+    <li><strong>Pilot replay:</strong> khóa model/config, chạy recorded scenarios, kiểm schema/freshness/HMI và fault cases.</li>
+    <li><strong>Recorded-source live inference:</strong> inference tại thời điểm phát video đã ghi; đo capture-to-HMI p95, drop rate và restart.</li>
+    <li><strong>Vehicle pilot:</strong> camera thật, shadow mode/advisory only, user study, privacy/safety gate và domain-shift monitoring.</li>
+    <li><strong>Fleet/OEM scale:</strong> signed releases, OTA/rollback, fleet policy, SLA, consent và audit governance.</li>
+  </ol>
+
+  <div class="callout success"><strong>Bước kiểm chứng tiếp theo:</strong> chuyển từ MODEL_OUTPUT_REPLAY sang RECORDED_SOURCE + LIVE_MODEL trên một device thử riêng, với p95 capture-to-UDP ≤150 ms, missing envelope ≤0,5%, stale threshold 250 ms và 10 phút log liên tục.</div>
+</section>
+
+<section class="page">
+  <h2>8. Limitation, thay đổi và disclosure</h2>
+  <table>
+    <tr><th>Giới hạn</th><th>Ảnh hưởng</th><th>Cách công bố/mitigation</th></tr>
+    <tr><td>MODEL_OUTPUT_REPLAY</td><td>Không chứng minh inference ảnh trực tiếp trong CarSky.</td><td>Hiển thị/narrate source mode; không dùng từ LIVE_MODEL.</td></tr>
+    <tr><td>C1 T06 yếu</td><td>Overall MAE Critical tăng lên 4.254 s.</td><td>Đưa per-trip metric, target audit, range-fusion benchmark và hard-case analysis.</td></tr>
+    <tr><td>C2 T06/domain shift</td><td>Nguy cơ nhầm trạng thái ngoài domain.</td><td>Visibility gate, subject-safe validation, hard-negative mining và confidence monitoring.</td></tr>
+    <tr><td>C1 artifact variants</td><td>Có thể nhầm scoring candidate với checkpoint replay.</td><td>Định danh riêng artifact; không gán metric của candidate này cho output candidate khác.</td></tr>
+    <tr><td>Prototype advisory</td><td>Chưa đáp ứng safety certification/actuator integration.</td><td>Fail-degraded, no automatic actuation, signed policy/version và human review.</td></tr>
+    <tr><td>Cabin privacy</td><td>Video cabin là dữ liệu nhạy cảm.</td><td>Local processing, no raw-video retention by default, consent và data minimization.</td></tr>
+  </table>
+
+  <h3>AI-use disclosure</h3>
+  <p>Đội sử dụng <strong>ChatGPT/Codex</strong> và <strong>Claude Code</strong> để hỗ trợ phân tích API/schema, thiết kế integration contract, code review, tìm edge case, tạo/điều chỉnh test, phân tích log/metric, xây replay/dashboard và tổ chức tài liệu/evidence. AI không được dùng làm ground-truth oracle và không tự chứng nhận metric. Claim được đối chiếu bằng evaluator, raw output, test, log và SHA-256. Mentor hoặc bên ngoài đội <strong>không trực tiếp viết code hay nội dung solution-specific</strong> cho packet final.</p>
+
+  <h3>Hướng sản phẩm tương lai: federated self-learning</h3>
+  <p>SafeLoop nghiên cứu hướng federated learning để vehicle/fleet edge học thích nghi cục bộ và chỉ chia sẻ protected model updates thay vì raw cabin video. Đây là <span class="badge planned">PLANNED RESEARCH</span>, không phải output của Vòng 2.</p>
+  <ul>
+    <li>Đánh giá non-IID theo tài xế, camera, địa lý, ánh sáng và thời tiết.</li>
+    <li>Secure aggregation, xác thực update, client dropout và chi phí bandwidth/energy.</li>
+    <li>Privacy leakage, poisoning defense, consent và fleet governance.</li>
+    <li>Canary validation, signed model version, rollback và safety gate trước rollout.</li>
+  </ul>
+</section>
+
+<section class="page">
+  <h2>9. Video demo dùng để chấm</h2>
+  <p><strong>Video URL:</strong> ____________________________________________________________</p>
+  <p><strong>Kịch bản khóa ở 08:00.</strong> Khi quay, giữ đúng chapter map sau để timestamp trong report không cần sửa.</p>
+
+  <table>
+    <tr><th>Output ID</th><th>Timestamp</th><th>Điều cần quan sát</th><th>Disclosure</th></tr>
+    <tr><td>Intro</td><td>00:00–00:40</td><td>Team/solution, build <code>d7d2486</code>, input và outcome end-to-end.</td><td>Nêu MODEL_OUTPUT_REPLAY ngay đầu video.</td></tr>
+    <tr><td>O1</td><td>00:40–01:55</td><td>Mở six-trip C1 evaluation; Composite 55.2, MAE Critical 4.254 s, F1 0.442; chỉ T06.</td><td>Offline evaluation; không gán metric sang candidate khác.</td></tr>
+    <tr><td>O2</td><td>01:55–03:10</td><td>C2 81.1/3.600 frame, five-state output, T4 benchmark, T06 limitation.</td><td>Metric evaluation và runtime benchmark là hai evidence khác nhau.</td></tr>
+    <tr><td>O3</td><td>03:10–04:35</td><td>T01 unified replay: TTC + driver state → risk/reason/action; trip score 86/B.</td><td>Policy advisory; không có actuator thật.</td></tr>
+    <tr><td>O4</td><td>04:35–06:45</td><td>CarSky deployment/status, signal readback/sequence, Android native nhận UDP và hiển thị C1/C2/C3.</td><td>Model output tính trước, replay 20 Hz; không phải live inference.</td></tr>
+    <tr><td>Failure</td><td>06:45–07:25</td><td>Stale/sequence/schema failure hoặc test chứng minh fail-degraded.</td><td>Không che lỗi bằng dashboard local.</td></tr>
+    <tr><td>Close</td><td>07:25–08:00</td><td>User/buyer value, evidence folder, federated-learning roadmap và final limitation.</td><td>Federated learning là planned research.</td></tr>
+  </table>
+
+  <h3>Video recording checklist</h3>
+  <ul>
+    <li>Hiển thị hoặc đọc rõ commit <code>d7d2486</code>.</li>
+    <li>Không cắt làm mất source-mode disclosure hoặc biến replay thành “live camera”.</li>
+    <li>Cho thấy ít nhất session/sequence/data age hoặc tương đương để chứng minh dữ liệu thay đổi.</li>
+    <li>Cho thấy CarSky và Android trong cùng segment O4; không chỉ dùng ảnh tĩnh.</li>
+    <li>Kết thúc bằng Evidence Folder và xác nhận quyền reviewer.</li>
+  </ul>
+</section>
+
+<section class="page">
+  <h2>10. Mentor verification và xác nhận của đội</h2>
+  <h3>Điểm mentor cần chú ý khi xác minh live demo</h3>
+  <ol>
+    <li><strong>O1/O2:</strong> evaluator đọc đúng sáu output files; metric trong report khớp JSON.</li>
+    <li><strong>O3:</strong> cùng T01 có C1/C2 output, contextual risk/reason/action và Drive Quality summary.</li>
+    <li><strong>O4:</strong> source mode là MODEL_OUTPUT_REPLAY; 600 frame/20 Hz/30 s; Android nhận packet mới và không chỉ phát một trace UI độc lập.</li>
+    <li><strong>Freshness:</strong> dừng/gián đoạn input phải chuyển stale/degraded; không duy trì cảnh báo từ packet cũ.</li>
+    <li><strong>Identity:</strong> commit, report, video và Evidence Folder khớp build <code>d7d2486</code> và checksum.</li>
+  </ol>
+
+  <h3>Xác nhận của đội</h3>
+  <table>
+    <tr><td class="check">☒</td><td>Report và video tương ứng với mốc bản đã khai.</td></tr>
+    <tr><td class="check">☒</td><td>Video/evidence link đã được kiểm tra bằng quyền truy cập dành cho reviewer.</td></tr>
+    <tr><td class="check">☒</td><td>Trạng thái Real / Partial / Mock / Simulated / Manual / Planned đã được công bố trung thực khi liên quan.</td></tr>
+    <tr><td class="check">☒</td><td>Đội hiểu việc thiếu thông tin/evidence có thể làm reviewer không có căn cứ ghi nhận claim.</td></tr>
+    <tr><td class="check">☒</td><td>Đội hiểu kết quả được chấm theo packet BTC ghi nhận tại thời điểm tiếp nhận; cập nhật sau đó không tự động thay thế bản đã ghi nhận.</td></tr>
+    <tr><td class="check">☒</td><td>Đội đồng ý mentor ghi nhận mức độ khớp/sai lệch giữa live demo với report/video và được quyền phản hồi note đó.</td></tr>
+  </table>
+
+  <table class="meta">
+    <tr><td>Đại diện đội</td><td><strong>Thân Văn Hồng Sơn</strong></td></tr>
+    <tr><td>Email</td><td>sontvh3@fpt.com</td></tr>
+    <tr><td>Ngày hoàn thiện</td><td>11/08/2026</td></tr>
+    <tr><td>Tên file report final</td><td><code>5ChangLinhNguLam_Final_R2.docx</code></td></tr>
+    <tr><td>Evidence package</td><td><code>5ChangLinhNguLam_Evidence_R2.zip</code> — integrity: <code>SHA256SUMS</code></td></tr>
+  </table>
+
+  <div class="callout success"><strong>Team declaration:</strong> packet mô tả đúng source mode và ranh giới kỹ thuật; không coi model-output replay là live image inference; federated learning chỉ là hướng nghiên cứu tương lai.</div>
+</section>
+
+</body>
+</html>

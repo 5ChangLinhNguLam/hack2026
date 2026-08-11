@@ -38,5 +38,13 @@ build/
 /reports/C2_GiuaKy_5ChangLinhNguLam.pdf
 /reports/5ChangLinhNguLam_Final_R2_DRAFT.docx
 
+# Round 2 submission: commit source + final DOCX only; keep derived/upload artifacts local
+/reports/submission/5ChangLinhNguLam_Final_R2_PREFINAL.docx
+/reports/submission/5ChangLinhNguLam_Final_R2_source.odt
+/reports/submission/5ChangLinhNguLam_Evidence_R2/
+/reports/submission/5ChangLinhNguLam_Evidence_R2.zip
+/reports/submission/SUBMISSION_SHA256.txt
+/reports/submission/render_check/
+
 # EDA: figures nặng không commit, chỉ commit tables + findings
 reports/eda/figures/
