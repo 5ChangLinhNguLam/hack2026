@@ -30,9 +30,13 @@ dms-phase2 = [
     "torchvision>=0.17",
     "mediapipe>=0.10.20",
 ]
+carsky-runtime = [
+    "kuksa-client>=0.5.1,<0.6",
+]
 
 [project.scripts]
 safeloop-replay = "safeloop.replay_models:main"
+safeloop-carsky-edge = "safeloop.carsky_edge:main"
 dms-replay = "drive_state.phase_2.cli.replay:main"
 dms2-eda = "drive_state.phase_2.cli.eda:main"
 dms2-precompute-eyes = "drive_state.phase_2.cli.precompute_eyes:main"

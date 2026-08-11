@@ -22,7 +22,7 @@ from pathlib import Path
 from statistics import mean
 import sys
 import time
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 
@@ -215,6 +215,7 @@ def run_trip(
     show: bool,
     write_video: bool,
     video_fourcc: str,
+    frame_sink: Callable[[CombinedFramePrediction], None] | None = None,
 ) -> dict[str, object]:
     # Heavy modules are lazy so tripkit/base tests do not require the ML stack.
     from C1.runtime import StudentTTCRuntime
@@ -323,6 +324,8 @@ def run_trip(
                 contextual_risk=contextual_risk,
             )
             for frame_count, prediction in enumerate(combined, start=1):
+                if frame_sink is not None:
+                    frame_sink(prediction)
                 submission.writerow(prediction.submission_row())
                 diagnostics.writerow(
                     diagnostic_row(
