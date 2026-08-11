@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SafeLoop · AWS Demo Control</title>
+  <link rel="stylesheet" href="/admin/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="mark">S</span><div><strong>SafeLoop</strong><small>AWS GPU DEMO CONTROL</small></div></div>
+    <div class="top-status"><span id="stateDot" class="dot"></span><span id="topState">CONNECTING</span><span class="clock" id="clock">--:--:--</span></div>
+  </header>
+  <main>
+    <section class="hero panel">
+      <div>
+        <p class="eyebrow">PROVENANCE · NEVER REPLAYED OUTPUT</p>
+        <h1 id="heroTitle">Inference is stopped</h1>
+        <p id="heroSubtitle">Choose a source. Every displayed prediction is built by the resident C1 + C2 + C3 runtime.</p>
+      </div>
+      <div class="state-pill" id="statePill">STOPPED</div>
+      <div id="recordedWatermark" class="watermark hidden">RECORDED STREAM — LIVE MODEL INFERENCE</div>
+      <div class="provenance-grid">
+        <div><span>CAMERA</span><strong id="cameraSource">—</strong></div>
+        <div><span>TELEMETRY</span><strong id="telemetrySource">—</strong></div>
+        <div><span>INFERENCE</span><strong id="inferenceMode">—</strong></div>
+        <div><span>OUTPUT</span><strong id="outputTransport">HTTPS_SSE</strong></div>
+        <div class="wide"><span>SESSION</span><strong id="sessionId">—</strong></div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <aside class="panel controls">
+        <div class="section-title"><div><p class="eyebrow">SOURCE</p><h2>Demo presets</h2></div><span id="revision">REV 0</span></div>
+        <div id="demoList" class="demo-list"></div>
+        <div class="disabled-option"><span>CARSKY_BROKER</span><b>UNAVAILABLE</b><small>Requires a real CarSky Cloud Bridge.</small></div>
+        <div class="button-row">
+          <button id="analyzeButton" class="secondary" disabled>Analyze</button>
+          <button id="startButton" class="primary" disabled>Start</button>
+          <button id="stopButton" class="danger" disabled>Stop</button>
+        </div>
+        <p id="controlMessage" class="message">Loading server allowlist…</p>
+        <div id="analysis" class="analysis hidden"></div>
+      </aside>
+
+      <div class="content-stack">
+        <section class="panel">
+          <div class="section-title"><div><p class="eyebrow">CURRENT FRAME</p><h2>Model predictions</h2></div><span id="decisionSeq">SEQ —</span></div>
+          <div class="prediction-grid">
+            <article class="prediction accent-blue"><span>C1 · ROAD RISK</span><strong id="c1Main">—</strong><small id="c1Detail">TTC / probability / warning</small></article>
+            <article class="prediction accent-purple"><span>C2 · DRIVER</span><strong id="c2Main">—</strong><small id="c2Detail">attention / fatigue / warning</small></article>
+            <article class="prediction accent-mint"><span>C3 · SAFE ESTIMATE</span><strong id="c3Main">—</strong><small id="c3Detail">causal fused estimate</small></article>
+            <article class="prediction accent-amber"><span>DRIVE QUALITY</span><strong id="dqMain">—</strong><small id="dqDetail">live accumulator</small></article>
+            <article class="prediction risk-card"><span>CONTEXTUAL RISK</span><strong id="riskMain">—</strong><small id="riskDetail">warning-only cloud action</small></article>
+          </div>
+        </section>
+
+        <section class="health-grid">
+          <article class="panel health"><div class="section-title"><div><p class="eyebrow">INGRESS</p><h2>Source health</h2></div><span id="sourceBadge">IDLE</span></div><dl id="sourceHealth"></dl></article>
+          <article class="panel health"><div class="section-title"><div><p class="eyebrow">T4 RUNTIME</p><h2>Pipeline health</h2></div><span id="pipelineBadge">LOADING</span></div><dl id="pipelineHealth"></dl></article>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer>Fast demo path · decision.v1 freshness begins at Android receipt · warning only · no vehicle actuation</footer>
+  <script src="/admin/app.js" defer></script>
+</body>
+</html>
