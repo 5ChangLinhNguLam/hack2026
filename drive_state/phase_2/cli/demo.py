@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -40,8 +41,19 @@ from ..runtime_mobilenet_lstm import (
     RuntimeFiveStatePrediction,
 )
 from ..state.causal_evidence import EVIDENCE_FEATURE_NAMES
-from ..training.ocular_trainer import OCULAR_CHECKPOINT_SCHEMA_VERSION
-from .precompute_embeddings import checkpoint_fingerprint
+
+
+OCULAR_CHECKPOINT_SCHEMA_VERSION = 2
+
+
+def checkpoint_fingerprint(path: Path | str) -> str:
+    """Return the stable checkpoint digest required by the inference bundle."""
+
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _normalized_split(payload: dict[str, object]) -> dict[str, object]:

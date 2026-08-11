@@ -1,0 +1,76 @@
+name: safeloop-fast-bridge
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.aws
+    image: safeloop/aws-fast-bridge:local
+    restart: unless-stopped
+    expose:
+      - "8000"
+    environment:
+      SAFELOOP_PUBLIC_BASE_URL: ${SAFELOOP_PUBLIC_BASE_URL:-https://safeloop.sonnet.io.vn}
+      SAFELOOP_ADMIN_ORIGIN: ${SAFELOOP_ADMIN_ORIGIN:-https://safeloop.sonnet.io.vn}
+      SAFELOOP_DEMO_ROOT: /demo-data
+      SAFELOOP_INGEST_TOKEN_FILE: /run/secrets/ingest_token
+      SAFELOOP_ANDROID_TOKEN_FILE: /run/secrets/android_token
+      SAFELOOP_C1_CHECKPOINT: /app/C1/student_ttc.pth
+      SAFELOOP_C2_BUNDLE: /app/models/driver_state_phase_2_v13
+      SAFELOOP_DEVICE: cuda
+      SAFELOOP_HSTS: ${SAFELOOP_HSTS:-0}
+      MPLCONFIGDIR: /tmp/matplotlib
+    secrets:
+      - ingest_token
+      - android_token
+    volumes:
+      - ${SAFELOOP_DEMO_HOST_ROOT:-./.carsky-build/demo}:/demo-data:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    read_only: true
+    tmpfs:
+      - /tmp:size=512m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz', timeout=2).read()"]
+      interval: 10s
+      timeout: 3s
+      start_period: 180s
+      retries: 3
+    networks: [bridge]
+
+  cloudflared:
+    image: cloudflare/cloudflared:2026.7.3@sha256:e39ee8da81ad5e05d77f38d2f51c60ca51bf2a8450ac3abab50c17fdb91d91bf
+    restart: unless-stopped
+    command: ["tunnel", "--no-autoupdate", "--loglevel", "info", "run", "--token-file", "/run/secrets/cloudflared_token"]
+    secrets:
+      - cloudflared_token
+    depends_on:
+      app:
+        condition: service_healthy
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks: [bridge]
+
+networks:
+  bridge:
+    internal: false
+
+secrets:
+  ingest_token:
+    file: ./.secrets/ingest_token
+  android_token:
+    file: ./.secrets/android_token
+  cloudflared_token:
+    file: ./.secrets/cloudflared_token

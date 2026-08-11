@@ -1,0 +1,36 @@
+# syntax=docker/dockerfile:1.7
+FROM python:3.10.18-slim-bookworm@sha256:445b9efb2c047a7ccdb30d293fd6b1aa0f62a55062dc2b69051df91e10848749
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libglib2.0-0 libgl1 libsndfile1 ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd --system --gid 10001 safeloop \
+    && useradd --system --uid 10001 --gid safeloop --home-dir /nonexistent --shell /usr/sbin/nologin safeloop
+
+WORKDIR /app
+COPY requirements-aws.lock /tmp/requirements-aws.lock
+RUN python -m pip install --requirement /tmp/requirements-aws.lock \
+    && rm /tmp/requirements-aws.lock
+
+COPY C1 /app/C1
+COPY drive_state /app/drive_state
+COPY tripkit /app/tripkit
+COPY safeloop /app/safeloop
+COPY models/driver_state_phase_2_v13 /app/models/driver_state_phase_2_v13
+
+RUN find /app -type d -exec chmod 0555 {} + \
+    && find /app -type f -exec chmod 0444 {} +
+
+USER 10001:10001
+EXPOSE 8000
+HEALTHCHECK --interval=10s --timeout=3s --start-period=180s --retries=3 \
+  CMD ["python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz', timeout=2).read()"]
+
+ENTRYPOINT ["python", "-m", "uvicorn"]
+CMD ["safeloop.aws_live_service:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--no-access-log"]

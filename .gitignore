@@ -20,6 +20,16 @@ __pycache__/
 .ipynb_checkpoints/
 build/
 /.carsky-build/
+/.secrets/
+/.env
+/.env.*
+!/.env.example
+/android-local/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
 
 # CarSky runtime config/credential — không commit
 .carsky.env

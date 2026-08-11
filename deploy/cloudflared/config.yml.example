@@ -1,0 +1,7 @@
+tunnel: TUNNEL_UUID
+credentials-file: /run/secrets/cloudflared-credentials.json
+
+ingress:
+  - hostname: safeloop.sonnet.io.vn
+    service: http://app:8000
+  - service: http_status:404
