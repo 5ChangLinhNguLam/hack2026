@@ -47,6 +47,12 @@ METADATA_FIELDS = frozenset(
         "speed_limit_kmh",
     }
 )
+# ``description`` is accepted only because it is present in existing prepared
+# manifests. It may describe a scenario/event, so it must not cross the
+# recorded-stream runtime boundary or appear in soak reports/model inputs.
+RUNTIME_METADATA_FIELDS = frozenset(
+    {"trip_id", "duration_sec", "fps", "weather", "speed_limit_kmh"}
+)
 EGO_FIELDS = (
     "speed_kmh",
     "longitudinal_accel",
@@ -542,7 +548,13 @@ class TruthFreeRecordedBundle:
         return cls(
             root=root,
             trip_id=trip_id,
-            metadata=_freeze_json_value(metadata),
+            metadata=_freeze_json_value(
+                {
+                    key: metadata[key]
+                    for key in RUNTIME_METADATA_FIELDS
+                    if key in metadata
+                }
+            ),
             frames=tuple(indexed_frames),
             manifest_path=manifest_path,
         )

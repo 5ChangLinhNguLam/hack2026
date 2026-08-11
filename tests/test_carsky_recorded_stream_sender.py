@@ -61,6 +61,7 @@ def _source_trip(root: Path, *, count: int = 3, fps: int = 20) -> Path:
         "trip_id": trip.name,
         "metadata": {
             "trip_id": trip.name,
+            "description": "pedestrian jaywalk ground-truth scenario",
             "fps": fps,
             "duration_sec": count / fps,
             "speed_limit_kmh": 80,
@@ -119,6 +120,7 @@ def test_loader_accepts_only_prepared_truth_free_contract(tmp_path: Path) -> Non
     }
     assert bundle.metadata["speed_limit_kmh"] == 80.0
     assert "random_seed" not in bundle.metadata
+    assert "description" not in bundle.metadata
     with pytest.raises(TypeError):
         bundle.metadata["speed_limit_kmh"] = 1.0
     weather = bundle.metadata["weather"]

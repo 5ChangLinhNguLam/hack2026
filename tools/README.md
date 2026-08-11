@@ -7,6 +7,8 @@ Script chỉ nhận bundle `safeloop.carsky.demo-bundle.v1` đã tạo bởi
 label, target, event và depth bị từ chối. Mỗi tick giữ nguyên
 `source_sequence`/timestamp media gốc, nhưng lấy `capture_timestamp_ms` epoch
 ngay lúc phát, với nhãn bắt buộc `RECORDED_STREAM + LIVE_MODEL`.
+`metadata.description` được nhận diện khi xác minh bundle nhưng bị loại trước
+runtime vì nội dung mô tả có thể làm lộ annotation kịch bản/event.
 
 ```bash
 python tools/prepare_carsky_demo.py /path/to/T02-Sample \
@@ -35,6 +37,27 @@ FFmpeg theo từng frame, và từ chối output làm đổi identity/RTP mappin
 hiện chưa tuyên bố H.264 encode/decode soak: raw pipe của FFmpeg 4.4 không cung
 cấp side channel đủ để chứng minh mapping; không được ghép output bằng thứ tự
 callback decoder.
+
+## carsky_live_soak.py — soak local T4
+
+Harness chạy C1+C2+C3/DQ/context thật trên inference thread một-slot, build
+decision-v2 và serialize bằng publisher thread tới mock sink local. Model chỉ
+load một lần; T01/T02 luân phiên theo session.
+
+```bash
+# smoke 30 giây
+.venv-dms2/bin/python tools/carsky_live_soak.py --duration-seconds 30 --device cuda
+
+# soak T4 10 phút (ít nhất 600 giây, cộng model load/publisher drain)
+.venv-dms2/bin/python tools/carsky_live_soak.py --duration-seconds 600 --device cuda
+```
+
+Report strict JSON nằm trong `.carsky-build/soak/`. Exit `0` chỉ khi `PASS`;
+`1` cho `DEGRADED`/`INCONCLUSIVE`/`FAIL`, `2` nếu không khởi chạy được. Report
+luôn ghi `media_codec=IMAGE_FILE_DECODE`, `h264_included=false` và
+`aws_connectivity=false`: đây không phải bằng chứng H.264, WebRTC/MQTT, AWS hay
+Android network latency. Có thể mô phỏng broker bằng `--publisher-delay-ms` và
+`--publisher-fail-every` mà không gọi mạng.
 
 ## safe_extract.py — Giải nén zip lớn không bị fail giữa chừng
 

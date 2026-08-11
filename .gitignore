@@ -24,6 +24,24 @@ build/
 # CarSky runtime config/credential — không commit
 .carsky.env
 /carsky-credential*
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Terraform local state/plan/provider cache — tuyệt đối không commit
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+!*.tfvars.example
+crash.log
+crash.*.log
 
 # Tài liệu đầu vào/nội bộ và ảnh giao diện tham khảo
 /docs/dot2_team/
