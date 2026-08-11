@@ -1,0 +1,92 @@
+{
+  "schema": "safeloop.decision.v2",
+  "session_id": "vehicle-42/drive-20260811T120000Z",
+  "generation": 3,
+  "sequence": 17,
+  "source_sequence": 42,
+  "video_source": "RECORDED_STREAM",
+  "inference_mode": "LIVE_MODEL",
+  "capture_timestamp_ms": 1700000000000,
+  "source_media_timestamp_ms": 12500,
+  "server_receive_timestamp_ms": 1700000000010,
+  "decision_timestamp_ms": 1700000000050,
+  "source_age_ms": 50,
+  "ttl_ms": 250,
+  "expires_at_ms": 1700000000250,
+  "clock": {
+    "status": "SYNCHRONIZED",
+    "offset_uncertainty_ms": 5
+  },
+  "validity": {
+    "ego": true,
+    "front_camera": true,
+    "cabin_camera": true,
+    "c1": true,
+    "c2": true,
+    "c3": true,
+    "drive_quality": true,
+    "contextual_risk": true
+  },
+  "c1": {
+    "ttc_ms": 1800,
+    "collision_probability_pct": 82.5,
+    "warning": true,
+    "model_updated": true
+  },
+  "c2": {
+    "state": "distracted",
+    "confidence_pct": 91.2,
+    "attentive_probability_pct": 18.0,
+    "distraction_level_pct": 83.0,
+    "fatigue_level_pct": 12.0,
+    "eyes_on_road": false,
+    "warning": true
+  },
+  "c3": {
+    "safe_score_estimate_pct": 91.2,
+    "grade": "A",
+    "scope": "PREFIX"
+  },
+  "drive_quality": {
+    "score_pct": 87.5,
+    "grade": "B",
+    "scope": "ROLLING_60S"
+  },
+  "contextual_risk": {
+    "score_pct": 84.0,
+    "level": "HIGH",
+    "action": "VISUAL_AUDIO_HAPTIC_WARNING",
+    "brake_request_pct": 0.0,
+    "reasons": [
+      "LOW_TTC",
+      "DRIVER_DISTRACTION"
+    ]
+  },
+  "models": {
+    "c1": {
+      "version": "student-ttc-2026.08",
+      "digest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "c2": {
+      "version": "general-dms-2026.08",
+      "digest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "c3": {
+      "version": "btc-formula-1",
+      "digest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "drive_quality": {
+      "version": "drive-quality-1",
+      "digest_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "contextual_risk": {
+      "version": "context-risk-1",
+      "digest_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  },
+  "health": {
+    "status": "NOMINAL",
+    "reasons": []
+  },
+  "actuation_authorized": false
+}
