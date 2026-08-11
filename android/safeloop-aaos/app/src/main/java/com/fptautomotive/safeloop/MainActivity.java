@@ -8,15 +8,18 @@ import android.os.SystemClock;
 import android.view.WindowManager;
 
 /** Single-screen native AAOS dashboard; no WebView and no embedded replay. */
-public final class MainActivity extends Activity implements UdpDecisionReceiver.Listener {
+public final class MainActivity extends Activity implements DecisionReceiver.Listener {
     public static final String EXTRA_UDP_PORT = "udp_port";
+    public static final String EXTRA_CLOUD_STREAM_URL = "cloud_stream_url";
+    public static final String EXTRA_CLOUD_STREAM_TOKEN = "cloud_stream_token";
     private static final long UI_TICK_MS = 250L;
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private final DecisionStateMachine stateMachine = new DecisionStateMachine();
     private final AlertPolicy alertPolicy = new AlertPolicy();
     private DashboardView dashboard;
-    private UdpDecisionReceiver receiver;
+    private DecisionReceiver receiver;
+    private boolean cloudTransport;
     private AlertAudioController audio;
     private boolean started;
     private boolean destroyed;
@@ -39,12 +42,23 @@ public final class MainActivity extends Activity implements UdpDecisionReceiver.
         dashboard = new DashboardView(this);
         setContentView(dashboard);
         audio = new AlertAudioController();
-        int requestedPort = getIntent().getIntExtra(
-                EXTRA_UDP_PORT, UdpDecisionReceiver.DEFAULT_PORT);
-        if (requestedPort < 1024 || requestedPort > 65535) {
-            requestedPort = UdpDecisionReceiver.DEFAULT_PORT;
+        String cloudUrl = getIntent().getStringExtra(EXTRA_CLOUD_STREAM_URL);
+        if (TransportSelector.select(cloudUrl) == TransportSelector.Transport.HTTPS_SSE) {
+            cloudTransport = true;
+            String cloudToken = getIntent().getStringExtra(EXTRA_CLOUD_STREAM_TOKEN);
+            receiver = new HttpsSseDecisionReceiver(
+                    cloudUrl, cloudToken, new DecisionPacketParser(), this);
+        } else {
+            cloudTransport = false;
+            int requestedPort = getIntent().getIntExtra(
+                    EXTRA_UDP_PORT, UdpDecisionReceiver.DEFAULT_PORT);
+            if (requestedPort < 1024 || requestedPort > 65535) {
+                requestedPort = UdpDecisionReceiver.DEFAULT_PORT;
+            }
+            receiver = new UdpDecisionReceiver(
+                    requestedPort, new DecisionPacketParser(), this);
         }
-        receiver = new UdpDecisionReceiver(requestedPort, new DecisionPacketParser(), this);
+        dashboard.setCloudTransport(cloudTransport);
         render(SystemClock.elapsedRealtime());
     }
 

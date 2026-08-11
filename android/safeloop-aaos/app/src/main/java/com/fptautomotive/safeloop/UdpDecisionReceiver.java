@@ -14,17 +14,11 @@ import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 
 /** One-thread UDP listener for full, self-healing SafeLoop snapshots. */
-public final class UdpDecisionReceiver implements AutoCloseable {
+public final class UdpDecisionReceiver implements DecisionReceiver {
     public static final int DEFAULT_PORT = 48100;
 
-    public interface Listener {
-        void onPacket(
-                long generationToken,
-                DecisionSnapshot packet,
-                long receivedElapsedMs);
-        void onMalformedPacket(long generationToken, String message);
-        void onTransportError(long generationToken, String message);
-    }
+    /** Kept as a source-compatible alias for existing room-local integrations. */
+    public interface Listener extends DecisionReceiver.Listener {}
 
     interface SocketFactory {
         DatagramSocket open() throws SocketException;
@@ -36,7 +30,7 @@ public final class UdpDecisionReceiver implements AutoCloseable {
 
     private final int port;
     private final DecisionPacketParser parser;
-    private final Listener listener;
+    private final DecisionReceiver.Listener listener;
     private final SocketFactory socketFactory;
     private final ElapsedClock elapsedClock;
     private boolean running;
@@ -44,7 +38,8 @@ public final class UdpDecisionReceiver implements AutoCloseable {
     private DatagramSocket socket;
     private Thread thread;
 
-    public UdpDecisionReceiver(int port, DecisionPacketParser parser, Listener listener) {
+    public UdpDecisionReceiver(
+            int port, DecisionPacketParser parser, DecisionReceiver.Listener listener) {
         this(port, parser, listener, () -> new DatagramSocket(null),
                 SystemClock::elapsedRealtime);
     }
@@ -52,7 +47,7 @@ public final class UdpDecisionReceiver implements AutoCloseable {
     UdpDecisionReceiver(
             int port,
             DecisionPacketParser parser,
-            Listener listener,
+            DecisionReceiver.Listener listener,
             SocketFactory socketFactory,
             ElapsedClock elapsedClock) {
         if (port < 1024 || port > 65535) {

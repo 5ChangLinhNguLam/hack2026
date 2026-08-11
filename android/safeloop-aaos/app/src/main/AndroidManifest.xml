@@ -8,8 +8,8 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
-    <!-- The dashboard receives room-local UDP snapshots.  It never embeds an
-         A8 credential and never sends actuator commands. -->
+    <!-- The dashboard receives either room-local UDP or outbound HTTPS SSE.
+         It never embeds a bearer credential and never sends actuator commands. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application

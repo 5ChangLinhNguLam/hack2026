@@ -32,6 +32,7 @@ public final class DashboardView extends View {
     private DashboardState state = new DashboardState(
             DashboardState.Health.NO_DATA, null, -1L, 0L, 0L, 0L, 0L, "");
     private AlertPolicy.Decision alert = new AlertPolicy().evaluate(state);
+    private boolean cloudTransport;
 
     public DashboardView(Context context) {
         this(context, null);
@@ -58,6 +59,11 @@ public final class DashboardView extends View {
         state = newState;
         alert = newAlert;
         updateAccessibilityDescription();
+        invalidate();
+    }
+
+    public void setCloudTransport(boolean enabled) {
+        cloudTransport = enabled;
         invalidate();
     }
 
@@ -109,9 +115,13 @@ public final class DashboardView extends View {
         canvas.drawRoundRect(rect, dp(10), dp(10), paint);
         drawText(canvas, "SL", x + dp(13), y + dp(36), sp(15), CYAN, true);
         drawText(canvas, "SAFELOOP", x + dp(58), y + dp(28), sp(23), TEXT, true);
-        drawText(canvas, "INTELLIGENT SAFETY CO-PILOT", x + dp(58), y + dp(50), sp(10), MUTED, false);
+        String provenance = cloudTransport
+                ? cloudProvenance()
+                : "TRANSPORT UDP · ROOM-LOCAL DECISION";
+        drawText(canvas, provenance, x + dp(58), y + dp(50), sp(9), MUTED, false);
 
-        String source = state.snapshot == null ? "SOURCE —" : "SOURCE " + state.snapshot.sourceMode;
+        String source = cloudTransport ? "TRANSPORT AWS"
+                : (state.snapshot == null ? "SOURCE —" : "SOURCE " + state.snapshot.sourceMode);
         int sourceColor = state.snapshot != null
                 && state.snapshot.sourceMode == DecisionSnapshot.SourceMode.LIVE
                 ? GREEN : AMBER;
@@ -142,6 +152,21 @@ public final class DashboardView extends View {
         drawText(canvas, alert.label, x + dp(18), centerBaseline(y, height, sp(18)), sp(18), color, true);
         drawEllipsizedText(canvas, alert.detail, x + dp(190), centerBaseline(y, height, sp(13)),
                 width - dp(208), sp(13), TEXT, false);
+        if (cloudTransport && state.snapshot != null
+                && state.snapshot.sourceMode == DecisionSnapshot.SourceMode.REPLAY) {
+            drawTextRight(canvas, "RECORDED STREAM — LIVE MODEL INFERENCE",
+                    x + width - dp(14), y + dp(15), sp(8), AMBER, true);
+        }
+    }
+
+    private String cloudProvenance() {
+        if (state.snapshot == null) {
+            return "CAMERA — · TELEMETRY — · INFERENCE LIVE_MODEL";
+        }
+        if (state.snapshot.sourceMode == DecisionSnapshot.SourceMode.REPLAY) {
+            return "CAMERA RECORDED · TELEMETRY RECORDED_DATA · INFERENCE LIVE_MODEL";
+        }
+        return "CAMERA LIVE · TELEMETRY THIRD_PARTY · INFERENCE LIVE_MODEL";
     }
 
     private void drawCollisionPanel(Canvas canvas, float x, float y, float width, float height) {
