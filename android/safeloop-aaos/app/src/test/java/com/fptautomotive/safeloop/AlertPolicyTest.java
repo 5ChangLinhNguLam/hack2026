@@ -2,9 +2,8 @@ package com.fptautomotive.safeloop;
 
 import org.junit.Test;
 
-import java.util.Collections;
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public final class AlertPolicyTest {
     private final AlertPolicy policy = new AlertPolicy();
@@ -20,29 +19,19 @@ public final class AlertPolicyTest {
     }
 
     @Test
-    public void emergencyRecommendationProducesCriticalAdvisory() {
-        DecisionSnapshot base = DecisionFixtures.live("run-a", 0L, 10_000L, 200);
-        DecisionSnapshot critical = DecisionSnapshot.builder()
-                .sourceMode(base.sourceMode).sessionId(base.sessionId).sequence(base.sequence)
-                .frameId(base.frameId).sourceTimestampMs(base.sourceTimestampMs)
-                .decisionTimestampMs(base.decisionTimestampMs).ttlMs(base.ttlMs)
-                .expiresAtMs(base.expiresAtMs)
-                .validity(true, true, true, true, true, true, true, true)
-                .c1(0.9, true, 95.0, true, true, base.c1ModelFrameId, 0L)
-                .c2("alert", 91.0, 91.0, 6.0, 8.0, Boolean.TRUE, false)
-                .c3(72.0, "C", "PREFIX", base.c3FormulaVersion, true)
-                .driveQuality(true, 88.0, "B", "PREFIX", false,
-                        base.driveQualityFormulaVersion)
-                .contextualRisk(95.0, "CRITICAL", "EMERGENCY_BRAKE_REQUEST", 70.0,
-                        Collections.singletonList("LOW_TTC"), false)
-                .health("NOMINAL", true, Collections.emptyList())
-                .build();
+    public void legacyEmergencyInputIsNormalizedBeforeCriticalAlert() {
+        DecisionSnapshot critical = DecisionFixtures.legacyEmergency(
+                "run-a", 10_000L, 200);
+        assertEquals(DecisionSnapshot.WARNING_ONLY_ACTION, critical.action);
+        assertEquals(0.0, critical.brakeRequestPct, 0.0);
+        assertFalse(critical.actuationAuthorized);
         DecisionStateMachine machine = new DecisionStateMachine();
         machine.accept(critical, 1L);
 
         AlertPolicy.Decision decision = policy.evaluate(machine.stateAt(1L));
         assertEquals(AlertPolicy.Severity.CRITICAL, decision.severity);
         assertEquals(AlertPolicy.AudioCue.CRITICAL, decision.audioCue);
+        assertFalse(decision.detail.toLowerCase(java.util.Locale.ROOT).contains("brake"));
     }
 
     @Test

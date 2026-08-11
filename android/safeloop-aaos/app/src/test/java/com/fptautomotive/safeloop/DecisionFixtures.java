@@ -70,6 +70,24 @@ final class DecisionFixtures {
                 .build();
     }
 
+    static DecisionSnapshot legacyEmergency(String session, long decidedMs, int ttlMs) {
+        return DecisionSnapshot.builder()
+                .sourceMode(DecisionSnapshot.SourceMode.REPLAY)
+                .sessionId(session).sequence(0L).frameId(4L).sourceTimestampMs(200L)
+                .decisionTimestampMs(decidedMs).ttlMs(ttlMs)
+                .expiresAtMs(decidedMs + ttlMs)
+                .validity(true, true, true, true, true, true, true, true)
+                .c1(0.9, true, 95.0, true, true, 4L, 0L)
+                .c2("alert", 91.0, 91.0, 6.0, 8.0, Boolean.TRUE, false)
+                .c3(72.0, "C", "PREFIX", "hackathon-evaluator-v1-no-tailgating", true)
+                .driveQuality(true, 88.0, "B", "PREFIX", false,
+                        "safeloop-drive-quality-v1")
+                .contextualRisk(95.0, "CRITICAL", "EMERGENCY_BRAKE_REQUEST", 70.0,
+                        Collections.singletonList("LOW_TTC"), false)
+                .health("NOMINAL", true, Collections.emptyList())
+                .build();
+    }
+
     static String validJson() {
         return "{"
                 + "\"schema_version\":\"safeloop.decision.v1\","

@@ -109,6 +109,26 @@ def _require_exact_keys(
         )
 
 
+def _warning_only_risk_payload(
+    risk: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Normalize legacy actuator-like fields without changing the v1 shape.
+
+    ``EMERGENCY_BRAKE_REQUEST`` remains a recognized v1 wire enum solely so
+    deployed packets can be decoded.  Every newly built or parsed envelope
+    crosses this boundary before being returned to application code.
+    """
+
+    normalized = dict(risk)
+    if (
+        normalized.get("action") == "EMERGENCY_BRAKE_REQUEST"
+        or float(normalized.get("brake_request_pct", 0.0)) > 0.0
+    ):
+        normalized["action"] = "VISUAL_AUDIO_HAPTIC_WARNING"
+    normalized["brake_request_pct"] = 0.0
+    return normalized
+
+
 @dataclass(frozen=True)
 class DecisionValidity:
     """Freshness/availability flags for one synchronized source snapshot."""
@@ -559,9 +579,15 @@ class DecisionEnvelope:
                 "decision JSON keys must be exactly " + ", ".join(sorted(required))
             )
         try:
-            return cls(**decoded)
+            legacy = cls(**decoded)
         except TypeError as exc:
             raise DecisionContractError("invalid decision JSON structure") from exc
+        normalized_risk = _warning_only_risk_payload(legacy.contextual_risk)
+        if normalized_risk == legacy.contextual_risk:
+            return legacy
+        normalized = legacy.to_dict()
+        normalized["contextual_risk"] = normalized_risk
+        return cls(**normalized)
 
     def is_expired(self, now_ms: int) -> bool:
         if not _is_int(now_ms) or now_ms < 0:
@@ -771,19 +797,28 @@ class DecisionEnvelopeBuilder:
 
         risk = frame.contextual_risk
         if validity.contextual_risk:
-            risk_payload = {
-                "score_pct": _percentage(
-                    risk.score_pct, field="contextual_risk.score_pct"
-                ),
-                "level": str(risk.level),
-                "action": str(risk.action),
-                "brake_request_pct": _percentage(
-                    risk.brake_request_pct,
-                    field="contextual_risk.brake_request_pct",
-                ),
-                "reasons": [str(reason) for reason in risk.reasons],
-                "actuation_authorized": False,
-            }
+            legacy_risk_action = str(risk.action)
+            if legacy_risk_action == "EMERGENCY_BRAKE_REQUEST" and not all(
+                getattr(validity, name) for name in ("ego", "front_camera", "c1")
+            ):
+                raise DecisionContractError(
+                    "emergency recommendation requires fresh ego/front/C1 inputs"
+                )
+            risk_payload = _warning_only_risk_payload(
+                {
+                    "score_pct": _percentage(
+                        risk.score_pct, field="contextual_risk.score_pct"
+                    ),
+                    "level": str(risk.level),
+                    "action": legacy_risk_action,
+                    "brake_request_pct": _percentage(
+                        risk.brake_request_pct,
+                        field="contextual_risk.brake_request_pct",
+                    ),
+                    "reasons": [str(reason) for reason in risk.reasons],
+                    "actuation_authorized": False,
+                }
+            )
         else:
             risk_payload = {
                 "score_pct": None,

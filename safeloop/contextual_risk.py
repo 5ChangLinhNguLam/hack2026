@@ -90,8 +90,8 @@ class ContextualRiskPolicy:
             math.isfinite(ttc) and ttc < 2.0 and driver_risk >= 0.70
         ):
             level = "CRITICAL"
-            action = "EMERGENCY_BRAKE_REQUEST"
-            brake_request = 70.0
+            action = "VISUAL_AUDIO_HAPTIC_WARNING"
+            brake_request = 0.0
         elif (math.isfinite(ttc) and ttc < 2.5) or score_pct >= 75.0:
             level = "HIGH"
             action = "VISUAL_AUDIO_HAPTIC_WARNING"

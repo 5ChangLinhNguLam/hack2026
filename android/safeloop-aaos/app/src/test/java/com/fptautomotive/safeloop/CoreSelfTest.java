@@ -18,6 +18,20 @@ public final class CoreSelfTest {
                         == AlertPolicy.AudioCue.NONE,
                 "stale state is silent");
 
+        DecisionSnapshot legacy = DecisionFixtures.legacyEmergency(
+                "legacy-wire", 15_000L, 200);
+        require(DecisionSnapshot.WARNING_ONLY_ACTION.equals(legacy.action),
+                "legacy emergency action normalized before snapshot return");
+        require(legacy.brakeRequestPct == 0.0,
+                "legacy positive brake request normalized to zero");
+        require(!legacy.actuationAuthorized, "snapshot never authorizes actuation");
+        DecisionStateMachine warningMachine = new DecisionStateMachine();
+        require(warningMachine.accept(legacy, 1_500L), "normalized warning accepted");
+        AlertPolicy.Decision warning = new AlertPolicy().evaluate(
+                warningMachine.stateAt(1_500L));
+        require(!warning.detail.toLowerCase(java.util.Locale.ROOT).contains("brake"),
+                "alert path contains no braking semantics");
+
         DecisionStateMachine sessions = new DecisionStateMachine();
         require(sessions.accept(
                 DecisionFixtures.live("one", 0L, 20_000L, 200), 2_000L),

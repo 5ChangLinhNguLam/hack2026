@@ -51,17 +51,16 @@ public final class AlertPolicy {
         String declaredLevel = packet.riskLevel.toUpperCase(Locale.ROOT);
         boolean finiteTtc = packet.c1Valid && packet.ttcValid
                 && Double.isFinite(packet.ttcSeconds);
-        if (action.equals("EMERGENCY_BRAKE_REQUEST")
-                || declaredLevel.equals("CRITICAL")
+        if (declaredLevel.equals("CRITICAL")
                 || (finiteTtc && packet.ttcSeconds <= 1.2)
                 || packet.contextRiskPct >= 90.0) {
             return new Decision(
                     Severity.CRITICAL,
                     AudioCue.CRITICAL,
                     "COLLISION RISK",
-                    "Brake request is advisory only; control remains outside HMI");
+                    "Critical driver warning; vehicle control remains outside HMI");
         }
-        if (action.equals("VISUAL_AUDIO_HAPTIC_WARNING")
+        if (action.equals(DecisionSnapshot.WARNING_ONLY_ACTION)
                 || declaredLevel.equals("HIGH")
                 || (finiteTtc && packet.ttcSeconds < 2.5)
                 || packet.contextRiskPct >= 70.0) {

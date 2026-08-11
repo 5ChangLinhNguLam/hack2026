@@ -6,8 +6,10 @@ JavaScript simulator, Compose, AndroidX, model, dataset, or A8 credential.
 
 The app is intentionally read-only. It displays model decisions and emits local
 warning tones, but it has no VHAL write permission and no vehicle-control API.
-`EMERGENCY_BRAKE_REQUEST` is rendered as a recommendation; the wire contract
-requires `actuation_authorized=false`.
+For legacy-v1 compatibility the parser accepts `EMERGENCY_BRAKE_REQUEST` and a
+positive `brake_request_pct`, but the immutable snapshot normalizes either to
+`VISUAL_AUDIO_HAPTIC_WARNING` with zero brake before UI, alert, or audio code
+can observe it. The wire contract still requires `actuation_authorized=false`.
 
 ## Data path
 

@@ -213,6 +213,48 @@ def test_emergency_recommendation_requires_fresh_collision_inputs() -> None:
         )
 
 
+def test_builder_normalizes_legacy_emergency_risk_to_warning_only() -> None:
+    envelope = builder().build(
+        combined_frame(
+            action="EMERGENCY_BRAKE_REQUEST",
+            level="CRITICAL",
+            brake_request_pct=70.0,
+        ),
+        validity=all_valid(),
+    )
+
+    assert envelope.contextual_risk["level"] == "CRITICAL"
+    assert envelope.contextual_risk["action"] == "VISUAL_AUDIO_HAPTIC_WARNING"
+    assert envelope.contextual_risk["brake_request_pct"] == 0.0
+    assert b"EMERGENCY_BRAKE_REQUEST" not in envelope.to_json_bytes()
+
+
+@pytest.mark.parametrize(
+    "legacy_action",
+    ["EMERGENCY_BRAKE_REQUEST", "VISUAL_WARNING"],
+)
+def test_parser_accepts_legacy_brake_wire_but_returns_warning_only(
+    legacy_action: str,
+) -> None:
+    payload = builder().build(combined_frame(), validity=all_valid()).to_dict()
+    payload["contextual_risk"].update(
+        {
+            "level": "CRITICAL",
+            "action": legacy_action,
+            "brake_request_pct": 70.0,
+        }
+    )
+
+    envelope = DecisionEnvelope.from_json_bytes(json.dumps(payload).encode("utf-8"))
+
+    assert (
+        envelope.contextual_risk["action"]
+        == "VISUAL_AUDIO_HAPTIC_WARNING"
+    )
+    assert envelope.contextual_risk["brake_request_pct"] == 0.0
+    assert b"EMERGENCY_BRAKE_REQUEST" not in envelope.to_json_bytes()
+
+
 def test_builder_sequence_is_monotonic_and_c1_forward_fill_has_age() -> None:
     build = builder()
     first = build.build(combined_frame(frame_id=4), validity=all_valid())

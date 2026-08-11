@@ -293,3 +293,15 @@ def test_c2_changes_contextual_risk_but_not_challenge3_score() -> None:
         )
     assert scores[0].safe_score_estimate == scores[1].safe_score_estimate
     assert scores[0].near_miss_frames == scores[1].near_miss_frames
+
+
+def test_critical_contextual_risk_is_warning_only() -> None:
+    decision = ContextualRiskPolicy().evaluate(
+        FakeC1(predicted_ttc_s=1.0),
+        FakeC2("microsleep", 5.0, 8.0, 98.0),
+    )
+
+    assert decision.level == "CRITICAL"
+    assert decision.action == "VISUAL_AUDIO_HAPTIC_WARNING"
+    assert decision.brake_request_pct == 0.0
+    assert decision.diagnostic_row()["contextual_risk_brake_request_pct"] == 0.0

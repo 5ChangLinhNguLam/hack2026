@@ -26,6 +26,34 @@ public final class DecisionPacketParserTest {
     }
 
     @Test
+    public void normalizesLegacyEmergencyAndPositiveBrakeBeforeReturning() throws Exception {
+        JSONObject json = new JSONObject(DecisionFixtures.validJson());
+        json.getJSONObject("contextual_risk")
+                .put("score_pct", 95.0)
+                .put("level", "CRITICAL")
+                .put("action", "EMERGENCY_BRAKE_REQUEST")
+                .put("brake_request_pct", 70.0);
+
+        DecisionSnapshot result = parser.parse(json.toString());
+
+        assertEquals(DecisionSnapshot.WARNING_ONLY_ACTION, result.action);
+        assertEquals(0.0, result.brakeRequestPct, 0.0);
+        assertFalse(result.actuationAuthorized);
+    }
+
+    @Test
+    public void normalizesPositiveBrakeEvenWithoutLegacyEmergencyAction() throws Exception {
+        JSONObject json = new JSONObject(DecisionFixtures.validJson());
+        json.getJSONObject("contextual_risk").put("brake_request_pct", 15.0);
+
+        DecisionSnapshot result = parser.parse(json.toString());
+
+        assertEquals(DecisionSnapshot.WARNING_ONLY_ACTION, result.action);
+        assertEquals(0.0, result.brakeRequestPct, 0.0);
+        assertFalse(result.actuationAuthorized);
+    }
+
+    @Test
     public void rejectsPacketAboveNonFragmentingUdpLimit() throws Exception {
         assertEquals(1_472, DecisionPacketParser.MAX_PACKET_BYTES);
         JSONObject oversized = new JSONObject(DecisionFixtures.validJson());

@@ -10,6 +10,9 @@ import java.util.Objects;
 public final class DecisionSnapshot {
     public static final String SCHEMA = "safeloop.decision.v1";
     public static final int MAX_TTL_MS = 1_000;
+    public static final String WARNING_ONLY_ACTION = "VISUAL_AUDIO_HAPTIC_WARNING";
+
+    private static final String LEGACY_EMERGENCY_ACTION = "EMERGENCY_BRAKE_REQUEST";
 
     public enum SourceMode {
         LIVE,
@@ -202,18 +205,17 @@ public final class DecisionSnapshot {
         contextRiskPct = optionalPercent(builder.contextRiskPct, "contextual_risk.score_pct");
         riskLevel = requireOneOf(builder.riskLevel, "contextual_risk.level",
                 "SAFE", "CAUTION", "HIGH", "CRITICAL", "UNAVAILABLE");
-        action = requireOneOf(builder.action, "contextual_risk.action",
-                "MONITOR", "VISUAL_WARNING", "VISUAL_AUDIO_HAPTIC_WARNING",
-                "EMERGENCY_BRAKE_REQUEST");
-        brakeRequestPct = requirePercent(builder.brakeRequestPct,
+        String wireAction = requireOneOf(builder.action, "contextual_risk.action",
+                "MONITOR", "VISUAL_WARNING", WARNING_ONLY_ACTION,
+                LEGACY_EMERGENCY_ACTION);
+        double wireBrakeRequestPct = requirePercent(builder.brakeRequestPct,
                 "contextual_risk.brake_request_pct");
         riskReasons = immutableShortList(builder.riskReasons, "contextual_risk.reasons", 16);
-        actuationAuthorized = builder.actuationAuthorized;
-        if (actuationAuthorized) {
+        if (builder.actuationAuthorized) {
             throw new IllegalArgumentException("Android envelope must never authorize vehicle actuation");
         }
         if (!contextualRiskValid && (!"UNAVAILABLE".equals(riskLevel)
-                || !"MONITOR".equals(action) || brakeRequestPct != 0.0)) {
+                || !"MONITOR".equals(wireAction) || wireBrakeRequestPct != 0.0)) {
             throw new IllegalArgumentException(
                     "invalid contextual risk must be UNAVAILABLE/MONITOR with zero brake");
         }
@@ -221,10 +223,18 @@ public final class DecisionSnapshot {
             throw new IllegalArgumentException(
                     "valid contextual risk cannot have UNAVAILABLE level");
         }
-        if ("EMERGENCY_BRAKE_REQUEST".equals(action)
+        if (LEGACY_EMERGENCY_ACTION.equals(wireAction)
                 && !(egoValid && frontCameraValid && c1Valid)) {
             throw new IllegalArgumentException("emergency recommendation requires fresh C1 inputs");
         }
+
+        // Compatibility ends at the immutable snapshot boundary.  Old v1
+        // senders may still put actuator-like values on the wire, but UI,
+        // state-machine, and alert code can only observe a warning and zero.
+        action = LEGACY_EMERGENCY_ACTION.equals(wireAction) || wireBrakeRequestPct > 0.0
+                ? WARNING_ONLY_ACTION : wireAction;
+        brakeRequestPct = 0.0;
+        actuationAuthorized = false;
 
         healthMode = requireOneOf(builder.healthMode, "health.mode",
                 "INITIALIZING", "NOMINAL", "DEGRADED");
