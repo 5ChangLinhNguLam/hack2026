@@ -1,0 +1,20 @@
+{
+  "body": {
+    "id": "mffgwmak-736c0kns26km",
+    "lastSeenAt": null,
+    "locked": false,
+    "name": "SafeLoop Integration Lab",
+    "operational": "IDLE",
+    "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+    "reachability": "UNKNOWN",
+    "status": "PUBLISHED",
+    "tags": [],
+    "visibility": "PRIVATE",
+    "widgets": []
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:31+07:00",
+  "path": "/api/v1/devices/mffgwmak-736c0kns26km",
+  "status": 200
+}

@@ -1,0 +1,60 @@
+{
+  "queries": [
+    {
+      "device_id": "ehlbxyyc4px2it-cip50w",
+      "response": {
+        "body": [],
+        "content_type": "",
+        "method": "GET",
+        "observed_at": "2026-08-10T21:44:34+07:00",
+        "path": "/api/v1/deployments/find?device=ehlbxyyc4px2it-cip50w",
+        "status": 200
+      }
+    },
+    {
+      "device_id": "2tmi0wvx9runxbdo2ajbx",
+      "response": {
+        "body": [],
+        "content_type": "",
+        "method": "GET",
+        "observed_at": "2026-08-10T21:44:34+07:00",
+        "path": "/api/v1/deployments/find?device=2tmi0wvx9runxbdo2ajbx",
+        "status": 200
+      }
+    },
+    {
+      "device_id": "h5sjc3jtzl8vzl9wyqokv",
+      "response": {
+        "body": [
+          {
+            "blueprintId": "kdXIOlc-rVzCpJwTZ7LT4",
+            "blueprintName": "SafeLoop Integration Lab-deploy",
+            "createdAt": "2026-08-05T08:24:28.429Z",
+            "deviceName": "Inspiring Spence",
+            "id": "uQQBHr256M5GEdNzq2GuQ",
+            "name": "SafeLoop Integration Lab-deploy",
+            "namespace": "room-cma9ky4e",
+            "roomId": "h5sjc3jtzl8vzl9wyqokv",
+            "status": "RUNNING"
+          }
+        ],
+        "content_type": "",
+        "method": "GET",
+        "observed_at": "2026-08-10T21:44:34+07:00",
+        "path": "/api/v1/deployments/find?device=h5sjc3jtzl8vzl9wyqokv",
+        "status": 200
+      }
+    },
+    {
+      "device_id": "mffgwmak-736c0kns26km",
+      "response": {
+        "body": [],
+        "content_type": "",
+        "method": "GET",
+        "observed_at": "2026-08-10T21:44:35+07:00",
+        "path": "/api/v1/deployments/find?device=mffgwmak-736c0kns26km",
+        "status": 200
+      }
+    }
+  ]
+}

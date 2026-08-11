@@ -1,0 +1,78 @@
+{
+  "body": {
+    "data": [
+      {
+        "category": "VSS",
+        "createdAt": "2026-07-25T15:42:42.491Z",
+        "description": "DMS driver state, risk, TTC, headway and HMI alert signals",
+        "id": "Q4ruRJhflspQoU0SY1l2f",
+        "name": "dms-driver-safety-vss",
+        "ownerId": "228203ab-d105-4531-a848-31f970f4e00d",
+        "updatedAt": "2026-08-09T18:30:22.577Z",
+        "versionCount": 6,
+        "visibility": "PUBLIC"
+      },
+      {
+        "category": "USB",
+        "createdAt": "2026-07-15T09:16:34.557Z",
+        "description": "",
+        "id": "RbBvB3_DcODKs-u3l2soE",
+        "name": "usb",
+        "ownerId": "f90cc2d5-7fbb-4171-95fb-accf669cc3fb",
+        "updatedAt": "2026-07-26T15:45:23.674Z",
+        "versionCount": 1,
+        "visibility": "PUBLIC"
+      },
+      {
+        "category": "ANDROID_IMAGE",
+        "createdAt": "2026-07-15T09:16:00.505Z",
+        "description": null,
+        "id": "zAC90TkKqaA63rfuATj1m",
+        "name": "aaos",
+        "ownerId": "f90cc2d5-7fbb-4171-95fb-accf669cc3fb",
+        "updatedAt": "2026-07-23T02:36:51.801Z",
+        "versionCount": 1,
+        "visibility": "PUBLIC"
+      },
+      {
+        "category": "DBC",
+        "createdAt": "2026-07-15T09:15:38.491Z",
+        "description": null,
+        "id": "BJ_NG5IGNnK0hwreyFrxn",
+        "name": "pwt",
+        "ownerId": "f90cc2d5-7fbb-4171-95fb-accf669cc3fb",
+        "updatedAt": "2026-07-23T02:37:01.391Z",
+        "versionCount": 1,
+        "visibility": "PUBLIC"
+      },
+      {
+        "category": "DBC",
+        "createdAt": "2026-07-15T09:15:31.892Z",
+        "description": null,
+        "id": "MmoaZPtZ_Fb6X-B28YAim",
+        "name": "bcm",
+        "ownerId": "f90cc2d5-7fbb-4171-95fb-accf669cc3fb",
+        "updatedAt": "2026-07-23T02:37:04.536Z",
+        "versionCount": 1,
+        "visibility": "PUBLIC"
+      },
+      {
+        "category": "VSS",
+        "createdAt": "2026-07-15T09:15:12.230Z",
+        "description": null,
+        "id": "zsJexrIgGwIeyk3ODyYoh",
+        "name": "vss",
+        "ownerId": "f90cc2d5-7fbb-4171-95fb-accf669cc3fb",
+        "updatedAt": "2026-07-23T02:37:06.876Z",
+        "versionCount": 1,
+        "visibility": "PUBLIC"
+      }
+    ],
+    "nextCursor": null
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:32+07:00",
+  "path": "/api/v1/artifacts?limit=100",
+  "status": 200
+}

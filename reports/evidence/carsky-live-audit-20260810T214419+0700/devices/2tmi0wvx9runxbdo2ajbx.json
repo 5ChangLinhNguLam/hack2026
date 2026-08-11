@@ -1,0 +1,85 @@
+{
+  "body": {
+    "id": "2tmi0wvx9runxbdo2ajbx",
+    "lastSeenAt": null,
+    "locked": true,
+    "name": "AiVL_Test_v3.0",
+    "operational": "IDLE",
+    "ownerId": "f43056e6-5833-4659-8a77-1a7cdd472b98",
+    "reachability": "UNKNOWN",
+    "status": "MAINTENANCE",
+    "tags": [],
+    "visibility": "PUBLIC",
+    "widgets": [
+      {
+        "config": "{\"videoPart\":\"skycraft-1-screen\",\"audioPart\":\"skycraft-1-audio\",\"recorderPart\":\"__client_mic__\",\"touchPart\":\"skycraft-1-touch-panel\",\"keyboardPart\":\"skycraft-1-keyboard-panel\"}",
+        "deviceId": "2tmi0wvx9runxbdo2ajbx",
+        "id": "BpjA7-ixj_Hpbt_1MpjBI",
+        "order": "a0",
+        "title": "New Screen",
+        "type": "screen"
+      },
+      {
+        "config": "{\"adbPart\":\"skycraft-1-adb\"}",
+        "deviceId": "2tmi0wvx9runxbdo2ajbx",
+        "id": "GZ0PmRglH1qTxJvT52qoP",
+        "order": "a1",
+        "title": "New ADB",
+        "type": "adb"
+      },
+      {
+        "config": "{\"signalPart\":\"eat-sensor-signal\"}",
+        "deviceId": "2tmi0wvx9runxbdo2ajbx",
+        "id": "aAl64cu3GBqWlu6ZXOUXL",
+        "order": "a2",
+        "title": "EAT GPIO",
+        "type": "gpio"
+      },
+      {
+        "config": "{\"signalPart\":\"tcu-sensor-signal\"}",
+        "deviceId": "2tmi0wvx9runxbdo2ajbx",
+        "id": "LhgjpGHd13C0kYSkQ7X9W",
+        "order": "a3",
+        "title": "TCU GPIO",
+        "type": "gpio"
+      },
+      {
+        "config": "{\"signalPart\":\"vhac-sensor-signal\"}",
+        "deviceId": "2tmi0wvx9runxbdo2ajbx",
+        "id": "4xH3sZpj0iiujKDWZblG5",
+        "order": "a4",
+        "title": "VHAC GPIO",
+        "type": "gpio"
+      },
+      {
+        "config": "{\"signalPart\":\"ecm-sensor-signal\"}",
+        "deviceId": "2tmi0wvx9runxbdo2ajbx",
+        "id": "TxEPCN7UzUCMSw6pLbiDQ",
+        "order": "a5",
+        "title": "ECM GPIO",
+        "type": "gpio"
+      },
+      {
+        "config": "{\"signalPart\":\"can-bus-1-signal\",\"watchPaths\":[\"EngineData/EngineRPM\",\"VehicleData/VehicleSpeed\",\"TransmissionData/GearSelection\",\"ClimateData/TargetTemp\",\"ClimateData/ACState\"]}",
+        "deviceId": "2tmi0wvx9runxbdo2ajbx",
+        "id": "UEHVfSh60GBJoJBuuuaGz",
+        "order": "a6",
+        "title": "CAN",
+        "type": "signal"
+      },
+      {
+        "config": "{\"signalPart\":\"kuksa-databroker-1-signal\",\"watchPaths\":[\"Vehicle.Speed\",\"Vehicle.Powertrain.CombustionEngine.Speed\",\"Vehicle.Powertrain.Transmission.CurrentGear\",\"Vehicle.Cabin.HVAC.Station.Row1.Driver.Temperature\"]}",
+        "deviceId": "2tmi0wvx9runxbdo2ajbx",
+        "id": "o7TfItk7_YyfkSAirxuMO",
+        "order": "a7",
+        "title": "KUKSA",
+        "type": "signal"
+      }
+    ]
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:31+07:00",
+  "path": "/api/v1/devices/2tmi0wvx9runxbdo2ajbx",
+  "status": 200
+}

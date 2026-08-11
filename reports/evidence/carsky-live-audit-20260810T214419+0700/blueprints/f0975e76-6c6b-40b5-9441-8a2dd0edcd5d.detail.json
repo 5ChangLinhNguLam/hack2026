@@ -1,0 +1,1086 @@
+{
+  "body": {
+    "createdAt": "2026-08-04T13:57:46.506Z",
+    "description": null,
+    "edges": [
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "d9c62720-2472-4786-912f-6d25a96f9135",
+        "sourcePinId": "1c59b2db-8216-4fbc-896e-4d2b1b7e18e7",
+        "targetPinId": "b5261c04-db16-4004-95c9-704a6854ca0e"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "a6aa05fd-6918-4507-96f5-ba68b979675b",
+        "sourcePinId": "d62ce008-2f25-4fc0-b32f-797fae16f428",
+        "targetPinId": "08d33418-8ea4-4eb5-95b8-c1ae1ca50154"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "49b1c344-5eef-47f6-ab7e-6501e0fcc461",
+        "sourcePinId": "574fa7e7-ede9-4edd-a475-d95dc656aa0a",
+        "targetPinId": "08d33418-8ea4-4eb5-95b8-c1ae1ca50154"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "ec62203b-e529-4ece-b175-32e6c18411f7",
+        "sourcePinId": "fa32afd2-24f7-4b68-a97d-f3dd25ef4c3e",
+        "targetPinId": "4a533db7-6264-497d-bfbc-ee44a49c671b"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "43554da5-fcb5-4784-8978-63a5ab30a0f6",
+        "sourcePinId": "1cd978e1-7b22-4eca-8146-7900315b073a",
+        "targetPinId": "4a533db7-6264-497d-bfbc-ee44a49c671b"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "91c28715-cbe0-4016-bcf4-0b488795d4f6",
+        "sourcePinId": "9948ef4d-6c6c-46bc-ab11-0f2aec522ed4",
+        "targetPinId": "6e67beaa-f8fc-4520-a4ee-ae6f7b5bce04"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "5f9e8579-de64-4e57-b074-7e1aa44bc81d",
+        "sourcePinId": "be397966-2847-4923-bddf-7370148e24dc",
+        "targetPinId": "7c0c6c6b-0880-4423-83ee-e3ceb38fc231"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "5c8b8568-80be-4769-a6c9-b0c277d23f91",
+        "sourcePinId": "55054b37-1137-4ab2-8892-f9241aed69f6",
+        "targetPinId": "4a533db7-6264-497d-bfbc-ee44a49c671b"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "f30d5844-6832-44a5-b97f-343dc1f95872",
+        "sourcePinId": "3d982fd1-8e0d-40e4-9e6e-fa61301a08db",
+        "targetPinId": "4d0670a3-dc9e-40e2-a29d-e045763cf281"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "b6acb9d7-8668-4ad1-8b3a-a9bd4300c161",
+        "sourcePinId": "dfeb41bf-57c8-4f63-9d24-3b09243eb394",
+        "targetPinId": "4d0670a3-dc9e-40e2-a29d-e045763cf281"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "53f423bc-ec9f-4369-a185-add04bab46c7",
+        "sourcePinId": "76118391-a1ba-4a7d-a3a4-e499f6d92bfd",
+        "targetPinId": "a521b8be-3d25-4df7-bc6e-18807587fb6a"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "09357c48-1e82-48b2-a96a-9515b6662af2",
+        "sourcePinId": "163599f2-0d00-474e-b6b4-ecca15d31449",
+        "targetPinId": "2672d2e4-0ad6-48c1-b84e-dda4ab75758a"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "de660612-4788-48b5-b7a8-74b1f495bd73",
+        "sourcePinId": "c6ad1df1-34f3-4f0a-a66b-0e0661633d07",
+        "targetPinId": "08d33418-8ea4-4eb5-95b8-c1ae1ca50154"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "96db8588-c231-4275-97d5-0bb461a81cd1",
+        "sourcePinId": "f543fd90-facf-4fa8-9f7d-cb15894fccba",
+        "targetPinId": "147941f8-7945-489a-b279-dc1945f9a9e2"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "7d17784f-53c6-4484-b42d-5c60951431c8",
+        "sourcePinId": "3f83b24f-60c3-48b0-bf6a-004e5a0139e3",
+        "targetPinId": "4a533db7-6264-497d-bfbc-ee44a49c671b"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "d492b091-b3c8-4753-9968-7a3868e29aaf",
+        "sourcePinId": "413e232b-c59e-4500-be33-3a315a40856a",
+        "targetPinId": "b5261c04-db16-4004-95c9-704a6854ca0e"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "403550c4-06c4-4a7e-9403-2996ec71b64b",
+        "sourcePinId": "ab98e4a6-f04d-4e11-83b4-89e05ecf1d80",
+        "targetPinId": "08d33418-8ea4-4eb5-95b8-c1ae1ca50154"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "c48a1874-f5cb-428b-be67-4eec9b599137",
+        "sourcePinId": "291aca0b-e237-4a01-b36b-69eaa009079d",
+        "targetPinId": "b5261c04-db16-4004-95c9-704a6854ca0e"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "0bd6a0c5-fcaa-4bb2-82ae-5dad03fb315d",
+        "sourcePinId": "4993609f-fcf2-4d73-8872-ff1dae5ce2ff",
+        "targetPinId": "4c3d5c33-e33d-47cf-b170-2cfbf8660261"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "786b2f06-3aba-4213-8d84-bf5908d21151",
+        "sourcePinId": "6ffd92cb-456d-40f7-adb2-cb96cb1fd2be",
+        "targetPinId": "8927f340-67ef-4751-8ee6-c85f603b549e"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "4f1dca68-d51c-47f1-8acf-512bfde34ba7",
+        "sourcePinId": "ae2ec5da-0e7e-4dd8-af37-842889881f23",
+        "targetPinId": "2672d2e4-0ad6-48c1-b84e-dda4ab75758a"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "id": "e87f20b0-a461-4ce1-af00-f7e30f691a6b",
+        "sourcePinId": "4d2f0db1-52db-4c49-8502-e28c35da91b7",
+        "targetPinId": "4a533db7-6264-497d-bfbc-ee44a49c671b"
+      }
+    ],
+    "id": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+    "isSnapshot": false,
+    "locked": false,
+    "name": "SafeLoop Mock Integration Lab",
+    "nodes": [
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- bcm_ecu.lua — door echo + TPMS sensor for the body bus.\n--\n-- Pins:\n--   pins.can    — Body CAN (DBC: examples/latest_demo/dbc/body_can.dbc)\n--   pins.sensor — TirePressure Sensor gpio-panel (pin ids match DBC\n--                 signal names verbatim).\n\nlocal can    = pins.can\nlocal sensor = pins.sensor\n\nlocal can_door_command  = can.db.DoorCommand\nlocal can_door_status   = can.db.DoorStatus\nlocal can_tire_pressure = can.db.TirePressure\n\n-- ── Door lock echo ────────────────────────────────────\n\nlocal function mirror_door(cmd_sig, status_sig, label)\n    cmd_sig:on_change(function(v)\n        status_sig:publish(v)\n        log(\"Door \" .. label .. \" locked=\" .. tostring(v))\n    end)\nend\n\nmirror_door(can_door_command.Row1Driver_IsLocked,    can_door_status.Row1Driver_IsLocked,    \"Row1Driver\")\nmirror_door(can_door_command.Row1Passenger_IsLocked, can_door_status.Row1Passenger_IsLocked, \"Row1Passenger\")\nmirror_door(can_door_command.Row2Driver_IsLocked,    can_door_status.Row2Driver_IsLocked,    \"Row2Driver\")\nmirror_door(can_door_command.Row2Passenger_IsLocked, can_door_status.Row2Passenger_IsLocked, \"Row2Passenger\")\n\n-- ── TPMS slider → CAN ─────────────────────────────────\n\nsensor:on(\"Row1Left_TirePressure\", function(v)\n    can_tire_pressure.Row1Left_TirePressure:publish(v)\n    log(\"Tire Row1Left = \" .. v .. \" kPa\")\nend)\n\nsensor:on(\"Row1Right_TirePressure\", function(v)\n    can_tire_pressure.Row1Right_TirePressure:publish(v)\n    log(\"Tire Row1Right = \" .. v .. \" kPa\")\nend)\n\nsensor:on(\"Row2Left_TirePressure\", function(v)\n    can_tire_pressure.Row2Left_TirePressure:publish(v)\n    log(\"Tire Row2Left = \" .. v .. \" kPa\")\nend)\n\nsensor:on(\"Row2Right_TirePressure\", function(v)\n    can_tire_pressure.Row2Right_TirePressure:publish(v)\n    log(\"Tire Row2Right = \" .. v .. \" kPa\")\nend)\n\nlog(\"bcm_ecu ready\")\n"
+        },
+        "id": "de336945-6f86-40b7-abbf-c5a32153cc4c",
+        "label": "BCM ECU",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "ab98e4a6-f04d-4e11-83b4-89e05ecf1d80",
+            "name": "can",
+            "nodeId": "de336945-6f86-40b7-abbf-c5a32153cc4c",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": null
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "6ffd92cb-456d-40f7-adb2-cb96cb1fd2be",
+            "name": "sensor",
+            "nodeId": "de336945-6f86-40b7-abbf-c5a32153cc4c",
+            "pinType": "GPIO",
+            "port": null,
+            "properties": null,
+            "side": "LEFT"
+          }
+        ],
+        "positionX": 63.39345265686865,
+        "positionY": -288.3247965221092,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n14"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "kuksa": {
+            "vss": {
+              "artifactId": "zsJexrIgGwIeyk3ODyYoh",
+              "version": "0.0.1",
+              "versionId": "Cpi8WkMz_bH35uIQFviim"
+            }
+          }
+        },
+        "id": "b83a0969-56c1-4df0-84fe-d66b2e44f4a0",
+        "label": "Central Broker (VSS)",
+        "nodeType": "kuksa-databroker",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "4a533db7-6264-497d-bfbc-ee44a49c671b",
+            "name": "kuksa",
+            "nodeId": "b83a0969-56c1-4df0-84fe-d66b2e44f4a0",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 875.3019486488147,
+        "positionY": -40.77604266252392,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n15"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "gpioPanel": {
+            "pinDefinitions": "[{\"id\":\"SBE_BuckleUp\",\"name\":\"SBE_BuckleUp\",\"type\":\"toggle\",\"group\":\"seatbelt\",\"min\":0,\"max\":1,\"step\":1,\"unit\":\"\",\"labels\":[],\"default_value\":1,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"},{\"id\":\"SBE_SeatWeight\",\"name\":\"SBE_SeatWeight\",\"type\":\"slider\",\"group\":\"seatbelt\",\"min\":0,\"max\":150,\"step\":1,\"unit\":\"kg\",\"labels\":[],\"default_value\":0,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"}]"
+          }
+        },
+        "id": "0767a79f-ced0-4546-975e-7f29c883b000",
+        "label": "SeatBelt Sensor",
+        "nodeType": "gpio-panel",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "7c0c6c6b-0880-4423-83ee-e3ceb38fc231",
+            "name": "gpio",
+            "nodeId": "0767a79f-ced0-4546-975e-7f29c883b000",
+            "pinType": "GPIO",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": -208.2993767075363,
+        "positionY": -121.5385572564472,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n16"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- infotainment_gateway.lua — KUKSA ↔ VHAL bridge for the Latest Demo.\n--\n-- Bridges the shared Vehicle KUKSA Databroker to two independent consumers:\n--   1. Android IVI Head Unit's VHAL gRPC server (mapped subset, transformed).\n--   2. AGL Cluster's internal KUKSA (every signal, raw — see AGL forward).\n-- These run as parallel branches off ONE Vehicle subscription; neither\n-- gates the other. The CAN side flows through body/powertrain_gateway.\n--\n-- Pins:\n--   pins.kuksa — gRPC client to shared Vehicle KUKSA Databroker (subscribe + actuate).\n--   pins.vhal  — gRPC server :9300; Trout VHAL in IVI-FACE skycraft connects here.\n--   pins.eth   — IVI Switch L2 NIC (carries the AGL forward traffic below).\n--\n-- See the `mappings` table for the full VSS sig ↔ VHAL (prop, area) map.\n\n-- ── KUKSA endpoints ─────────────────────────────────────────────────\n-- vehicle_kuksa : shared Vehicle Databroker (this pin). vss_root = its VSS tree.\n-- agl_kuksa     : AGL VM's internal Databroker, reached over the eth-bridge L2\n--                 (IGW pod's e-eth → AGL guest 10.99.0.3:55555). The guest IP +\n--                 `--address 0.0.0.0` are baked by patch-agl-rootfs.sh; the\n--                 eth-bridge DHCP pins the AGL MAC to that IP — no SSH workaround.\n--                 AGL guest = vimba 21.90.0 / databroker 0.6.1, VSS 6.0 catalog,\n--                 so its ListMetadata supplies datatypes and connect() needs no hints.\nlocal vehicle_kuksa = pins.kuksa\nassert(vehicle_kuksa and vehicle_kuksa.vss,\n    \"pins.kuksa.vss missing — Vehicle KUKSA databroker unreachable at start\")\n\n-- AGL-forward databroker (10.99.0.3:55555 over the eth-bridge) is OPTIONAL and\n-- may be down. It is connected LAST (see the bottom of this file), AFTER the\n-- Android VHAL ↔ Vehicle handlers are registered, so a down/slow AGL can never\n-- gate the Android ↔ CAN path. Forward-declared here; stays nil until then.\nlocal agl_kuksa = nil\n\nlocal prop = vhal.prop\nlocal seat = vhal.area.seat\nlocal win  = vhal.area.window\nlocal door = vhal.area.door\nlocal wheel = vhal.area.wheel\nlocal fan_dir = vhal.fan_direction\n\n-- ════════════════════════════════════════════════════════════════════\n--  Vendor propIds (platform extensions, range 0x21000000-0x2FFFFFFF)\n-- ════════════════════════════════════════════════════════════════════\n\n-- Engine RPM vendor mirror — VA app reads VENDOR_ENGINE_RPM = 0x21400020\n-- because FAuto Trout doesn't expose PERF_ENGINE_RPM (standard) consistently.\nprop.VENDOR_ENGINE_RPM = 0x21400020\n\n-- Standard AOSP propIds VA app reads:\n-- EV_BATTERY_LEVEL (current %). nydus's vhal.prop table doesn't auto-\n-- include all AOSP EV ids, so set explicitly. AOSP ID from\n-- VehiclePropertyIds.\nprop.EV_BATTERY_LEVEL           = 0x11600204\n\n-- DOOR_LOCK propId — FAuto Trout AAOS ships an android.car.jar where\n-- VehiclePropertyIds.DOOR_LOCK = 0x16200B02 (the older AOSP value).\n-- nydus's vhal_constants.rs uses the same 0x16200B02 by default, so we\n-- leave `prop.DOOR_LOCK` untouched. (Newer AOSP versions changed this\n-- to 0x16400B9A; if FAuto upgrades, set the override here to match.)\n-- Confirmed by VA app log: `setBooleanProperty(DOOR_LOCK=0x16200b02, ...)`.\n\n-- HU HVAC vendor mirrors (carried over from face_vhal.lua so the AAOS\n-- HvacPanel + voice assistant can write either standard or vendor propIds\n-- and get the same effect).\nprop.HU_HVAC_TEMPERATURE_DRIVER             = 0x21600409\nprop.HU_HVAC_TEMPERATURE_PASSENGER          = 0x2160040A\nprop.HU_HVAC_FAN_SPEED                      = 0x21400400\nprop.HU_HVAC_POWER_STATE_CONDITIONER        = 0x21200402\nprop.HU_HVAC_POWER_STATE_CIRCULATION        = 0x21200403\nprop.HU_HVAC_POWER_STATE_AUTO_MODE          = 0x21200401\nprop.HU_HVAC_DEFROSTER_STATE_FRONT          = 0x21200404\nprop.HU_HVAC_DEFROSTER_STATE_REAR           = 0x21200405\nprop.HU_HVAC_SEAT_WARMER_LEVEL_DRIVER       = 0x21400407\nprop.HU_HVAC_SEAT_WARMER_LEVEL_PASSENGER    = 0x21400408\n\n-- ════════════════════════════════════════════════════════════════════\n--  VSS signal handles (nodes on the Vehicle tree). `vss_` prefix mirrors\n--  the body_gateway / powertrain_gateway convention.\n-- ════════════════════════════════════════════════════════════════════\nlocal vss_root           = vehicle_kuksa.vss.Vehicle\nlocal vss_cabin          = vss_root.Cabin\nlocal vss_hvac           = vss_cabin.HVAC\nlocal vss_hvac_driver    = vss_hvac.Station.Row1.Driver\nlocal vss_hvac_passenger = vss_hvac.Station.Row1.Passenger\nlocal vss_seat_driver    = vss_cabin.Seat.Row1.DriverSide\nlocal vss_seat_passenger = vss_cabin.Seat.Row1.PassengerSide\nlocal vss_door_driver    = vss_cabin.Door.Row1.DriverSide\nlocal vss_tire_fl        = vss_root.Chassis.Axle.Row1.Wheel.Left.Tire\nlocal vss_tire_fr        = vss_root.Chassis.Axle.Row1.Wheel.Right.Tire\nlocal vss_tire_rl        = vss_root.Chassis.Axle.Row2.Wheel.Left.Tire\nlocal vss_tire_rr        = vss_root.Chassis.Axle.Row2.Wheel.Right.Tire\nlocal vss_powertrain     = vss_root.Powertrain\nlocal vss_engine         = vss_powertrain.CombustionEngine\nlocal vss_battery        = vss_powertrain.TractionBattery\n\n-- ════════════════════════════════════════════════════════════════════\n--  Conversion helpers\n-- ════════════════════════════════════════════════════════════════════\nlocal MPS_TO_KPH = 3.6\nlocal function speed_kph_to_mps(v) return (v or 0) / MPS_TO_KPH end\n\n-- Fan speed: VSS 6.0 0..100 percent ↔ VHAL 0..5 levels. Body CAN DBC and\n-- body_gateway.lua use 0..5 (Driver_FanSpeed signal range [0|5]); IGW\n-- mirrors that here so the round-trip is idempotent (no 17→20 VSS noise).\nlocal function fan_vss_to_vhal(v) return math.floor(((v or 0) * 5) / 100 + 0.5) end\nlocal function fan_vhal_to_vss(v) return math.floor(((v or 0) * 100) / 5 + 0.5) end\n\n-- Air distribution: VSS uint8 (0=face,1=feet,2=face+feet,3=defrost) ↔\n-- VHAL fan_dir bitmask (FACE/FLOOR/FACE_AND_FLOOR/DEFROST).\nlocal DIR_VSS_TO_VHAL = {\n    [0] = fan_dir.FACE,\n    [1] = fan_dir.FLOOR,\n    [2] = fan_dir.FACE_AND_FLOOR,\n    [3] = fan_dir.DEFROST or fan_dir.FACE,\n}\nlocal DIR_VHAL_TO_VSS = {}\nfor k, v in pairs(DIR_VSS_TO_VHAL) do DIR_VHAL_TO_VSS[v] = k end\n\n-- Seat heating: VSS int8 -3..+3 == VHAL HVAC_SEAT_TEMPERATURE -3..+3.\n-- Passthrough.\n\n-- ════════════════════════════════════════════════════════════════════\n--  Change-only forwarding (VHAL side)\n--\n--  Single policy for all props: suppress pushes when the new value is\n--  identical to the last one we forwarded. KUKSA on_change can re-emit\n--  the same value (provider polling, ULP jitter on float, retained\n--  emit on subscriber connect); without dedup each becomes a wasted\n--  binder fan-out into AAOS car_service.\n--\n--  Rate-cap for high-frequency signals (Speed, RPM) is intentionally\n--  OUT OF SCOPE here — handle at the producer side (DBC feeder\n--  cadence) or in a future engine-level resample layer.\n-- ════════════════════════════════════════════════════════════════════\n\n-- Per-key state. Lua table keys are composed as \"propId:areaId\" because\n-- nested numeric keys don't compose cleanly in Lua.\nlocal last_vhal_value = {}\n\nlocal function vhal_key(prop_id, area_id)\n    return string.format(\"%d:%d\", prop_id, area_id or 0)\nend\n\nlocal function push_if_changed(prop_id, area_id, value)\n    local key = vhal_key(prop_id, area_id)\n    local as_str = tostring(value)\n    if last_vhal_value[key] == as_str then return false end\n    last_vhal_value[key] = as_str\n    pins.vhal:push(prop_id, area_id, value)\n    return true\nend\n\n-- ════════════════════════════════════════════════════════════════════\n--  VSS-sig-centric mapping table\n--\n--  Each entry declares ONE VSS signal + its (prop, area) consumers on the\n--  VHAL side. Transforms (to_vhal, to_vss) and read_only flag live at\n--  the sig level — they're properties of the signal, not the consumer.\n--\n--  Multiple consumers per sig handle the FAuto Trout pattern of a\n--  standard AOSP propId + a HU_HVAC vendor mirror referring to the\n--  same physical value.\n-- ════════════════════════════════════════════════════════════════════\nlocal mappings = {\n    -- ── Speed (VSS km/h → VHAL m/s) ──\n    {\n        sig = vss_root.Speed, to_vhal = speed_kph_to_mps, read_only = true,\n        consumers = { { prop = prop.PERF_VEHICLE_SPEED, area = 0 } },\n    },\n\n    -- ── HVAC zonal temperatures (driver + passenger) ──\n    {\n        sig = vss_hvac_driver.Temperature,\n        consumers = {\n            { prop = prop.HVAC_TEMPERATURE_SET,       area = seat.ROW_1_LEFT },\n            { prop = prop.HU_HVAC_TEMPERATURE_DRIVER, area = 0 },\n        },\n    },\n    {\n        sig = vss_hvac_passenger.Temperature,\n        consumers = {\n            { prop = prop.HVAC_TEMPERATURE_SET,          area = seat.ROW_1_RIGHT },\n            { prop = prop.HU_HVAC_TEMPERATURE_PASSENGER, area = 0 },\n        },\n    },\n\n    -- Launcher nav-rail temperature badge. Read-only mirror of the driver\n    -- setpoint (no separate CAN signal for ambient in this DBC). Same sig\n    -- as the driver HVAC_TEMPERATURE_SET entry above — kept as a separate\n    -- mapping so the read_only policy applies independently.\n    {\n        sig = vss_hvac_driver.Temperature, read_only = true,\n        consumers = { { prop = prop.ENV_OUTSIDE_TEMPERATURE, area = 0 } },\n    },\n\n    -- ── HVAC fan speed (VSS 1..5 ↔ VHAL 0..4) ──\n    {\n        sig = vss_hvac_driver.FanSpeed,\n        to_vss = fan_vhal_to_vss, to_vhal = fan_vss_to_vhal,\n        consumers = {\n            { prop = prop.HVAC_FAN_SPEED,    area = seat.ROW_1_LEFT },\n            { prop = prop.HU_HVAC_FAN_SPEED, area = 0 },\n        },\n    },\n\n    -- ── HVAC fan direction (VSS uint8 ↔ VHAL bitmask) ──\n    {\n        sig = vss_hvac_driver.AirDistribution,\n        to_vss  = function(v) return DIR_VHAL_TO_VSS[v] or 0 end,\n        to_vhal = function(v) return DIR_VSS_TO_VHAL[v] or fan_dir.FACE end,\n        consumers = { { prop = prop.HVAC_FAN_DIRECTION, area = seat.ROW_1_LEFT } },\n    },\n\n    -- ── HVAC AC / recirc / auto power states ──\n    {\n        sig = vss_hvac.IsAirConditioningActive,\n        consumers = {\n            { prop = prop.HVAC_AC_ON,                      area = seat.ROW_1_LEFT },\n            { prop = prop.HU_HVAC_POWER_STATE_CONDITIONER, area = 0 },\n        },\n    },\n    {\n        sig = vss_hvac.IsRecirculationActive,\n        consumers = {\n            { prop = prop.HVAC_RECIRC_ON,                  area = seat.ROW_1_LEFT },\n            { prop = prop.HU_HVAC_POWER_STATE_CIRCULATION, area = 0 },\n        },\n    },\n    -- VSS 6.0 has no exact equivalent of AAOS HVAC_AUTO_ON (\"climate auto\n    -- mode\"); IsAutoPowerOptimize is the closest boolean toggle in the\n    -- HVAC branch (semantically about power-optimization auto, not\n    -- temperature auto — accepted for demo).\n    {\n        sig = vss_hvac.IsAutoPowerOptimize,\n        consumers = {\n            { prop = prop.HVAC_AUTO_ON,                  area = seat.ROW_1_LEFT },\n            { prop = prop.HU_HVAC_POWER_STATE_AUTO_MODE, area = 0 },\n        },\n    },\n\n    -- ── HVAC defroster front + rear ──\n    {\n        sig = vss_hvac.IsFrontDefrosterActive,\n        consumers = {\n            { prop = prop.HVAC_DEFROSTER,                area = win.FRONT_WINDSHIELD },\n            { prop = prop.HU_HVAC_DEFROSTER_STATE_FRONT, area = 0 },\n        },\n    },\n    {\n        sig = vss_hvac.IsRearDefrosterActive,\n        consumers = {\n            { prop = prop.HVAC_DEFROSTER,               area = win.REAR_WINDSHIELD },\n            { prop = prop.HU_HVAC_DEFROSTER_STATE_REAR, area = 0 },\n        },\n    },\n\n    -- ── Seat heat/cool (VSS int8 -3..+3 == VHAL int32 -3..+3) ──\n    -- VSS 6.0 renamed Seat.*.Heating → HeatingCooling.\n    {\n        sig = vss_seat_driver.HeatingCooling,\n        consumers = {\n            { prop = prop.HVAC_SEAT_TEMPERATURE,            area = seat.ROW_1_LEFT },\n            { prop = prop.HU_HVAC_SEAT_WARMER_LEVEL_DRIVER, area = 0 },\n        },\n    },\n    {\n        sig = vss_seat_passenger.HeatingCooling,\n        consumers = {\n            { prop = prop.HVAC_SEAT_TEMPERATURE,               area = seat.ROW_1_RIGHT },\n            { prop = prop.HU_HVAC_SEAT_WARMER_LEVEL_PASSENGER, area = 0 },\n        },\n    },\n\n    -- ── Driver door lock (bidirectional) ──\n    -- VSS IsLocked is a strict Bool — AAOS car_service writes the prop\n    -- as int32 (0/1) so we coerce before :actuate, otherwise KUKSA\n    -- returns InvalidArgument and the write never reaches CAN.\n    {\n        sig = vss_door_driver.IsLocked,\n        to_vss  = function(v) return v == true or v == 1 end,\n        to_vhal = function(v) return v and 1 or 0 end,\n        consumers = { { prop = prop.DOOR_LOCK, area = door.ROW_1_LEFT or 1 } },\n    },\n\n    -- ── Driver seatbelt (standard AOSP buckled flag) ──\n    -- SeatBelt ECU outputs the boolean buckled state on CAN; Body Gateway\n    -- routes it to VSS IsBelted. Warning FSM (if shown) is derived\n    -- client-side (cluster from IsBelted + Speed).\n    {\n        sig = vss_seat_driver.IsBelted, read_only = true,\n        consumers = { { prop = prop.SEAT_BELT_BUCKLED, area = seat.ROW_1_LEFT } },\n    },\n\n    -- ── Tire pressure per wheel (one VSS sig per wheel, same propId) ──\n    { sig = vss_tire_fl.Pressure, read_only = true, consumers = { { prop = prop.TIRE_PRESSURE, area = wheel.LEFT_FRONT  or 1 } } },\n    { sig = vss_tire_fr.Pressure, read_only = true, consumers = { { prop = prop.TIRE_PRESSURE, area = wheel.RIGHT_FRONT or 2 } } },\n    { sig = vss_tire_rl.Pressure, read_only = true, consumers = { { prop = prop.TIRE_PRESSURE, area = wheel.LEFT_REAR   or 4 } } },\n    { sig = vss_tire_rr.Pressure, read_only = true, consumers = { { prop = prop.TIRE_PRESSURE, area = wheel.RIGHT_REAR  or 8 } } },\n\n    -- ── Engine RPM (vendor mirror that VA app actually reads) ──\n    {\n        sig = vss_engine.Speed, read_only = true,\n        consumers = { { prop = prop.VENDOR_ENGINE_RPM, area = 0 } },\n    },\n\n    -- ── Battery: current SoC (%) ──\n    {\n        sig = vss_battery.StateOfCharge.Current, read_only = true,\n        consumers = { { prop = prop.EV_BATTERY_LEVEL, area = 0 } },\n    },\n}\n\n-- ════════════════════════════════════════════════════════════════════\n--  Build indices from `mappings`:\n--    • sig_groups    — path → { sig, items = [m, ...] }   (VSS→VHAL: subscribe\n--                       each unique path once; if multiple mappings share a\n--                       path — e.g. ENV_OUTSIDE_TEMPERATURE mirrors\n--                       vss_hvac_driver.Temperature read-only — items fans\n--                       them out in declaration order)\n--    • entry_by_prop — propId → areaId → mapping  (VHAL→VSS + on_get)\n--\n--  Invariants (asserted at script load):\n--    • Same (propId, areaId) MUST map to exactly one mapping. Silent\n--      overwrite would mask a misconfigured vendor mirror.\n--    • Same VSS sig MAY appear in multiple mappings (cross-prop mirror\n--      with diverging read_only is the only legitimate reason); per-\n--      mapping read_only must partition cleanly across consumer propIds.\n-- ════════════════════════════════════════════════════════════════════\nlocal sig_groups    = {}\nlocal entry_by_prop = {}\nfor _, m in ipairs(mappings) do\n    local path = m.sig.path\n    sig_groups[path] = sig_groups[path] or { sig = m.sig, items = {} }\n    table.insert(sig_groups[path].items, m)\n\n    for _, c in ipairs(m.consumers) do\n        entry_by_prop[c.prop] = entry_by_prop[c.prop] or {}\n        assert(entry_by_prop[c.prop][c.area] == nil,\n            string.format(\"duplicate consumer (prop=0x%X, area=%s)\",\n                c.prop, tostring(c.area)))\n        entry_by_prop[c.prop][c.area] = m\n    end\nend\n\n-- ════════════════════════════════════════════════════════════════════\n--  AGL forward policy (Vehicle KUKSA → AGL internal KUKSA)\n--\n--  Forward EVERY signal the gateway sees, unchanged. No allowlist.\n--  Both sides speak COVESA VSS 6.0 — the AGL guest's stock catalog\n--  (vss_6.0-agl.json, 1291 leaves) is a strict superset of the Vehicle\n--  catalog (1267 leaves), so every Vehicle path exists on AGL.\n--\n--  The only thing that can fail a write is a datatype mismatch (\"Wrong\n--  type\"). Per `scripts/diff_agl_vss.py` (vehicle-vss.json ↔ agl-vss.json)\n--  there is exactly one across the whole catalog — CombustionEngine.Speed\n--  (Vehicle float vs AGL uint16), an EV-build orphan with no producer.\n--  Deny that one path; forward the rest.\n-- ════════════════════════════════════════════════════════════════════\nlocal AGL_DENY = {\n    [\"Vehicle.Powertrain.CombustionEngine.Speed\"] = true,  -- Vehicle float vs AGL uint16\n}\n\n-- ════════════════════════════════════════════════════════════════════\n--  Vehicle KUKSA → downstream (two parallel branches off ONE subscription)\n--\n--    AGL branch : forward every changed path to AGL KUKSA, raw.\n--    VHAL branch: if the path is mapped, fan out to its VHAL consumers\n--                 with the per-mapping transform + change-only dedup.\n--  Neither branch gates the other.\n-- ════════════════════════════════════════════════════════════════════\n\n-- Push one (already-transformed-for-VHAL) value to every VHAL consumer\n-- of the mapping. Dedup is applied per (prop, area) by push_if_changed.\nlocal function dispatch_to_vhal(mapping, value_for_vhal)\n    for _, c in ipairs(mapping.consumers) do\n        local pushed = push_if_changed(c.prop, c.area, value_for_vhal)\n        log(string.format(\"[igw]   → vhal 0x%08X area=0x%X %s = %s\",\n            c.prop, c.area, pushed and \"pushed\" or \"skip\", tostring(value_for_vhal)))\n    end\nend\n\nlocal function on_vehicle_change(path, raw_value)\n    -- VHAL branch FIRST — latency-critical path to Android IVI.\n    -- Must never be gated by AGL network I/O.\n    local group = sig_groups[path]\n    if group then\n        for _, m in ipairs(group.items) do\n            local value_for_vhal = raw_value\n            if m.to_vhal and value_for_vhal ~= nil then\n                value_for_vhal = m.to_vhal(value_for_vhal)\n            end\n            dispatch_to_vhal(m, value_for_vhal)\n        end\n    end\n    -- AGL branch SECOND — best-effort forward; Cluster tolerates higher latency.\n    -- agl_kuksa:publish is a gRPC call over eth (10.99.0.3:55555); if it\n    -- blocks, it must not delay the VHAL push above.\n    if agl_kuksa and raw_value ~= nil and not AGL_DENY[path] then\n        agl_kuksa:publish(path, raw_value)\n    end\nend\n\n-- Subscribe to EVERY Vehicle leaf (not just the VHAL-mapped subset) so the\n-- AGL branch sees all signals — powertrain included. Leaf paths come from\n-- the broker's ListMetadata-built VSS tree.\nlocal function collect_leaf_paths(node, out)\n    for _, child in pairs(node) do\n        if type(child) == \"table\" then\n            if type(child.path) == \"string\" then\n                out[#out + 1] = child.path\n            else\n                collect_leaf_paths(child, out)\n            end\n        end\n    end\nend\nlocal all_paths = {}\ncollect_leaf_paths(vss_root, all_paths)\n\nvehicle_kuksa:on_change(function(ev) on_vehicle_change(ev.path, ev.value) end)\nvehicle_kuksa:subscribe(all_paths)\nlog(string.format(\"[igw] subscribed %d Vehicle paths (AGL forward-all + VHAL fan-out)\", #all_paths))\n\n-- ════════════════════════════════════════════════════════════════════\n--  VHAL → Vehicle KUKSA (upstream actuate)\n--\n--  Android writes a VHAL prop → translate to its VSS sig → actuate the\n--  shared Vehicle KUKSA. (AGL write-back would converge here too — see\n--  the extension point below.)\n-- ════════════════════════════════════════════════════════════════════\nlocal function actuate_kuksa(prop_id, area_id, raw_from_vhal)\n    local areas = entry_by_prop[prop_id]\n    if not areas then return end\n    local m = areas[area_id]\n    if not m or m.read_only then return end\n    local value = raw_from_vhal\n    if m.to_vss and value ~= nil then value = m.to_vss(value) end\n    if value == nil then return end\n    m.sig:actuate(value)\n    log(string.format(\"vhal->vss: 0x%08X area=%s → %s = %s\",\n        prop_id, tostring(area_id), m.sig.path, tostring(value)))\nend\n\npins.vhal:on_change(function(msg) actuate_kuksa(msg.id, msg.area, msg.value) end)\n\n-- EXTENSION POINT: AGL write-back\n-- pins.eth → (parse path+value) → call actuate_kuksa(...) equivalent via VSS path\n\n-- ════════════════════════════════════════════════════════════════════\n--  VHAL on_get: synchronous read served from KUKSA. AAOS calls this on\n--  subscribe-init (`getProperty`). `read_only` is intentionally NOT\n--  honored here — it gates writes, not reads.\n--\n--  Contract: gateway publishes CHANGES only — no cold-start re-seed.\n--  App side MUST call getProperty() on subscribe-init for initial state.\n-- ════════════════════════════════════════════════════════════════════\npins.vhal:on_get(function(prop_id, area_id)\n    local areas = entry_by_prop[prop_id]\n    if not areas then return nil end\n    local m = areas[area_id]\n    if not m then return nil end\n    local value = m.sig:get()\n    if value ~= nil and m.to_vhal then value = m.to_vhal(value) end\n    return value\nend)\n\n-- ════════════════════════════════════════════════════════════════════\n--  AGL forward — connected LAST, on purpose.\n--\n--  The AGL guest databroker (10.99.0.3:55555, over the eth-bridge) is\n--  optional and may be down. `nydus.kuksa.connect` now gives up after a\n--  bounded metadata-fetch window instead of blocking forever, and we call it\n--  HERE — after every Android ↔ Vehicle handler above is already registered —\n--  so a down or slow AGL guest can never gate the Android ↔ CAN path\n--  (HVAC, doors, etc.). If AGL is reachable the forward starts immediately;\n--  if not, it is idle until AGL is up + the node is redeployed.\n-- ════════════════════════════════════════════════════════════════════\nagl_kuksa = nydus.kuksa.connect(\"http://10.99.0.3:55555\")\nlog(\"[igw] AGL forward connected (10.99.0.3:55555)\")\n\nlocal consumer_count = 0\nfor _, m in ipairs(mappings) do consumer_count = consumer_count + #m.consumers end\nlog(string.format(\"infotainment_gateway: VHAL ↔ KUKSA bridge ready (%d sigs, %d VHAL consumers)\",\n    #mappings, consumer_count))\n"
+        },
+        "id": "48717ddf-2116-4a8d-8579-376f491cf353",
+        "label": "IVI Gateway",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "1cd978e1-7b22-4eca-8146-7900315b073a",
+            "name": "kuksa",
+            "nodeId": "48717ddf-2116-4a8d-8579-376f491cf353",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": null
+          },
+          {
+            "direction": "INPUT",
+            "id": "4c3d5c33-e33d-47cf-b170-2cfbf8660261",
+            "name": "vhal",
+            "nodeId": "48717ddf-2116-4a8d-8579-376f491cf353",
+            "pinType": "VHAL",
+            "port": null,
+            "properties": null,
+            "side": null
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "163599f2-0d00-474e-b6b4-ecca15d31449",
+            "name": "eth",
+            "nodeId": "48717ddf-2116-4a8d-8579-376f491cf353",
+            "pinType": "ETHERNET",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 1082.509863696294,
+        "positionY": 179.9625858331844,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n17"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- bms.lua — Battery Management System (Powertrain-domain, EV).\n--\n-- Owns the energy signals: traction-battery SoC, pack voltage/current/temp,\n-- and remaining range derived from SoC. Publishes onto the Powertrain CAN;\n-- the Powertrain Gateway bridges to KUKSA.\n--\n-- Pins:\n--   pins.can    — Powertrain CAN (DBC: examples/latest_demo/dbc/powertrain_can.dbc)\n--   pins.sensor — \"Battery Sensor\" gpio-panel: SoC slider 0..100 (override)\n--\n-- SoC is gpio-driven (static until the slider moves); Range / voltage /\n-- current / temperature are derived from SoC. No time-based simulation.\n\nlocal can    = pins.can\nlocal sensor = pins.sensor\nlocal db     = can.db\n\nlocal FULL_RANGE_KM = 450     -- range at 100% SoC\n\nlocal soc = 82.0\n\nlocal function publish_energy()\n    db.PWT_BatteryStatus.SoC_pct:publish(soc)\n    -- Pack electricals correlate loosely with SoC (demo sim).\n    db.PWT_BatteryStatus.Voltage_V:publish(320 + soc * 0.6)   -- ~320..380 V\n    db.PWT_BatteryStatus.Current_A:publish(-15)               -- mild steady discharge\n    db.PWT_BatteryStatus.Temperature_degC:publish(28)\n    -- Remaining range (metres) from SoC.\n    db.PWT_Range.Range_m:publish(math.floor(soc / 100 * FULL_RANGE_KM * 1000))\nend\n\n-- ── SoC override slider ────────────────────────────────\nsensor:on(\"SoC\", function(v)\n    soc = v or soc\n    publish_energy()\n    log(string.format(\"[bms] SoC override = %.1f %%\", soc))\nend)\n\n-- ── Bootstrap (SoC static until the gpio slider moves) ──\npublish_energy()\n\nlog(\"bms ready\")\n"
+        },
+        "id": "5362a192-a362-478f-b6f8-6aaca705cd66",
+        "label": "BMS ECU",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "f543fd90-facf-4fa8-9f7d-cb15894fccba",
+            "name": "sensor",
+            "nodeId": "5362a192-a362-478f-b6f8-6aaca705cd66",
+            "pinType": "GPIO",
+            "port": null,
+            "properties": null,
+            "side": "LEFT"
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "291aca0b-e237-4a01-b36b-69eaa009079d",
+            "name": "can",
+            "nodeId": "5362a192-a362-478f-b6f8-6aaca705cd66",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 49.86076521234341,
+        "positionY": 177.0805113738034,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n0"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- climate_ecu.lua — virtual HVAC ECU. Echoes HvacCommand into HvacStatus.\n--\n-- Pin:\n--   pins.can — Body CAN (DBC: examples/latest_demo/dbc/body_can.dbc).\n\nlocal can = pins.can\n\nlocal can_hvac_command = can.db.HvacCommand\nlocal can_hvac_status  = can.db.HvacStatus\n\nlocal function mirror(cmd_sig, status_sig, label)\n    cmd_sig:on_change(function(v)\n        status_sig:publish(v)\n        log(\"[hvac-ecu] \" .. label .. \" = \" .. tostring(v))\n    end)\nend\n\nmirror(can_hvac_command.Driver_Temperature,       can_hvac_status.Driver_Temperature,       \"Driver_Temperature\")\nmirror(can_hvac_command.Passenger_Temperature,    can_hvac_status.Passenger_Temperature,    \"Passenger_Temperature\")\nmirror(can_hvac_command.Driver_FanSpeed,          can_hvac_status.Driver_FanSpeed,          \"Driver_FanSpeed\")\nmirror(can_hvac_command.Driver_AirDistribution,   can_hvac_status.Driver_AirDistribution,   \"Driver_AirDistribution\")\nmirror(can_hvac_command.IsAirConditioningActive,  can_hvac_status.IsAirConditioningActive,  \"IsAirConditioningActive\")\nmirror(can_hvac_command.IsRecirculationActive,    can_hvac_status.IsRecirculationActive,    \"IsRecirculationActive\")\nmirror(can_hvac_command.IsAutoPowerOptimize,      can_hvac_status.IsAutoPowerOptimize,      \"IsAutoPowerOptimize\")\nmirror(can_hvac_command.IsFrontDefrosterActive,   can_hvac_status.IsFrontDefrosterActive,   \"IsFrontDefrosterActive\")\nmirror(can_hvac_command.IsRearDefrosterActive,    can_hvac_status.IsRearDefrosterActive,    \"IsRearDefrosterActive\")\n\nlog(\"climate_ecu ready\")\n"
+        },
+        "id": "08c4977e-d4b0-4cd3-bb05-3772145da5d0",
+        "label": "Climate ECU",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "d62ce008-2f25-4fc0-b32f-797fae16f428",
+            "name": "can",
+            "nodeId": "08c4977e-d4b0-4cd3-bb05-3772145da5d0",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 65.38733187024141,
+        "positionY": -410.8243089511729,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n1"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- powertrain_gateway.lua — Powertrain CAN → KUKSA bridge (read-only).\n--\n-- Mirrors Powertrain CAN status frames onto KUKSA Current values. EV framing:\n-- motor speed maps to Powertrain.ElectricMotor.Speed (no combustion engine).\n--\n-- Cross-domain note: powertrain signals reach other domains ONLY via KUKSA.\n-- (The Body Gateway subscribes Vehicle.Speed and re-emits it on the Body CAN\n-- for the SeatBelt vECU — no CAN-to-CAN bridge here.)\n--\n-- Pins:\n--   pins.kuksa — shared Vehicle KUKSA databroker\n--   pins.can   — Powertrain CAN (DBC: examples/latest_demo/dbc/powertrain_can.dbc)\n\nlocal kuksa = pins.kuksa\nlocal can   = pins.can\nlocal db    = can.db\n\nlocal Vehicle = kuksa.vss.Vehicle\nlocal pt      = Vehicle.Powertrain\nlocal motor   = pt.ElectricMotor\nlocal battery = pt.TractionBattery\nlocal trans   = pt.Transmission\n\n-- CAN PerformanceMode uint enum → VSS string enum.\nlocal PERF_MODE = { [0] = \"NORMAL\", [1] = \"SPORT\", [2] = \"ECONOMY\", [3] = \"SNOW\", [4] = \"RAIN\" }\n\n-- ── Motion ─────────────────────────────────────────────\ndb.PWT_VehicleSpeed.Speed_kph:on_change(function(v)\n    Vehicle.Speed:publish(v or 0)\n    log(string.format(\"[pgw] can→vss Speed = %.1f km/h\", v or 0))\nend)\n\ndb.PWT_MotorSpeed.Speed_rpm:on_change(function(v)\n    local rpm = math.floor((v or 0) + 0.5)\n    motor.Speed:publish(rpm)\n    log(string.format(\"[pgw] can→vss ElectricMotor.Speed = %d rpm\", rpm))\nend)\n\ndb.PWT_Odometer.TraveledDistance_m:on_change(function(v)\n    Vehicle.TraveledDistance:publish(math.floor((v or 0) + 0.5))\nend)\n\n-- ── Energy ─────────────────────────────────────────────\ndb.PWT_BatteryStatus.SoC_pct:on_change(function(v)\n    battery.StateOfCharge.Current:publish(v or 0)\n    log(string.format(\"[pgw] can→vss SoC = %.1f %%\", v or 0))\nend)\ndb.PWT_BatteryStatus.Voltage_V:on_change(function(v)        battery.CurrentVoltage:publish(v or 0) end)\ndb.PWT_BatteryStatus.Current_A:on_change(function(v)        battery.CurrentCurrent:publish(v or 0) end)\ndb.PWT_BatteryStatus.Temperature_degC:on_change(function(v) battery.Temperature.Average:publish(v or 0) end)\n\ndb.PWT_Range.Range_m:on_change(function(v)\n    pt.Range:publish(math.floor((v or 0) + 0.5))\n    log(string.format(\"[pgw] can→vss Powertrain.Range = %d m\", math.floor((v or 0) + 0.5)))\nend)\n\n-- ── Drivetrain (gear + drive mode) ─────────────────────\ndb.PWT_DrivetrainStatus.SelectedGear:on_change(function(v)\n    -- VSS-native PRNDL int8 — identity passthrough.\n    trans.SelectedGear:publish(math.floor(v or 0))\n    log(string.format(\"[pgw] can→vss SelectedGear = %d\", math.floor(v or 0)))\nend)\n\ndb.PWT_DrivetrainStatus.PerformanceMode:on_change(function(v)\n    local s = PERF_MODE[math.floor(v or 0)]\n    if s ~= nil then\n        trans.PerformanceMode:publish(s)\n        log(\"[pgw] can→vss PerformanceMode = \" .. s)\n    end\nend)\n\nlog(\"powertrain_gateway ready\")\n"
+        },
+        "id": "bbeb0955-248f-4359-9c74-9bcee3a03192",
+        "label": "PWT Gateway",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "3f83b24f-60c3-48b0-bf6a-004e5a0139e3",
+            "name": "kuksa",
+            "nodeId": "bbeb0955-248f-4359-9c74-9bcee3a03192",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": null
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "413e232b-c59e-4500-be33-3a315a40856a",
+            "name": "can",
+            "nodeId": "bbeb0955-248f-4359-9c74-9bcee3a03192",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": "LEFT"
+          }
+        ],
+        "positionX": 604.195720201353,
+        "positionY": 178.8417575526165,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n10"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- tcu_gateway.lua — TCU domain gateway: Vehicle KUKSA ↔ SOME/IP (in-vehicle).\n--\n-- The TCU Gateway is the data-plane bridge of the Telematics domain, the\n-- SOME/IP analogue of body_gateway/powertrain_gateway (which bridge CAN↔KUKSA).\n-- It is the SOME/IP SERVICE PROVIDER; the TCU-NAD (TelAF tafSomeipGWSvc) is the\n-- client and the sole MQTT egress to the cloud. KUKSA stays source-of-truth;\n-- SOME/IP is transport in front of it.\n--\n-- Service VehicleInfo (0x2000 / instance 0x0001):\n--   Telemetry (GW → NAD):\n--     event 0x8001 (eventgroup 0x0001) — VssUpdate, one per VSS signal change\n--       payload: JSON {\"path\":\"<VSS path>\",\"value\":<scalar>}  (self-describing)\n--   Command (NAD → GW), request/response:\n--     method 0x9001 SetDoorLock — req: uint8 lock(0/1), uint8 mask\n--                                 resp: uint8 status (0 = OK)\n--\n-- Pins:\n--   pins.kuksa — shared Vehicle KUKSA Databroker (subscribe + actuate).\n--   eth pin (e-eth) — Telematics-switch L2 NIC; vsomeip device + IP read at\n--                     runtime (iface_ip), SD multicast 224.0.0.1:30490.\n\nlocal kuksa = pins.kuksa\nassert(kuksa and kuksa.vss, \"pins.kuksa.vss missing — Vehicle KUKSA unreachable at start\")\nlocal Vehicle = kuksa.vss.Vehicle\n\n-- In-vehicle pin on the TCU Switch. The kernel interface is e-<pinname>\n-- (\"e-eth\"); its IP is DHCP-assigned, so read it at runtime (Lua is sandboxed\n-- and can't, so nydus.vsomeip.iface_ip — a Rust helper — does it).\nlocal IFACE       = \"e-eth\"\n-- Fail loud (not a silent loopback bind) if the IP isn't up yet — the node\n-- restarts and retries, which is better than vsomeip quietly binding 127.0.0.1.\nlocal LOCAL_IP    = nydus.vsomeip.iface_ip(IFACE)\nassert(LOCAL_IP, string.format(\n    \"[tcu-gw] FATAL: no IPv4 on '%s' yet — vsomeip cannot bind; check in-vehicle pin + DHCP\", IFACE))\nlocal SOMEIP_PORT = 30509\nlocal SD_PORT     = 30490\n\nlocal SVC          = 0x2000\nlocal INST         = 0x0001\nlocal EVENT_STATUS = 0x8001\nlocal EVENTGROUP   = 0x0001\nlocal METHOD_DOOR  = 0x0001\n\n-- ── vsomeip configuration (before new()) ────────────────────────────\nnydus.vsomeip.add_multicast_route(\"224.0.0.1\", IFACE)\n\nnydus.vsomeip.configure(string.format([[{\n    \"unicast\": \"%s\",\n    \"netmask\": \"255.255.255.0\",\n    \"device\": \"%s\",\n    \"logging\": { \"level\": \"info\", \"console\": \"true\" },\n    \"applications\": [ { \"name\": \"tcu-gateway\", \"id\": \"0x2000\" } ],\n    \"services\": [ { \"service\": \"0x2000\", \"instance\": \"0x0001\", \"unreliable\": \"%d\" } ],\n    \"routing\": \"tcu-gateway\",\n    \"service-discovery\": {\n        \"enable\": \"true\",\n        \"multicast\": \"224.0.0.1\",\n        \"port\": \"%d\",\n        \"protocol\": \"udp\",\n        \"initial_delay_min\": \"10\",\n        \"initial_delay_max\": \"100\",\n        \"repetitions_base_delay\": \"200\",\n        \"repetitions_max\": \"3\",\n        \"ttl\": \"3\",\n        \"offer_debounce_time\": \"500\",\n        \"find_debounce_time\": \"500\"\n    }\n}]], LOCAL_IP, IFACE, SOMEIP_PORT, SD_PORT))\n\nlog(\"[tcu-gw] creating vsomeip application...\")\nlocal app = nydus.vsomeip.new(\"tcu-gateway\")\n\napp:offer(SVC, INST)\napp:offer_event(SVC, INST, EVENT_STATUS, EVENTGROUP)\nlog(string.format(\"[tcu-gw] VehicleInfo 0x%04X offered on %s:%d (event 0x%04X)\",\n    SVC, LOCAL_IP, SOMEIP_PORT, EVENT_STATUS))\n\n-- ── Forward VSS → SOME/IP (generic, per-signal) ─────────────────────\n-- Each subscribed VSS signal is forwarded individually as it changes, as\n-- one event 0x8001 carrying {path, value}. The VSS path is self-describing\n-- (it IS the identifier) so there's no per-signal event ID nor fixed struct\n-- to keep in sync — adding a signal = adding a path below.\n-- Signal set = the \"VSS Path\" column of docs/signal_mapping.csv.\n\nlocal FORWARD_PATHS = {\n    \"Vehicle.Speed\",\n    \"Vehicle.TraveledDistance\",\n    \"Vehicle.LowVoltageSystemState\",\n    \"Vehicle.Powertrain.ElectricMotor.Speed\",\n    \"Vehicle.Powertrain.CombustionEngine.Speed\",\n    \"Vehicle.Powertrain.Range\",\n    \"Vehicle.Powertrain.TractionBattery.StateOfCharge.Current\",\n    \"Vehicle.Powertrain.TractionBattery.CurrentVoltage\",\n    \"Vehicle.Powertrain.TractionBattery.CurrentCurrent\",\n    \"Vehicle.Powertrain.TractionBattery.Temperature.Average\",\n    \"Vehicle.Powertrain.Transmission.SelectedGear\",\n    \"Vehicle.Powertrain.Transmission.PerformanceMode\",\n    \"Vehicle.Cabin.HVAC.Station.Row1.Driver.Temperature\",\n    \"Vehicle.Cabin.HVAC.Station.Row1.Passenger.Temperature\",\n    \"Vehicle.Cabin.HVAC.Station.Row1.Driver.FanSpeed\",\n    \"Vehicle.Cabin.HVAC.Station.Row1.Driver.AirDistribution\",\n    \"Vehicle.Cabin.HVAC.IsAirConditioningActive\",\n    \"Vehicle.Cabin.HVAC.IsRecirculationActive\",\n    \"Vehicle.Cabin.HVAC.IsAutoPowerOptimize\",\n    \"Vehicle.Cabin.HVAC.IsFrontDefrosterActive\",\n    \"Vehicle.Cabin.HVAC.IsRearDefrosterActive\",\n    \"Vehicle.Cabin.Seat.Row1.DriverSide.HeatingCooling\",\n    \"Vehicle.Cabin.Seat.Row1.PassengerSide.HeatingCooling\",\n    \"Vehicle.Cabin.Seat.Row1.DriverSide.IsBelted\",\n    \"Vehicle.Cabin.Seat.Row1.DriverSide.OccupancyStatus\",\n    \"Vehicle.Cabin.Door.Row1.DriverSide.IsLocked\",\n    \"Vehicle.Cabin.Door.Row1.PassengerSide.IsLocked\",\n    \"Vehicle.Cabin.Door.Row2.DriverSide.IsLocked\",\n    \"Vehicle.Cabin.Door.Row2.PassengerSide.IsLocked\",\n    \"Vehicle.Chassis.Axle.Row1.Wheel.Left.Tire.Pressure\",\n    \"Vehicle.Chassis.Axle.Row1.Wheel.Right.Tire.Pressure\",\n    \"Vehicle.Chassis.Axle.Row2.Wheel.Left.Tire.Pressure\",\n    \"Vehicle.Chassis.Axle.Row2.Wheel.Right.Tire.Pressure\",\n}\n\n-- JSON-encode a scalar VSS value (string gets quoted; bool/number bare).\nlocal function json_value(v)\n    local t = type(v)\n    if t == \"boolean\" or t == \"number\" then return tostring(v) end\n    if t == \"string\" then return '\"' .. v .. '\"' end\n    return \"null\"\nend\n\nkuksa:subscribe(FORWARD_PATHS)\nkuksa:on_change(function(ev)\n    local payload = string.format('{\"path\":\"%s\",\"value\":%s}', ev.path, json_value(ev.value))\n    app:notify(SVC, INST, EVENT_STATUS, payload)\n    log(string.format(\"[tcu-gw] fwd %s = %s\", ev.path, tostring(ev.value)))\nend)\n\n-- ── Command: SOME/IP method 0x9001 SetDoorLock → KUKSA ──────────────\n-- req payload: uint8 lock (1 = lock, 0 = unlock), uint8 mask (door bitmap).\n-- Writes the KUKSA door-lock actuator target; the Body domain performs the\n-- physical actuation and the resulting IsLocked value re-enters KUKSA (the\n-- ack-of-reality). The method response only confirms accept + KUKSA write.\n\nlocal doors = {\n    Vehicle.Cabin.Door.Row1.DriverSide,\n    Vehicle.Cabin.Door.Row1.PassengerSide,\n    Vehicle.Cabin.Door.Row2.DriverSide,\n    Vehicle.Cabin.Door.Row2.PassengerSide,\n}\n\napp:on_request(SVC, INST, METHOD_DOOR, function(req)\n    local lock = string.unpack(\">I1\", req.payload)\n    local locked = (lock ~= 0)\n    for _, d in ipairs(doors) do\n        d.IsLocked:actuate(locked)\n    end\n    log(string.format(\"[tcu-gw] SetDoorLock lock=%d → KUKSA (all doors)\", lock))\n    app:respond(req, string.pack(\">I1\", 0)) -- status 0 = accepted + written\nend)\n\nlog(\"[tcu-gw] ready — provider offering VehicleInfo, SD on 224.0.0.1:\" .. SD_PORT)\n"
+        },
+        "id": "b3a960e2-f717-4205-96ee-777440efd924",
+        "label": "TCU Gateway",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "3d982fd1-8e0d-40e4-9e6e-fa61301a08db",
+            "name": "eth",
+            "nodeId": "b3a960e2-f717-4205-96ee-777440efd924",
+            "pinType": "ETHERNET",
+            "port": null,
+            "properties": {
+              "address": "10.99.0.20"
+            },
+            "side": null
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "55054b37-1137-4ab2-8892-f9241aed69f6",
+            "name": "kuksa",
+            "nodeId": "b3a960e2-f717-4205-96ee-777440efd924",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": "LEFT"
+          }
+        ],
+        "positionX": 1079.414846597444,
+        "positionY": -286.7945325848934,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n11"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "canBus": {
+            "_dbcMeta": {
+              "messages": [
+                {
+                  "id": 256,
+                  "name": "HvacCommand"
+                },
+                {
+                  "id": 257,
+                  "name": "HvacStatus"
+                },
+                {
+                  "id": 528,
+                  "name": "DoorCommand"
+                },
+                {
+                  "id": 769,
+                  "name": "DoorStatus"
+                },
+                {
+                  "id": 784,
+                  "name": "TirePressure"
+                },
+                {
+                  "id": 770,
+                  "name": "PowerState"
+                },
+                {
+                  "id": 1343,
+                  "name": "VCU_TX_SEATBELT"
+                },
+                {
+                  "id": 1120,
+                  "name": "PWT_VehicleSpeed"
+                }
+              ],
+              "nodes": [
+                "BCM",
+                "Gateway",
+                "HVAC",
+                "VCU"
+              ]
+            },
+            "dbc": {
+              "artifactId": "MmoaZPtZ_Fb6X-B28YAim",
+              "version": "0.0.1",
+              "versionId": "bOztnBlIQhgzxvYte5z2T"
+            }
+          }
+        },
+        "id": "329ca1d7-a128-4652-a6b6-240cf0779a5a",
+        "label": "BCM CAN",
+        "nodeType": "can-bus",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "08d33418-8ea4-4eb5-95b8-c1ae1ca50154",
+            "name": "can",
+            "nodeId": "329ca1d7-a128-4652-a6b6-240cf0779a5a",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 323.0355504369631,
+        "positionY": -250.3614690181874,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n12"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "gpioPanel": {
+            "pinDefinitions": "[{\"id\":\"SoC\",\"name\":\"SoC\",\"type\":\"slider\",\"group\":\"bms\",\"min\":0,\"max\":100,\"step\":1,\"unit\":\"%\",\"labels\":[],\"default_value\":85,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"}]"
+          }
+        },
+        "id": "78490deb-1bc1-4fe8-9c8e-b5edbe027980",
+        "label": "Battery Sensor",
+        "nodeType": "gpio-panel",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "147941f8-7945-489a-b279-dc1945f9a9e2",
+            "name": "gpio",
+            "nodeId": "78490deb-1bc1-4fe8-9c8e-b5edbe027980",
+            "pinType": "GPIO",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": -224.5317334629815,
+        "positionY": 213.5305729746601,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n13"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- vcu.lua — Vehicle Control Unit (Powertrain-domain coordinator, EV).\n--\n-- Owns the motion/control signals: vehicle speed (gpio slider), derived\n-- electric-motor speed, a fixed odometer reading, selected gear, drive mode.\n-- All values are pure functions of gpio input — no time-based simulation.\n-- Publishes onto the Powertrain CAN; the Powertrain Gateway bridges to KUKSA.\n--\n-- Pins:\n--   pins.can    — Powertrain CAN (DBC: examples/latest_demo/dbc/powertrain_can.dbc)\n--   pins.sensor — \"Drive Controls\" gpio-panel:\n--                   Speed      slider   0..240 km/h\n--                   Gear       selector 0=P 1=R 2=N 3=D\n--                   DriveMode  selector 0=NORMAL 1=SPORT 2=ECONOMY 3=SNOW 4=RAIN\n--\n-- DBC cycle times (Speed 100ms, MotorSpeed 50ms, Odometer 1s, Drivetrain\n-- 100ms) make nydus broadcast cyclically once :publish primes the cache.\n\nlocal can      = pins.can\nlocal controls = pins.sensor\nlocal db       = can.db\n\n-- Single-speed EV reduction: motor rpm ≈ road speed × ratio (≈15840 @ 240).\nlocal RPM_PER_KPH = 66\n\n-- gpio gear index → VSS-native PRNDL int8 (P=126, R=-1, N=0, D=127).\nlocal GEAR_BY_INDEX = { [0] = 126, [1] = -1, [2] = 0, [3] = 127 }\n\nlocal speed_kph  = 0\nlocal ODOMETER_M = 12000000   -- fixed odometer reading (~12,000 km); static, not time-integrated\n\nlocal function publish_motion()\n    db.PWT_VehicleSpeed.Speed_kph:publish(speed_kph)\n    local rpm = math.floor(speed_kph * RPM_PER_KPH)\n    if rpm > 16000 then rpm = 16000 end\n    db.PWT_MotorSpeed.Speed_rpm:publish(rpm)\nend\n\n-- ── Speed slider → speed + derived motor rpm ───────────\ncontrols:on(\"Speed\", function(v)\n    speed_kph = v or 0\n    publish_motion()\n    log(string.format(\"[vcu] speed=%.0f km/h\", speed_kph))\nend)\n\n-- ── Gear selector (index → PRNDL) ──────────────────────\ncontrols:on(\"Gear\", function(v)\n    local g = GEAR_BY_INDEX[math.floor(v or 0)] or 126\n    db.PWT_DrivetrainStatus.SelectedGear:publish(g)\n    log(string.format(\"[vcu] gear index=%s -> PRNDL %d\", tostring(v), g))\nend)\n\n-- ── Drive-mode selector (0..4 == DBC PerformanceMode VAL_) ──\ncontrols:on(\"DriveMode\", function(v)\n    local m = math.floor(v or 0)\n    db.PWT_DrivetrainStatus.PerformanceMode:publish(m)\n    log(string.format(\"[vcu] drive mode = %d\", m))\nend)\n\n-- ── Bootstrap (static values; DBC cyclic re-broadcasts them) ──\npublish_motion()\ndb.PWT_DrivetrainStatus.SelectedGear:publish(126)    -- Park\ndb.PWT_DrivetrainStatus.PerformanceMode:publish(0)   -- NORMAL\ndb.PWT_Odometer.TraveledDistance_m:publish(ODOMETER_M)\n\nlog(\"vcu ready\")\n"
+        },
+        "id": "4d0554ce-459f-42a1-8ae0-46ded1883fe7",
+        "label": "VCU (\tVehicle Control Unit)",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "76118391-a1ba-4a7d-a3a4-e499f6d92bfd",
+            "name": "sensor",
+            "nodeId": "4d0554ce-459f-42a1-8ae0-46ded1883fe7",
+            "pinType": "GPIO",
+            "port": null,
+            "properties": null,
+            "side": "LEFT"
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "1c59b2db-8216-4fbc-896e-4d2b1b7e18e7",
+            "name": "can",
+            "nodeId": "4d0554ce-459f-42a1-8ae0-46ded1883fe7",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 48.74434072939724,
+        "positionY": 51.50084895995937,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n18"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "prefix": "device-proxy"
+        },
+        "id": "2e6bd9c9-78d8-4f95-81ed-26a2d61b4986",
+        "label": "Device Proxy",
+        "nodeType": "device-proxy",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "6e67beaa-f8fc-4520-a4ee-ae6f7b5bce04",
+            "name": "usb",
+            "nodeId": "2e6bd9c9-78d8-4f95-81ed-26a2d61b4986",
+            "pinType": "USB",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 1961.151197328638,
+        "positionY": 216.0136589957798,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n19"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": null,
+        "id": "10068f6c-a14f-4fe7-a973-b12b228dfe4e",
+        "label": "TCU Switch",
+        "nodeType": "eth-bridge",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "4d0670a3-dc9e-40e2-a29d-e045763cf281",
+            "name": "eth",
+            "nodeId": "10068f6c-a14f-4fe7-a973-b12b228dfe4e",
+            "pinType": "ETHERNET",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 1368.677376447436,
+        "positionY": -248.9481560733651,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n2"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- body_gateway.lua — body-domain CAN ↔ KUKSA bridge.\n--\n-- Translates KUKSA actuator writes (HVAC fields, door locks) into CAN\n-- Command frames, and mirrors CAN Status frames back to KUKSA Current.\n--\n-- Pins:\n--   pins.kuksa — shared Vehicle KUKSA databroker\n--   pins.can   — Body CAN (DBC: examples/latest_demo/dbc/body_can.dbc)\n\nlocal kuksa = pins.kuksa\nlocal can   = pins.can\n\nlocal can_hvac_command  = can.db.HvacCommand\nlocal can_hvac_status   = can.db.HvacStatus\nlocal can_door_command  = can.db.DoorCommand\nlocal can_door_status   = can.db.DoorStatus\nlocal can_tire_pressure = can.db.TirePressure\nlocal can_power_state   = can.db.PowerState\nlocal can_seatbelt      = can.db.VCU_TX_SEATBELT\nlocal can_pwt_speed     = can.db.PWT_VehicleSpeed\n\nlocal Vehicle      = kuksa.vss.Vehicle\nlocal vss_hvac     = Vehicle.Cabin.HVAC\nlocal vss_hvac_d   = Vehicle.Cabin.HVAC.Station.Row1.Driver\nlocal vss_hvac_p   = Vehicle.Cabin.HVAC.Station.Row1.Passenger\nlocal vss_door_r1d = Vehicle.Cabin.Door.Row1.DriverSide\nlocal vss_door_r1p = Vehicle.Cabin.Door.Row1.PassengerSide\nlocal vss_door_r2d = Vehicle.Cabin.Door.Row2.DriverSide\nlocal vss_door_r2p = Vehicle.Cabin.Door.Row2.PassengerSide\nlocal vss_tire_r1l = Vehicle.Chassis.Axle.Row1.Wheel.Left.Tire\nlocal vss_tire_r1r = Vehicle.Chassis.Axle.Row1.Wheel.Right.Tire\nlocal vss_tire_r2l = Vehicle.Chassis.Axle.Row2.Wheel.Left.Tire\nlocal vss_tire_r2r = Vehicle.Chassis.Axle.Row2.Wheel.Right.Tire\nlocal vss_seat_r1d = Vehicle.Cabin.Seat.Row1.DriverSide\n\n-- ── Scale / enum conversions ──────────────────────────\n\n-- FanSpeed: DBC 0..5 level ↔ VSS 0..100 percent.\nlocal FAN_LEVEL_MAX = 5\nlocal function fan_vss_to_can(pct)\n    if pct == nil or pct <= 0 then return 0 end\n    if pct >= 100 then return FAN_LEVEL_MAX end\n    return math.floor(pct / 100 * FAN_LEVEL_MAX + 0.5)\nend\nlocal function fan_can_to_vss(level)\n    if level == nil or level <= 0 then return 0 end\n    if level >= FAN_LEVEL_MAX then return 100 end\n    return math.floor(level / FAN_LEVEL_MAX * 100 + 0.5)\nend\n\nlocal AIR_CAN_TO_VSS = { [0] = \"UP\", [1] = \"MIDDLE\", [2] = \"DOWN\" }\nlocal AIR_VSS_TO_CAN = { UP = 0, MIDDLE = 1, DOWN = 2 }\n\nlocal POWER_STATE = {\n    [0] = \"UNDEFINED\", [1] = \"LOCK\", [2] = \"OFF\",\n    [3] = \"ACC\",       [4] = \"ON\",   [5] = \"START\",\n}\n\n-- SeatBelt vECU FSM: 0=INIT, 1=READY, 2=NOT_READY_1, 3=NOT_READY_2.\n-- READY ⇒ belt buckled. INIT ⇒ seat empty (weight ≤ 10); every other state\n-- requires weight > 10, so anything but INIT means the seat is occupied.\nlocal SEATBELT_READY = 1\nlocal SEATBELT_INIT  = 0\n\n-- ── KUKSA → CAN ───────────────────────────────────────\n\nvss_hvac_d.Temperature:on_actuate(function(v)\n    can_hvac_command.Driver_Temperature:publish(v)\n    log(string.format(\"[bgw] vss→can Driver_Temperature = %s degC\", tostring(v)))\nend)\n\nvss_hvac_p.Temperature:on_actuate(function(v)\n    can_hvac_command.Passenger_Temperature:publish(v)\n    log(string.format(\"[bgw] vss→can Passenger_Temperature = %s degC\", tostring(v)))\nend)\n\nvss_hvac_d.FanSpeed:on_actuate(function(v)\n    local lvl = fan_vss_to_can(v)\n    can_hvac_command.Driver_FanSpeed:publish(lvl)\n    log(string.format(\"[bgw] vss→can Driver_FanSpeed = %d (vss %s%%)\", lvl, tostring(v)))\nend)\n\nvss_hvac_d.AirDistribution:on_actuate(function(v)\n    local raw = AIR_VSS_TO_CAN[v]\n    if raw == nil then return end\n    can_hvac_command.Driver_AirDistribution:publish(raw)\n    log(string.format(\"[bgw] vss→can Driver_AirDistribution = %d (%s)\", raw, tostring(v)))\nend)\n\nlocal function bind_bool_actuate(vss_sig, can_sig, label)\n    vss_sig:on_actuate(function(v)\n        can_sig:publish(v and 1 or 0)\n        log(\"[bgw] vss→can \" .. label .. \" = \" .. tostring(v))\n    end)\nend\nbind_bool_actuate(vss_hvac.IsAirConditioningActive, can_hvac_command.IsAirConditioningActive, \"IsAirConditioningActive\")\nbind_bool_actuate(vss_hvac.IsRecirculationActive,   can_hvac_command.IsRecirculationActive,   \"IsRecirculationActive\")\nbind_bool_actuate(vss_hvac.IsAutoPowerOptimize,     can_hvac_command.IsAutoPowerOptimize,     \"IsAutoPowerOptimize\")\nbind_bool_actuate(vss_hvac.IsFrontDefrosterActive,  can_hvac_command.IsFrontDefrosterActive,  \"IsFrontDefrosterActive\")\nbind_bool_actuate(vss_hvac.IsRearDefrosterActive,   can_hvac_command.IsRearDefrosterActive,   \"IsRearDefrosterActive\")\n\nbind_bool_actuate(vss_door_r1d.IsLocked, can_door_command.Row1Driver_IsLocked,    \"Row1Driver\")\nbind_bool_actuate(vss_door_r1p.IsLocked, can_door_command.Row1Passenger_IsLocked, \"Row1Passenger\")\nbind_bool_actuate(vss_door_r2d.IsLocked, can_door_command.Row2Driver_IsLocked,    \"Row2Driver\")\nbind_bool_actuate(vss_door_r2p.IsLocked, can_door_command.Row2Passenger_IsLocked, \"Row2Passenger\")\n\n-- ── CAN → KUKSA ───────────────────────────────────────\n\ncan_hvac_status.Driver_Temperature:on_change(function(v)    vss_hvac_d.Temperature:publish(v) end)\ncan_hvac_status.Passenger_Temperature:on_change(function(v) vss_hvac_p.Temperature:publish(v) end)\ncan_hvac_status.Driver_FanSpeed:on_change(function(v)       vss_hvac_d.FanSpeed:publish(fan_can_to_vss(v)) end)\n\ncan_hvac_status.Driver_AirDistribution:on_change(function(v)\n    local s = AIR_CAN_TO_VSS[math.floor(v)]\n    if s ~= nil then vss_hvac_d.AirDistribution:publish(s) end\nend)\n\nlocal function bind_bool_publish(status_sig, vss_sig)\n    status_sig:on_change(function(v) vss_sig:publish(v ~= 0) end)\nend\nbind_bool_publish(can_hvac_status.IsAirConditioningActive, vss_hvac.IsAirConditioningActive)\nbind_bool_publish(can_hvac_status.IsRecirculationActive,   vss_hvac.IsRecirculationActive)\nbind_bool_publish(can_hvac_status.IsAutoPowerOptimize,     vss_hvac.IsAutoPowerOptimize)\nbind_bool_publish(can_hvac_status.IsFrontDefrosterActive,  vss_hvac.IsFrontDefrosterActive)\nbind_bool_publish(can_hvac_status.IsRearDefrosterActive,   vss_hvac.IsRearDefrosterActive)\n\nbind_bool_publish(can_door_status.Row1Driver_IsLocked,    vss_door_r1d.IsLocked)\nbind_bool_publish(can_door_status.Row1Passenger_IsLocked, vss_door_r1p.IsLocked)\nbind_bool_publish(can_door_status.Row2Driver_IsLocked,    vss_door_r2d.IsLocked)\nbind_bool_publish(can_door_status.Row2Passenger_IsLocked, vss_door_r2p.IsLocked)\n\nlocal function bind_tire(can_sig, vss_sig, label)\n    can_sig:on_change(function(v)\n        local kpa = math.floor((v or 0) + 0.5)\n        vss_sig:publish(kpa)\n        log(\"[bgw] can→vss \" .. label .. \" = \" .. kpa .. \" kPa\")\n    end)\nend\nbind_tire(can_tire_pressure.Row1Left_TirePressure,  vss_tire_r1l.Pressure, \"Row1Left\")\nbind_tire(can_tire_pressure.Row1Right_TirePressure, vss_tire_r1r.Pressure, \"Row1Right\")\nbind_tire(can_tire_pressure.Row2Left_TirePressure,  vss_tire_r2l.Pressure, \"Row2Left\")\nbind_tire(can_tire_pressure.Row2Right_TirePressure, vss_tire_r2r.Pressure, \"Row2Right\")\n\ncan_power_state.LowVoltageSystemState:on_change(function(v)\n    local s = POWER_STATE[math.floor(v)]\n    if s ~= nil then Vehicle.LowVoltageSystemState:publish(s) end\nend)\n\ncan_seatbelt.VCU_Seatbelt_Sts:on_change(function(v)\n    local state = math.floor(v or 0)\n    local belted = state == SEATBELT_READY\n    local occupied = state ~= SEATBELT_INIT\n    vss_seat_r1d.IsBelted:publish(belted)\n    vss_seat_r1d.OccupancyStatus:publish(occupied and \"OCCUPIED\" or \"EMPTY\")\n    log(string.format(\"[bgw] can→vss Seatbelt_Sts = %d (belted=%s occupied=%s)\",\n        state, tostring(belted), tostring(occupied)))\nend)\n\n-- ── Cross-domain: Vehicle.Speed (KUKSA) → Body CAN PWT_VehicleSpeed ──\n-- Speed originates in the Powertrain domain (Vehicle Info → Powertrain\n-- Gateway → KUKSA). The SeatBelt vECU reads it off the Body CAN for its\n-- NOT_READY_2 (speed>20) state, so the Body Gateway re-emits Vehicle.Speed\n-- here as PWT_VehicleSpeed 0x460. DBC cyclic (100ms) keeps the vECU fresh.\nVehicle.Speed:on_change(function(v)\n    can_pwt_speed.Speed_kph:publish(v or 0)\n    log(string.format(\"[bgw] vss→can PWT_VehicleSpeed = %.1f km/h\", v or 0))\nend)\n\nlog(\"body_gateway ready\")\n"
+        },
+        "id": "392f3332-824f-4e4a-9e84-c812a3309b52",
+        "label": "BCM Gateway",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "4d2f0db1-52db-4c49-8502-e28c35da91b7",
+            "name": "kuksa",
+            "nodeId": "392f3332-824f-4e4a-9e84-c812a3309b52",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": null
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "c6ad1df1-34f3-4f0a-a66b-0e0661633d07",
+            "name": "can",
+            "nodeId": "392f3332-824f-4e4a-9e84-c812a3309b52",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": "LEFT"
+          }
+        ],
+        "positionX": 603.570865423028,
+        "positionY": -289.0087464977828,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n20"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "gpioPanel": {
+            "pinDefinitions": "[{\"id\":\"Speed\",\"name\":\"Speed\",\"type\":\"slider\",\"group\":\"vcu\",\"min\":0,\"max\":180,\"step\":1,\"unit\":\"kmh\",\"labels\":[],\"default_value\":0,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"},{\"id\":\"Gear\",\"name\":\"Gear\",\"type\":\"multi_position\",\"group\":\"vcu\",\"min\":0,\"max\":1,\"step\":1,\"unit\":\"\",\"labels\":[\"P\",\"R\",\"N\",\"D\"],\"default_value\":0,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"},{\"id\":\"DriveMode\",\"name\":\"Pin 3\",\"type\":\"multi_position\",\"group\":\"vcu\",\"min\":0,\"max\":1,\"step\":1,\"unit\":\"\",\"labels\":[\"NORMAL\",\"SPORT\",\"ECONOMY\"],\"default_value\":0,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"}]"
+          }
+        },
+        "id": "52009bca-7a32-4816-bccb-242fdf6a1223",
+        "label": "Drive Controls",
+        "nodeType": "gpio-panel",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "a521b8be-3d25-4df7-bc6e-18807587fb6a",
+            "name": "gpio",
+            "nodeId": "52009bca-7a32-4816-bccb-242fdf6a1223",
+            "pinType": "GPIO",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": -221.6436963967548,
+        "positionY": 89.65706619288008,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n3"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": null,
+        "id": "921376f1-062a-4738-87bb-b916c909e27d",
+        "label": "IVI Switch",
+        "nodeType": "eth-bridge",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "2672d2e4-0ad6-48c1-b84e-dda4ab75758a",
+            "name": "eth",
+            "nodeId": "921376f1-062a-4738-87bb-b916c909e27d",
+            "pinType": "ETHERNET",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 1384.902897716943,
+        "positionY": 150.7404640900394,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n4"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "canBus": {
+            "_dbcMeta": {
+              "messages": [
+                {
+                  "id": 256,
+                  "name": "PWT_VehicleSpeed"
+                },
+                {
+                  "id": 272,
+                  "name": "PWT_MotorSpeed"
+                },
+                {
+                  "id": 288,
+                  "name": "PWT_BatteryStatus"
+                },
+                {
+                  "id": 304,
+                  "name": "PWT_Odometer"
+                },
+                {
+                  "id": 320,
+                  "name": "PWT_Range"
+                },
+                {
+                  "id": 336,
+                  "name": "PWT_DrivetrainStatus"
+                }
+              ],
+              "nodes": [
+                "BMS",
+                "VCU"
+              ]
+            },
+            "dbc": {
+              "artifactId": "BJ_NG5IGNnK0hwreyFrxn",
+              "version": "0.0.1",
+              "versionId": "l6khjwV9m0HGYe02w52Y1"
+            }
+          }
+        },
+        "id": "387ba642-242c-42d8-a8ca-c3a73b1c4623",
+        "label": "PWT CAN",
+        "nodeType": "can-bus",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "b5261c04-db16-4004-95c9-704a6854ca0e",
+            "name": "can",
+            "nodeId": "387ba642-242c-42d8-a8ca-c3a73b1c4623",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 330.2594179834701,
+        "positionY": 214.8690718497666,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n5"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "env": {
+            "VECU_CAN0_IFACE": "<redacted>",
+            "VECU_CAN1_IFACE": "<redacted>",
+            "VECU_CAN2_IFACE": "<redacted>"
+          },
+          "image": "localhost:5000/tcu-demo/tcu-nad:demo"
+        },
+        "id": "b0b8638a-e335-4b2e-815c-491db347c909",
+        "label": "SeatBelt ECU",
+        "nodeType": "container",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "574fa7e7-ede9-4edd-a475-d95dc656aa0a",
+            "name": "can",
+            "nodeId": "b0b8638a-e335-4b2e-815c-491db347c909",
+            "pinType": "CAN",
+            "port": null,
+            "properties": null,
+            "side": null
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "be397966-2847-4923-bddf-7370148e24dc",
+            "name": "sensor",
+            "nodeId": "b0b8638a-e335-4b2e-815c-491db347c909",
+            "pinType": "GPIO",
+            "port": null,
+            "properties": null,
+            "side": "LEFT"
+          }
+        ],
+        "positionX": 61.29479707021864,
+        "positionY": -157.8202893353891,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n6"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "displayHeight": 1080,
+          "gpuBackend": "virglrenderer",
+          "image": {
+            "arch": "aarch64",
+            "artifactId": "zAC90TkKqaA63rfuATj1m",
+            "version": "0.0.1",
+            "versionId": "6KAlP82Ez-ELrv2LB224v"
+          },
+          "prefix": "face"
+        },
+        "id": "bcb93f4d-6dee-47e5-bbe7-e53b1f86bf6f",
+        "label": "IVI - Android",
+        "nodeType": "skycraft",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "4993609f-fcf2-4d73-8872-ff1dae5ce2ff",
+            "name": "vhal",
+            "nodeId": "bcb93f4d-6dee-47e5-bbe7-e53b1f86bf6f",
+            "pinType": "VHAL",
+            "port": null,
+            "properties": [
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 557843456
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 559940617
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 559940618
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 555746306
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 555746307
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 555746305
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 555746308
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 555746309
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 557843463
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 557843464
+              },
+              {
+                "areaIds": [
+                  1,
+                  2,
+                  4,
+                  8
+                ],
+                "propId": 392168201
+              },
+              {
+                "areaIds": [
+                  1
+                ],
+                "propId": 354421634
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 291504647
+              },
+              {
+                "areaIds": [
+                  0
+                ],
+                "propId": 291504905
+              },
+              {
+                "areaIds": [
+                  1
+                ],
+                "propId": 371198722
+              }
+            ],
+            "side": null
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "9948ef4d-6c6c-46bc-ab11-0f2aec522ed4",
+            "name": "usb",
+            "nodeId": "bcb93f4d-6dee-47e5-bbe7-e53b1f86bf6f",
+            "pinType": "USB",
+            "port": null,
+            "properties": null,
+            "side": null
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "ae2ec5da-0e7e-4dd8-af37-842889881f23",
+            "name": "eth",
+            "nodeId": "bcb93f4d-6dee-47e5-bbe7-e53b1f86bf6f",
+            "pinType": "ETHERNET",
+            "port": null,
+            "properties": {
+              "address": "10.99.0.14"
+            },
+            "side": null
+          }
+        ],
+        "positionX": 1672.438631565504,
+        "positionY": 179.3213451788979,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n7"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "capabilities": [
+            "CHOWN",
+            "DAC_OVERRIDE",
+            "FOWNER",
+            "FSETID",
+            "KILL",
+            "NET_ADMIN",
+            "NET_RAW",
+            "SETFCAP",
+            "SETGID",
+            "SYS_NICE",
+            "SYS_CHROOT",
+            "SETUID",
+            "SETPCAP",
+            "SYS_PTRACE",
+            "SYS_RESOURCE"
+          ],
+          "cgroupV2": true,
+          "env": {
+            "CLOUD_IFACE": "<redacted>",
+            "DEVICE_ID": "<redacted>",
+            "DEVICE_NAME": "<redacted>",
+            "MQTT_HOST": "<redacted>",
+            "VEHICLE_IFACE": "<redacted>",
+            "VIN": "<redacted>"
+          },
+          "image": "localhost:5000/tcu-demo/tcu-nad:demo"
+        },
+        "id": "2c1e6d0f-2124-4a57-92e4-634c84f9042f",
+        "label": "TCU-NAD",
+        "nodeType": "container",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "dfeb41bf-57c8-4f63-9d24-3b09243eb394",
+            "name": "eth",
+            "nodeId": "2c1e6d0f-2124-4a57-92e4-634c84f9042f",
+            "pinType": "ETHERNET",
+            "port": null,
+            "properties": {
+              "address": "10.99.0.22"
+            },
+            "side": "LEFT"
+          }
+        ],
+        "positionX": 1661.918911262077,
+        "positionY": -287.8856714862957,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n8"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "gpioPanel": {
+            "pinDefinitions": "[{\"id\":\"Row1Left_TirePressure\",\"name\":\"Row1Left_TirePressure\",\"type\":\"slider\",\"group\":\"bcm\",\"min\":0,\"max\":300,\"step\":5,\"unit\":\"kPa\",\"labels\":[],\"default_value\":240,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"},{\"id\":\"Row1Right_TirePressure\",\"name\":\"Row1Right_TirePressure\",\"type\":\"slider\",\"group\":\"bcm\",\"min\":0,\"max\":300,\"step\":5,\"unit\":\"kPa\",\"labels\":[],\"default_value\":240,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"},{\"id\":\"Row2Left_TirePressure\",\"name\":\"Row2Left_TirePressure\",\"type\":\"slider\",\"group\":\"bcm\",\"min\":0,\"max\":300,\"step\":5,\"unit\":\"kPa\",\"labels\":[],\"default_value\":230,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"},{\"id\":\"Row2Right_TirePressure\",\"name\":\"Row2Right_TirePressure\",\"type\":\"slider\",\"group\":\"bcm\",\"min\":0,\"max\":300,\"step\":15,\"unit\":\"kPa\",\"labels\":[],\"default_value\":230,\"axes\":4,\"has_push\":false,\"label_a\":\"\",\"label_b\":\"\"}]"
+          }
+        },
+        "id": "080ccbed-0db8-4e13-9fac-c1382c08a459",
+        "label": "TirePressure Sensor",
+        "nodeType": "gpio-panel",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "8927f340-67ef-4751-8ee6-c85f603b549e",
+            "name": "gpio",
+            "nodeId": "080ccbed-0db8-4e13-9fac-c1382c08a459",
+            "pinType": "GPIO",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": -210.3857255459083,
+        "positionY": -251.9107762242528,
+        "sourceNodeId": "wVMseHi7XtUhuMIn_1D5e-n9"
+      },
+      {
+        "blueprintId": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "config": {
+          "script": "inline",
+          "scriptContent": "-- SafeLoop MOCK C1 + C2 + Risk Fusion for a CarSky Script Node.\n--\n-- Purpose: wire and demonstrate the end-to-end product before trained models\n-- land.  This script is deterministic, marked MOCK in logs, and never reads\n-- ground truth.  It publishes sensor simulation only; it does not actuate a\n-- real brake, hazard light, or other vehicle control.\n\nlocal kuksa = pins.kuksa\nassert(kuksa and kuksa.vss, \"pins.kuksa.vss missing\")\n\nlocal Vehicle = kuksa.vss.Vehicle\nlocal obstacle = Vehicle.ADAS.ObstacleDetection.Front.Center\nlocal driver = Vehicle.Driver\nlocal dms = Vehicle.ADAS.DMS\n\nlocal PERIOD_MS = 50\nlocal SCENARIO_MS = 16000\nlocal frame_id = 0\nlocal last_state = nil\nlocal last_action = nil\n\nlocal function lerp(a, b, ratio)\n    local r = math.max(0.0, math.min(1.0, ratio))\n    return a + (b - a) * r\nend\n\nlocal function mock_ttc(t_ms)\n    if t_ms < 4000 then return lerp(8.0, 5.0, t_ms / 4000) end\n    if t_ms < 8000 then return lerp(5.0, 2.2, (t_ms - 4000) / 4000) end\n    if t_ms < 12000 then return lerp(2.2, 0.8, (t_ms - 8000) / 4000) end\n    return lerp(0.8, 8.0, (t_ms - 12000) / 4000)\nend\n\nlocal function mock_driver(t_ms)\n    if t_ms < 4000 then return \"alert\", 95.0, 5.0, 5.0, true end\n    if t_ms < 8000 then return \"distracted\", 32.0, 92.0, 20.0, false end\n    if t_ms < 10000 then return \"drowsy\", 43.0, 12.0, 78.0, true end\n    if t_ms < 12000 then return \"microsleep\", 5.0, 8.0, 98.0, false end\n    if t_ms < 14000 then return \"yawning\", 55.0, 10.0, 68.0, true end\n    return \"alert\", 95.0, 5.0, 5.0, true\nend\n\nlocal function collision_risk(ttc)\n    if ttc <= 1.0 then return 1.0 end\n    if ttc <= 2.0 then return lerp(1.0, 0.80, ttc - 1.0) end\n    if ttc <= 3.0 then return lerp(0.80, 0.55, ttc - 2.0) end\n    if ttc <= 5.0 then return lerp(0.55, 0.20, (ttc - 3.0) / 2.0) end\n    return lerp(0.20, 0.05, (ttc - 5.0) / 3.0)\nend\n\nlocal function risk_action(ttc, attentive, distraction, fatigue)\n    local driver_risk = math.max(100.0 - attentive, distraction, fatigue) / 100.0\n    local score = math.min(1.0, 0.75 * collision_risk(ttc) + 0.45 * driver_risk)\n    if ttc <= 1.2 or (ttc < 2.0 and driver_risk >= 0.70) then\n        return score, \"CRITICAL\", \"EMERGENCY_BRAKE_REQUEST\"\n    end\n    if ttc < 2.5 or score >= 0.75 then\n        return score, \"HIGH\", \"VISUAL_AUDIO_HAPTIC_WARNING\"\n    end\n    if score >= 0.45 then return score, \"CAUTION\", \"VISUAL_WARNING\" end\n    return score, \"SAFE\", \"MONITOR\"\nend\n\ntimer.periodic(PERIOD_MS, function()\n    local t_ms = (frame_id * PERIOD_MS) % SCENARIO_MS\n    local angle = 2.0 * math.pi * t_ms / SCENARIO_MS\n    local speed = 45.0 + 5.0 * math.sin(angle)\n    local longitudinal = 0.8 * math.cos(angle)\n    local lateral = 0.25 * math.sin(2.0 * angle)\n\n    local ttc = mock_ttc(t_ms)\n    local distance = math.max(0.5, (speed / 3.6) * ttc)\n    local state, attentive, distraction, fatigue, eyes_on_road = mock_driver(t_ms)\n    local score, level, action = risk_action(\n        ttc, attentive, distraction, fatigue\n    )\n\n    Vehicle.Speed:publish(speed)\n    Vehicle.Acceleration.Longitudinal:publish(longitudinal)\n    Vehicle.Acceleration.Lateral:publish(lateral)\n\n    -- TimeGap is uint32 milliseconds in the starter VSS artifact.\n    obstacle.TimeGap:publish(math.floor(ttc * 1000.0 + 0.5))\n    obstacle.Distance:publish(distance)\n    obstacle.IsWarning:publish(ttc < 2.0)\n\n    driver.AttentiveProbability:publish(attentive)\n    driver.DistractionLevel:publish(distraction)\n    driver.FatigueLevel:publish(fatigue)\n    driver.IsEyesOnRoad:publish(eyes_on_road)\n    dms.IsWarning:publish(state ~= \"alert\")\n\n    if state ~= last_state or action ~= last_action or frame_id % 20 == 0 then\n        log(string.format(\n            \"[SafeLoop MOCK] frame=%d ttc=%.2fs driver=%s risk=%.2f level=%s action=%s\",\n            frame_id, ttc, state, score, level, action\n        ))\n        last_state = state\n        last_action = action\n    end\n\n    frame_id = frame_id + 1\nend)\n\nlog(\"[SafeLoop MOCK] ready; C1+C2+Fusion; period_ms=50; scenario_ms=16000; actuator=false\")\n"
+        },
+        "id": "6a14d0f4-2d8c-4d8d-8c6a-6f297e6c57e1",
+        "label": "SafeLoop Mock C1 C2 Fusion",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "fa32afd2-24f7-4b68-a97d-f3dd25ef4c3e",
+            "name": "kuksa",
+            "nodeId": "6a14d0f4-2d8c-4d8d-8c6a-6f297e6c57e1",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": "RIGHT"
+          }
+        ],
+        "positionX": 550,
+        "positionY": -420,
+        "sourceNodeId": null
+      }
+    ],
+    "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+    "parentBlueprintId": null,
+    "updatedAt": "2026-08-04T14:03:54.825Z",
+    "visibility": "PRIVATE",
+    "zones": [
+      {
+        "color": "#3b82f6",
+        "id": "2iIckQv3VwPd-EO8P0x2O",
+        "name": "BCM Zonal",
+        "nodeIds": [
+          "de336945-6f86-40b7-abbf-c5a32153cc4c",
+          "329ca1d7-a128-4652-a6b6-240cf0779a5a",
+          "080ccbed-0db8-4e13-9fac-c1382c08a459",
+          "0767a79f-ced0-4546-975e-7f29c883b000",
+          "b0b8638a-e335-4b2e-815c-491db347c909",
+          "392f3332-824f-4e4a-9e84-c812a3309b52",
+          "08c4977e-d4b0-4cd3-bb05-3772145da5d0"
+        ]
+      },
+      {
+        "color": "#10b981",
+        "id": "IohF90F6Ef5IC04YekHvR",
+        "name": "PWT Zonal",
+        "nodeIds": [
+          "387ba642-242c-42d8-a8ca-c3a73b1c4623",
+          "5362a192-a362-478f-b6f8-6aaca705cd66",
+          "78490deb-1bc1-4fe8-9c8e-b5edbe027980",
+          "52009bca-7a32-4816-bccb-242fdf6a1223",
+          "4d0554ce-459f-42a1-8ae0-46ded1883fe7",
+          "bbeb0955-248f-4359-9c74-9bcee3a03192"
+        ]
+      },
+      {
+        "color": "#f97316",
+        "id": "vG1jEEqRYstVa5l1FsYP-",
+        "name": "TCU Zonal",
+        "nodeIds": [
+          "10068f6c-a14f-4fe7-a973-b12b228dfe4e",
+          "2c1e6d0f-2124-4a57-92e4-634c84f9042f",
+          "b3a960e2-f717-4205-96ee-777440efd924"
+        ]
+      },
+      {
+        "color": "#a855f7",
+        "id": "RLzfVgBlXwPV7yRmiXW_I",
+        "name": "CDC Zonal",
+        "nodeIds": [
+          "921376f1-062a-4738-87bb-b916c909e27d",
+          "bcb93f4d-6dee-47e5-bbe7-e53b1f86bf6f",
+          "48717ddf-2116-4a8d-8579-376f491cf353"
+        ]
+      }
+    ]
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:25+07:00",
+  "path": "/api/v1/blueprints/f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+  "status": 200
+}

@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-08-10T21:46:11+07:00",
+  "commands_are_read_only": true,
+  "command": "ip -4 -o addr show",
+  "results": [
+    {
+      "label": "IVI Gateway",
+      "node_key": "kdxiolc-rvzcpjwtz7lt4-n5",
+      "status": 502,
+      "error": "SERVICE_UNAVAILABLE",
+      "message": "Conduit service not configured"
+    },
+    {
+      "label": "TCU-NAD",
+      "node_key": "kdxiolc-rvzcpjwtz7lt4-n1",
+      "status": 502,
+      "error": "SERVICE_UNAVAILABLE",
+      "message": "Conduit service not configured"
+    }
+  ]
+}

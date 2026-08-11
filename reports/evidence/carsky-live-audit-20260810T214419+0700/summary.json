@@ -1,0 +1,346 @@
+{
+  "base_url": "https://hackathon-1.carsky.io",
+  "clean_clone_candidate": {
+    "id": "rEg5AvGuzcKQHtihPiW0q",
+    "name": "5ChangLinhNguLam",
+    "node_count": 21,
+    "reason": "21-node editable team blueprint without SafeLoop probe/mock nodes"
+  },
+  "credential_stored": false,
+  "custom_vss": {
+    "description": "DMS driver state, risk, TTC, headway and HMI alert signals",
+    "id": "Q4ruRJhflspQoU0SY1l2f",
+    "name": "dms-driver-safety-vss",
+    "referenced_by_blueprints": [],
+    "updated_at": "2026-08-09T18:30:22.577Z",
+    "versions": [
+      {
+        "file_name": null,
+        "id": "fEBS8M7B3aPczDdEAanqZ",
+        "object_key": null,
+        "role": null,
+        "size": null,
+        "version": "0.0.6"
+      },
+      {
+        "file_name": null,
+        "id": "kCuEQea_Sd0inpS0vaDGO",
+        "object_key": null,
+        "role": null,
+        "size": null,
+        "version": "0.0.5"
+      },
+      {
+        "file_name": null,
+        "id": "91420fac-3220-46a0-aaff-577c656637ee",
+        "object_key": null,
+        "role": null,
+        "size": null,
+        "version": "0.0.4"
+      },
+      {
+        "file_name": null,
+        "id": "Gf_KU8fO-yAnonHE8gNe7",
+        "object_key": null,
+        "role": null,
+        "size": null,
+        "version": "0.0.3"
+      },
+      {
+        "file_name": null,
+        "id": "qFgk2pNqQMg5DS34rJ1Gm",
+        "object_key": null,
+        "role": null,
+        "size": null,
+        "version": "0.0.2"
+      },
+      {
+        "file_name": null,
+        "id": "tihDJ_9tM9z9EzZi-Cmgl",
+        "object_key": null,
+        "role": null,
+        "size": null,
+        "version": "0.0.1"
+      }
+    ],
+    "visibility": "PUBLIC"
+  },
+  "inventory": {
+    "active_blueprint_ids": [
+      "kdXIOlc-rVzCpJwTZ7LT4"
+    ],
+    "active_deployments": 1,
+    "artifacts": 6,
+    "blueprints": 11,
+    "devices": 4,
+    "unused_devices": [
+      {
+        "id": "ehlbxyyc4px2it-cip50w",
+        "name": "5ChangLinhNguLam",
+        "status": "PUBLISHED"
+      },
+      {
+        "id": "2tmi0wvx9runxbdo2ajbx",
+        "name": "AiVL_Test_v3.0",
+        "status": "MAINTENANCE"
+      },
+      {
+        "id": "mffgwmak-736c0kns26km",
+        "name": "SafeLoop Integration Lab",
+        "status": "PUBLISHED"
+      }
+    ]
+  },
+  "limits": {
+    "account_specific_note": "Effective endpoints were queried for owner IDs visible on owned blueprint/deployment records; account-list endpoint may require admin role.",
+    "active_deployments": 1,
+    "platform": {
+      "CPU_SAMPLE_INTERVAL_MS": 5000,
+      "CPU_WARNING_THRESHOLD_PERCENT": 80,
+      "MAX_BLUEPRINTS_PER_ACCOUNT": 20,
+      "MAX_CONCURRENT_DEPLOYMENTS_PER_ACCOUNT": 2,
+      "MAX_DEVICES": 5,
+      "MAX_NODES_PER_BLUEPRINT": 30,
+      "MAX_SKYCRAFT_PER_BLUEPRINT": 2
+    },
+    "remaining_concurrent_slots_by_advertised_default": 1
+  },
+  "observed_at": "2026-08-10T21:44:19+07:00",
+  "read_only_audit": true,
+  "runtime": [
+    {
+      "adb_command_transport_statuses": [
+        502,
+        502
+      ],
+      "adb_tunnel_metadata_available": true,
+      "broker_source": "central-broker-vss",
+      "conduit_url_present": true,
+      "deployment": {
+        "blueprintId": "kdXIOlc-rVzCpJwTZ7LT4",
+        "blueprintName": "SafeLoop Integration Lab-deploy",
+        "createdAt": "2026-08-05T08:24:28.429Z",
+        "deviceName": "Inspiring Spence",
+        "id": "uQQBHr256M5GEdNzq2GuQ",
+        "name": "SafeLoop Integration Lab-deploy",
+        "namespace": "room-cma9ky4e",
+        "roomId": "h5sjc3jtzl8vzl9wyqokv",
+        "status": "RUNNING"
+      },
+      "log_queries": [
+        {
+          "label": "SafeLoop 20Hz Replay Probe",
+          "node_key": "kdxiolc-rvzcpjwtz7lt4-n13",
+          "status": 200
+        },
+        {
+          "label": "SafeLoop Telemetry Observer",
+          "node_key": "kdxiolc-rvzcpjwtz7lt4-n3",
+          "status": 200
+        }
+      ],
+      "runtime_node_count": 23,
+      "runtime_nodes": [
+        {
+          "displayName": "PWT CAN",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n0",
+          "nodeType": "can-bus",
+          "phase": "Running",
+          "prefix": "pwt-can"
+        },
+        {
+          "displayName": "TCU-NAD",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n1",
+          "nodeType": "container",
+          "phase": "Running",
+          "prefix": "tcu-nad"
+        },
+        {
+          "displayName": "Central Broker (VSS)",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n10",
+          "nodeType": "kuksa-databroker",
+          "phase": "Running",
+          "prefix": "central-broker-vss"
+        },
+        {
+          "displayName": "BCM ECU",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n11",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "bcm-ecu"
+        },
+        {
+          "displayName": "Device Proxy",
+          "message": "unstable workload: 6 container restarts (last exit code 1)",
+          "name": "kdxiolc-rvzcpjwtz7lt4-n12",
+          "nodeType": "device-proxy",
+          "phase": "Running",
+          "prefix": "device-proxy"
+        },
+        {
+          "displayName": "SafeLoop 20Hz Replay Probe",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n13",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "safeloop-20hz-replay-probe"
+        },
+        {
+          "displayName": "Climate ECU",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n14",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "climate-ecu"
+        },
+        {
+          "displayName": "PWT Gateway",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n15",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "pwt-gateway"
+        },
+        {
+          "displayName": "Drive Controls",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n16",
+          "nodeType": "gpio-panel",
+          "phase": "Running",
+          "prefix": "drive-controls"
+        },
+        {
+          "displayName": "TirePressure Sensor",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n17",
+          "nodeType": "gpio-panel",
+          "phase": "Running",
+          "prefix": "tirepressure-sensor"
+        },
+        {
+          "displayName": "SeatBelt ECU",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n18",
+          "nodeType": "container",
+          "phase": "Running",
+          "prefix": "seatbelt-ecu"
+        },
+        {
+          "displayName": "IVI Switch",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n19",
+          "nodeType": "eth-bridge",
+          "phase": "Running",
+          "prefix": "ivi-switch"
+        },
+        {
+          "displayName": "VCU (\tVehicle Control Unit)",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n2",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "vcu-vehicle-control-unit"
+        },
+        {
+          "displayName": "TCU Gateway",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n20",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "tcu-gateway"
+        },
+        {
+          "displayName": "BCM Gateway",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n21",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "bcm-gateway"
+        },
+        {
+          "displayName": "TCU Switch",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n22",
+          "nodeType": "eth-bridge",
+          "phase": "Running",
+          "prefix": "tcu-switch"
+        },
+        {
+          "displayName": "SafeLoop Telemetry Observer",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n3",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "safeloop-telemetry-observer"
+        },
+        {
+          "displayName": "SeatBelt Sensor",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n4",
+          "nodeType": "gpio-panel",
+          "phase": "Running",
+          "prefix": "seatbelt-sensor"
+        },
+        {
+          "displayName": "IVI Gateway",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n5",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "ivi-gateway"
+        },
+        {
+          "displayName": "BCM CAN",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n6",
+          "nodeType": "can-bus",
+          "phase": "Running",
+          "prefix": "bcm-can"
+        },
+        {
+          "displayName": "BMS ECU",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n7",
+          "nodeType": "script-node",
+          "phase": "Running",
+          "prefix": "bms-ecu"
+        },
+        {
+          "displayName": "Battery Sensor",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n8",
+          "nodeType": "gpio-panel",
+          "phase": "Running",
+          "prefix": "battery-sensor"
+        },
+        {
+          "displayName": "IVI - Android",
+          "message": null,
+          "name": "kdxiolc-rvzcpjwtz7lt4-n9",
+          "nodeType": "skycraft",
+          "phase": "Running",
+          "prefix": "face"
+        }
+      ],
+      "signal_source_count": 7,
+      "skycraft_node_key": "kdxiolc-rvzcpjwtz7lt4-n9",
+      "status": {
+        "message": null,
+        "namespace": "room-cma9ky4e",
+        "status": "RUNNING"
+      },
+      "tunnel_node_count": 1
+    }
+  ],
+  "sanitization": {
+    "conduit_urls": "redacted",
+    "environment_values": "redacted",
+    "portable_exports_are_audit_only": true,
+    "tunnel_commands": "redacted"
+  },
+  "schema_version": "safeloop.carsky-live-audit.v1"
+}

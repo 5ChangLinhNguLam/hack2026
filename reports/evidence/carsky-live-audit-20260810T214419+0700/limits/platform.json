@@ -1,0 +1,16 @@
+{
+  "body": {
+    "CPU_SAMPLE_INTERVAL_MS": 5000,
+    "CPU_WARNING_THRESHOLD_PERCENT": 80,
+    "MAX_BLUEPRINTS_PER_ACCOUNT": 20,
+    "MAX_CONCURRENT_DEPLOYMENTS_PER_ACCOUNT": 2,
+    "MAX_DEVICES": 5,
+    "MAX_NODES_PER_BLUEPRINT": 30,
+    "MAX_SKYCRAFT_PER_BLUEPRINT": 2
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:19+07:00",
+  "path": "/api/v1/config/limits",
+  "status": 200
+}

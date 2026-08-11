@@ -1,0 +1,45 @@
+{
+  "body": {
+    "id": "ehlbxyyc4px2it-cip50w",
+    "lastSeenAt": null,
+    "locked": false,
+    "name": "5ChangLinhNguLam",
+    "operational": "IDLE",
+    "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+    "reachability": "UNKNOWN",
+    "status": "PUBLISHED",
+    "tags": [],
+    "visibility": "PRIVATE",
+    "widgets": [
+      {
+        "config": "{\"signalPart\":\"central-broker-vss-signal\",\"watchPaths\":[\"Vehicle.Speed\"]}",
+        "deviceId": "ehlbxyyc4px2it-cip50w",
+        "id": "11fVwmgtTqNO8L9TdF_ud",
+        "order": "a1",
+        "title": "SafeLoop Speed",
+        "type": "signal"
+      },
+      {
+        "config": "{\"signalPart\":\"central-broker-vss-signal\",\"watchPaths\":[\"Vehicle.Acceleration.Longitudinal\"]}",
+        "deviceId": "ehlbxyyc4px2it-cip50w",
+        "id": "vltEUe-CZwNrH8H431oEZ",
+        "order": "a2",
+        "title": "SafeLoop Longitudinal",
+        "type": "signal"
+      },
+      {
+        "config": "{\"signalPart\":\"central-broker-vss-signal\",\"watchPaths\":[\"Vehicle.Acceleration.Lateral\"]}",
+        "deviceId": "ehlbxyyc4px2it-cip50w",
+        "id": "ybzrX6b7IHeAEeomZMTCo",
+        "order": "a3",
+        "title": "SafeLoop Lateral",
+        "type": "signal"
+      }
+    ]
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:30+07:00",
+  "path": "/api/v1/devices/ehlbxyyc4px2it-cip50w",
+  "status": 200
+}

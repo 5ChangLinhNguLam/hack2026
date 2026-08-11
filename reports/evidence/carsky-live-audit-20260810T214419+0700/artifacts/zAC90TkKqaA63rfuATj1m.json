@@ -1,0 +1,40 @@
+{
+  "body": {
+    "category": "ANDROID_IMAGE",
+    "createdAt": "2026-07-15T09:16:00.505Z",
+    "description": null,
+    "id": "zAC90TkKqaA63rfuATj1m",
+    "name": "aaos",
+    "ownerId": "f90cc2d5-7fbb-4171-95fb-accf669cc3fb",
+    "updatedAt": "2026-07-23T02:36:51.801Z",
+    "versions": [
+      {
+        "artifactId": "zAC90TkKqaA63rfuATj1m",
+        "createdAt": "2026-07-15T09:19:49.598Z",
+        "createdBy": "f90cc2d5-7fbb-4171-95fb-accf669cc3fb",
+        "files": [
+          {
+            "name": "aaos_trout_cvd-host_package.tar.gz",
+            "path": "zAC90TkKqaA63rfuATj1m/0.0.1/image/aaos_trout_cvd-host_package.tar.gz",
+            "role": "host_package",
+            "sizeBytes": 486101609
+          },
+          {
+            "name": "aosp_trout_arm64-img-eng.zip",
+            "path": "zAC90TkKqaA63rfuATj1m/0.0.1/host_package/aosp_trout_arm64-img-eng.zip",
+            "role": "image",
+            "sizeBytes": 767455550
+          }
+        ],
+        "id": "6KAlP82Ez-ELrv2LB224v",
+        "version": "0.0.1"
+      }
+    ],
+    "visibility": "PUBLIC"
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:33+07:00",
+  "path": "/api/v1/artifacts/zAC90TkKqaA63rfuATj1m",
+  "status": 200
+}

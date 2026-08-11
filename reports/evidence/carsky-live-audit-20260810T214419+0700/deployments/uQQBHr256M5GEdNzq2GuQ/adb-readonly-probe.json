@@ -1,0 +1,27 @@
+{
+  "commands_are_read_only": true,
+  "probes": [
+    {
+      "body": {
+        "error": "SERVICE_UNAVAILABLE",
+        "message": "Conduit service not configured"
+      },
+      "content_type": "",
+      "method": "POST",
+      "observed_at": "2026-08-10T21:44:37+07:00",
+      "path": "/api/v1/deployments/h5sjc3jtzl8vzl9wyqokv/adb-exec/kdxiolc-rvzcpjwtz7lt4-n9",
+      "status": 502
+    },
+    {
+      "body": {
+        "error": "SERVICE_UNAVAILABLE",
+        "message": "Conduit service not configured"
+      },
+      "content_type": "",
+      "method": "POST",
+      "observed_at": "2026-08-10T21:44:37+07:00",
+      "path": "/api/v1/vms/h5sjc3jtzl8vzl9wyqokv/kdxiolc-rvzcpjwtz7lt4-n9/shell",
+      "status": 502
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "not_executed": true,
+  "preconditions": [
+    "Keep the current RUNNING deployment intact while building the clone.",
+    "Use the one advertised remaining deployment slot and an inactive unlocked private device.",
+    "Fetch the cloned blueprint after every mutation because cloned node/pin IDs change."
+  ],
+  "schema_version": "safeloop.carsky-recommended-mutations.v1",
+  "sequence": [
+    {
+      "body": {
+        "isSnapshot": false,
+        "name": "SafeLoop Real Model Lab"
+      },
+      "intent": "Create a clean editable clone",
+      "method": "POST",
+      "path": "/api/v1/blueprints/rEg5AvGuzcKQHtihPiW0q/clone",
+      "step": 1
+    },
+    {
+      "intent": "Add one real C1/C2 inference publisher and its KUKSA output atomically",
+      "method": "POST",
+      "notes": [
+        "Use a script-node only for a bounded P1 replay; use a container node for real model inference.",
+        "Connect the new KUKSA OUTPUT pin to the cloned Central Broker KUKSA INPUT pin.",
+        "Batch pin refs are zero-based among addPin operations, not overall operation indexes."
+      ],
+      "path": "/api/v1/blueprints/{newBlueprintId}/batch",
+      "step": 2
+    },
+    {
+      "intent": "Expose an HMI HTTP endpoint on the IVI Ethernet segment",
+      "method": "POST",
+      "notes": [
+        "The documented addPin/batch/import schemas do not accept the ETHERNET pin type even though the cloned topology contains legacy ETHERNET pins. Do not pretend a GENERIC pin is an Ethernet link.",
+        "Use the CarSky UI or another platform-approved topology API to add a real ETHERNET pin and attach it to IVI Switch, not TCU Switch. If that path is unavailable, keep decisions on KUKSA and bridge them through the existing IVI Gateway/VHAL path.",
+        "Assign an unused 10.99.0.x address after checking all addresses in the cloned topology.",
+        "Android is 10.99.0.14 in the audited blueprint; do not reuse it."
+      ],
+      "path": "/api/v1/blueprints/{newBlueprintId}/batch",
+      "step": 3
+    },
+    {
+      "intent": "Resolve custom VSS contract",
+      "method": "UI artifact binding or supported node replacement",
+      "notes": [
+        "The stock Central Broker references the stock vss artifact in the active topology.",
+        "The eight current C1/C2 output paths already exist in the 1,272-signal stock broker. Use dms-driver-safety-vss only for genuinely additional paths, after verifying its 0.0.6 definitions and binding it to a broker; artifact presence alone does not register paths.",
+        "The documented API can create/patch a node, but the tenant previously returned 404 for node PATCH; prefer clone + add/replace through a verified UI/API path."
+      ],
+      "step": 4
+    },
+    {
+      "intent": "Validate and deploy to an inactive device",
+      "method": "POST",
+      "notes": [
+        "Poll status/nodes until stable; do not stop the current deployment first."
+      ],
+      "paths": [
+        "/api/v1/blueprints/{newBlueprintId}/validate",
+        "/api/v1/deployments"
+      ],
+      "step": 5
+    },
+    {
+      "intent": "Verify signal and Android paths",
+      "methods": [
+        "GET signal discovery/metadata",
+        "POST read-only signal values",
+        "GET adb-tunnel",
+        "POST read-only adb-exec"
+      ],
+      "notes": [
+        "Gate Android automation on a successful adb-exec probe, not merely a non-null conduit URL.",
+        "If Conduit remains unavailable, use the CarSky Screen/manual WebView path and make the HMI reachable over IVI Ethernet."
+      ],
+      "step": 6
+    }
+  ]
+}

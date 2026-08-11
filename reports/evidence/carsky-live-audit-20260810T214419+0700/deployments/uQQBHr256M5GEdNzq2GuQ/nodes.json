@@ -1,0 +1,193 @@
+{
+  "body": [
+    {
+      "displayName": "PWT CAN",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n0",
+      "nodeType": "can-bus",
+      "phase": "Running",
+      "prefix": "pwt-can"
+    },
+    {
+      "displayName": "TCU-NAD",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n1",
+      "nodeType": "container",
+      "phase": "Running",
+      "prefix": "tcu-nad"
+    },
+    {
+      "displayName": "Central Broker (VSS)",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n10",
+      "nodeType": "kuksa-databroker",
+      "phase": "Running",
+      "prefix": "central-broker-vss"
+    },
+    {
+      "displayName": "BCM ECU",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n11",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "bcm-ecu"
+    },
+    {
+      "displayName": "Device Proxy",
+      "message": "unstable workload: 6 container restarts (last exit code 1)",
+      "name": "kdxiolc-rvzcpjwtz7lt4-n12",
+      "nodeType": "device-proxy",
+      "phase": "Running",
+      "prefix": "device-proxy"
+    },
+    {
+      "displayName": "SafeLoop 20Hz Replay Probe",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n13",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "safeloop-20hz-replay-probe"
+    },
+    {
+      "displayName": "Climate ECU",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n14",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "climate-ecu"
+    },
+    {
+      "displayName": "PWT Gateway",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n15",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "pwt-gateway"
+    },
+    {
+      "displayName": "Drive Controls",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n16",
+      "nodeType": "gpio-panel",
+      "phase": "Running",
+      "prefix": "drive-controls"
+    },
+    {
+      "displayName": "TirePressure Sensor",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n17",
+      "nodeType": "gpio-panel",
+      "phase": "Running",
+      "prefix": "tirepressure-sensor"
+    },
+    {
+      "displayName": "SeatBelt ECU",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n18",
+      "nodeType": "container",
+      "phase": "Running",
+      "prefix": "seatbelt-ecu"
+    },
+    {
+      "displayName": "IVI Switch",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n19",
+      "nodeType": "eth-bridge",
+      "phase": "Running",
+      "prefix": "ivi-switch"
+    },
+    {
+      "displayName": "VCU (\tVehicle Control Unit)",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n2",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "vcu-vehicle-control-unit"
+    },
+    {
+      "displayName": "TCU Gateway",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n20",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "tcu-gateway"
+    },
+    {
+      "displayName": "BCM Gateway",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n21",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "bcm-gateway"
+    },
+    {
+      "displayName": "TCU Switch",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n22",
+      "nodeType": "eth-bridge",
+      "phase": "Running",
+      "prefix": "tcu-switch"
+    },
+    {
+      "displayName": "SafeLoop Telemetry Observer",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n3",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "safeloop-telemetry-observer"
+    },
+    {
+      "displayName": "SeatBelt Sensor",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n4",
+      "nodeType": "gpio-panel",
+      "phase": "Running",
+      "prefix": "seatbelt-sensor"
+    },
+    {
+      "displayName": "IVI Gateway",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n5",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "ivi-gateway"
+    },
+    {
+      "displayName": "BCM CAN",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n6",
+      "nodeType": "can-bus",
+      "phase": "Running",
+      "prefix": "bcm-can"
+    },
+    {
+      "displayName": "BMS ECU",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n7",
+      "nodeType": "script-node",
+      "phase": "Running",
+      "prefix": "bms-ecu"
+    },
+    {
+      "displayName": "Battery Sensor",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n8",
+      "nodeType": "gpio-panel",
+      "phase": "Running",
+      "prefix": "battery-sensor"
+    },
+    {
+      "displayName": "IVI - Android",
+      "message": null,
+      "name": "kdxiolc-rvzcpjwtz7lt4-n9",
+      "nodeType": "skycraft",
+      "phase": "Running",
+      "prefix": "face"
+    }
+  ],
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:36+07:00",
+  "path": "/api/v1/deployments/h5sjc3jtzl8vzl9wyqokv/nodes",
+  "status": 200
+}

@@ -1,0 +1,60 @@
+{
+  "body": {
+    "data": [
+      {
+        "id": "ehlbxyyc4px2it-cip50w",
+        "lastSeenAt": null,
+        "locked": false,
+        "name": "5ChangLinhNguLam",
+        "operational": "IDLE",
+        "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+        "reachability": "UNKNOWN",
+        "status": "PUBLISHED",
+        "tags": [],
+        "visibility": "PRIVATE"
+      },
+      {
+        "id": "2tmi0wvx9runxbdo2ajbx",
+        "lastSeenAt": null,
+        "locked": true,
+        "name": "AiVL_Test_v3.0",
+        "operational": "IDLE",
+        "ownerId": "f43056e6-5833-4659-8a77-1a7cdd472b98",
+        "reachability": "UNKNOWN",
+        "status": "MAINTENANCE",
+        "tags": [],
+        "visibility": "PUBLIC"
+      },
+      {
+        "id": "h5sjc3jtzl8vzl9wyqokv",
+        "lastSeenAt": null,
+        "locked": false,
+        "name": "Inspiring Spence",
+        "operational": "BUSY",
+        "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+        "reachability": "UNKNOWN",
+        "status": "PUBLISHED",
+        "tags": [],
+        "visibility": "PRIVATE"
+      },
+      {
+        "id": "mffgwmak-736c0kns26km",
+        "lastSeenAt": null,
+        "locked": false,
+        "name": "SafeLoop Integration Lab",
+        "operational": "IDLE",
+        "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+        "reachability": "UNKNOWN",
+        "status": "PUBLISHED",
+        "tags": [],
+        "visibility": "PRIVATE"
+      }
+    ],
+    "nextCursor": null
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:30+07:00",
+  "path": "/api/v1/devices?limit=100",
+  "status": 200
+}

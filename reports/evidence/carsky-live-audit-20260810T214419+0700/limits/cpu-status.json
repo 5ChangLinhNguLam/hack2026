@@ -1,0 +1,16 @@
+{
+  "body": {
+    "consecutiveOverCount": 0,
+    "lastSampleAt": "2026-08-10T14:44:17.066Z",
+    "lastUsagePercent": 16.6,
+    "lastWarnedAt": null,
+    "over": false,
+    "sampleIntervalMs": 5000,
+    "thresholdPercent": 80
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:19+07:00",
+  "path": "/api/v1/config/cpu-status",
+  "status": 200
+}

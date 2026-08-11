@@ -1,0 +1,14 @@
+{
+  "observed_at": "2026-08-10T21:49:20+07:00",
+  "deployment_id": "uQQBHr256M5GEdNzq2GuQ",
+  "room_id": "h5sjc3jtzl8vzl9wyqokv",
+  "status": "RUNNING",
+  "message": null,
+  "namespace": "room-cma9ky4e",
+  "mutations_performed": [],
+  "credential_scan": {
+    "exact_credential_matches": 0,
+    "a8_credential_prefix_matches": 0
+  },
+  "json_validation_errors": 0
+}

@@ -1,0 +1,97 @@
+{
+  "body": {
+    "blueprint": {
+      "description": null,
+      "edges": [
+        {
+          "sourcePinId": "E0QFi11ih2W8kEkAaNqC3-p1",
+          "targetPinId": "E0QFi11ih2W8kEkAaNqC3-p0"
+        },
+        {
+          "sourcePinId": "E0QFi11ih2W8kEkAaNqC3-p2",
+          "targetPinId": "E0QFi11ih2W8kEkAaNqC3-p0"
+        }
+      ],
+      "name": "Demo-01-deploy",
+      "nodes": [
+        {
+          "config": null,
+          "id": "E0QFi11ih2W8kEkAaNqC3-n0",
+          "label": "KUKSA Databroker 1",
+          "nodeType": "kuksa-databroker",
+          "pins": [
+            {
+              "direction": "INPUT",
+              "id": "E0QFi11ih2W8kEkAaNqC3-p0",
+              "name": "kuksa",
+              "pinType": "KUKSA",
+              "port": null,
+              "properties": null,
+              "side": null
+            }
+          ],
+          "positionX": 1148.446489661008,
+          "positionY": 29.5079557846486
+        },
+        {
+          "config": {
+            "prefix": "script-node-1"
+          },
+          "id": "E0QFi11ih2W8kEkAaNqC3-n1",
+          "label": "Script Node 1",
+          "nodeType": "script-node",
+          "pins": [
+            {
+              "direction": "OUTPUT",
+              "id": "E0QFi11ih2W8kEkAaNqC3-p1",
+              "name": "kuksa",
+              "pinType": "KUKSA",
+              "port": null,
+              "properties": null,
+              "side": "RIGHT"
+            }
+          ],
+          "positionX": 861.3918021610081,
+          "positionY": -57.7420442153514
+        },
+        {
+          "config": {
+            "prefix": "skycraft-1"
+          },
+          "id": "E0QFi11ih2W8kEkAaNqC3-n2",
+          "label": "Skycraft 1",
+          "nodeType": "skycraft",
+          "pins": [
+            {
+              "direction": "OUTPUT",
+              "id": "E0QFi11ih2W8kEkAaNqC3-p2",
+              "name": "kuksa",
+              "pinType": "KUKSA",
+              "port": null,
+              "properties": null,
+              "side": "RIGHT"
+            },
+            {
+              "direction": "OUTPUT",
+              "id": "E0QFi11ih2W8kEkAaNqC3-p3",
+              "name": "vhal",
+              "pinType": "VHAL",
+              "port": null,
+              "properties": null,
+              "side": "RIGHT"
+            }
+          ],
+          "positionX": 861.1017630985081,
+          "positionY": 50.0079557846486
+        }
+      ]
+    },
+    "exportedAt": "2026-08-10T14:44:28.638Z",
+    "version": 1
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:28+07:00",
+  "path": "/api/v1/blueprints/E0QFi11ih2W8kEkAaNqC3/export",
+  "status": 200
+}

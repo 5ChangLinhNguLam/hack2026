@@ -1,0 +1,116 @@
+{
+  "body": {
+    "createdAt": "2026-07-30T08:15:23.934Z",
+    "description": null,
+    "edges": [
+      {
+        "blueprintId": "E0QFi11ih2W8kEkAaNqC3",
+        "id": "E0QFi11ih2W8kEkAaNqC3-e0",
+        "sourcePinId": "E0QFi11ih2W8kEkAaNqC3-p1",
+        "targetPinId": "E0QFi11ih2W8kEkAaNqC3-p0"
+      },
+      {
+        "blueprintId": "E0QFi11ih2W8kEkAaNqC3",
+        "id": "E0QFi11ih2W8kEkAaNqC3-e1",
+        "sourcePinId": "E0QFi11ih2W8kEkAaNqC3-p2",
+        "targetPinId": "E0QFi11ih2W8kEkAaNqC3-p0"
+      }
+    ],
+    "id": "E0QFi11ih2W8kEkAaNqC3",
+    "isSnapshot": true,
+    "locked": false,
+    "name": "Demo-01-deploy",
+    "nodes": [
+      {
+        "blueprintId": "E0QFi11ih2W8kEkAaNqC3",
+        "config": null,
+        "id": "E0QFi11ih2W8kEkAaNqC3-n0",
+        "label": "KUKSA Databroker 1",
+        "nodeType": "kuksa-databroker",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "E0QFi11ih2W8kEkAaNqC3-p0",
+            "name": "kuksa",
+            "nodeId": "E0QFi11ih2W8kEkAaNqC3-n0",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 1148.446489661008,
+        "positionY": 29.5079557846486,
+        "sourceNodeId": "kuksa-databroker-59c767ddcfe74ec9bf3a8da435342571"
+      },
+      {
+        "blueprintId": "E0QFi11ih2W8kEkAaNqC3",
+        "config": {
+          "prefix": "script-node-1"
+        },
+        "id": "E0QFi11ih2W8kEkAaNqC3-n1",
+        "label": "Script Node 1",
+        "nodeType": "script-node",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "E0QFi11ih2W8kEkAaNqC3-p1",
+            "name": "kuksa",
+            "nodeId": "E0QFi11ih2W8kEkAaNqC3-n1",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": "RIGHT"
+          }
+        ],
+        "positionX": 861.3918021610081,
+        "positionY": -57.7420442153514,
+        "sourceNodeId": "script-node-720bef9b55574687bbe25f5968932292"
+      },
+      {
+        "blueprintId": "E0QFi11ih2W8kEkAaNqC3",
+        "config": {
+          "prefix": "skycraft-1"
+        },
+        "id": "E0QFi11ih2W8kEkAaNqC3-n2",
+        "label": "Skycraft 1",
+        "nodeType": "skycraft",
+        "pins": [
+          {
+            "direction": "OUTPUT",
+            "id": "E0QFi11ih2W8kEkAaNqC3-p2",
+            "name": "kuksa",
+            "nodeId": "E0QFi11ih2W8kEkAaNqC3-n2",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": "RIGHT"
+          },
+          {
+            "direction": "OUTPUT",
+            "id": "E0QFi11ih2W8kEkAaNqC3-p3",
+            "name": "vhal",
+            "nodeId": "E0QFi11ih2W8kEkAaNqC3-n2",
+            "pinType": "VHAL",
+            "port": null,
+            "properties": null,
+            "side": "RIGHT"
+          }
+        ],
+        "positionX": 861.1017630985081,
+        "positionY": 50.0079557846486,
+        "sourceNodeId": "skycraft-35df2dee9d3940afb8b1ca1d3cf5d9eb"
+      }
+    ],
+    "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+    "parentBlueprintId": "tVu4mng9qTE4sRHG8uFu6",
+    "updatedAt": "2026-07-30T08:15:23.934Z",
+    "visibility": "PRIVATE",
+    "zones": null
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:28+07:00",
+  "path": "/api/v1/blueprints/E0QFi11ih2W8kEkAaNqC3",
+  "status": 200
+}

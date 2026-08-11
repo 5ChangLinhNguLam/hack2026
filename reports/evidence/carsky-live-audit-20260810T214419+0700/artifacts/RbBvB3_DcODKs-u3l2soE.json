@@ -1,0 +1,34 @@
+{
+  "body": {
+    "category": "USB",
+    "createdAt": "2026-07-15T09:16:34.557Z",
+    "description": "",
+    "id": "RbBvB3_DcODKs-u3l2soE",
+    "name": "usb",
+    "ownerId": "f90cc2d5-7fbb-4171-95fb-accf669cc3fb",
+    "updatedAt": "2026-07-26T15:45:23.674Z",
+    "versions": [
+      {
+        "artifactId": "RbBvB3_DcODKs-u3l2soE",
+        "createdAt": "2026-07-15T16:30:11.927Z",
+        "createdBy": "c5555e2e-a16d-4797-8594-7f2cee00000e",
+        "files": [
+          {
+            "name": "USB_storage.img",
+            "path": "RbBvB3_DcODKs-u3l2soE/0.0.1/usb_image/USB_storage.img",
+            "role": "usb_image",
+            "sizeBytes": 67108864
+          }
+        ],
+        "id": "rp56MTPBiU6vSOC4xakoX",
+        "version": "0.0.1"
+      }
+    ],
+    "visibility": "PUBLIC"
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:32+07:00",
+  "path": "/api/v1/artifacts/RbBvB3_DcODKs-u3l2soE",
+  "status": 200
+}

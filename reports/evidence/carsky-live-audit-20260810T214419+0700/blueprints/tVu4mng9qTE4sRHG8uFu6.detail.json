@@ -1,0 +1,45 @@
+{
+  "body": {
+    "createdAt": "2026-07-30T08:02:22.903Z",
+    "description": null,
+    "edges": [],
+    "id": "tVu4mng9qTE4sRHG8uFu6",
+    "isSnapshot": false,
+    "locked": false,
+    "name": "Demo-01",
+    "nodes": [
+      {
+        "blueprintId": "tVu4mng9qTE4sRHG8uFu6",
+        "config": null,
+        "id": "kuksa-databroker-613f5051361440a6bb586bb9393d9b8f",
+        "label": "KUKSA Databroker 1",
+        "nodeType": "kuksa-databroker",
+        "pins": [
+          {
+            "direction": "INPUT",
+            "id": "hfRdUQ1_IQSWc0HtHcKqW",
+            "name": "kuksa",
+            "nodeId": "kuksa-databroker-613f5051361440a6bb586bb9393d9b8f",
+            "pinType": "KUKSA",
+            "port": null,
+            "properties": null,
+            "side": null
+          }
+        ],
+        "positionX": 1162.659237077155,
+        "positionY": -22.64364602161111,
+        "sourceNodeId": null
+      }
+    ],
+    "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+    "parentBlueprintId": null,
+    "updatedAt": "2026-08-03T14:20:18.264Z",
+    "visibility": "PRIVATE",
+    "zones": null
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:29+07:00",
+  "path": "/api/v1/blueprints/tVu4mng9qTE4sRHG8uFu6",
+  "status": 200
+}

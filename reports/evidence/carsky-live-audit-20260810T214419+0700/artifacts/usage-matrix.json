@@ -1,0 +1,192 @@
+{
+  "artifacts": {
+    "BJ_NG5IGNnK0hwreyFrxn": {
+      "description": null,
+      "id": "BJ_NG5IGNnK0hwreyFrxn",
+      "name": "pwt",
+      "referenced_by_blueprints": [
+        "kdXIOlc-rVzCpJwTZ7LT4",
+        "4bmSVLc7QDiWsPyBSOStN",
+        "URuxcezd2zGkh3YtR0Dvr",
+        "esxFnoXboA8DijaJXNmE5",
+        "wf7-bv9fDR7-LLViicYy2",
+        "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "6acee35d-8308-4a76-a3ed-b8c77963cf9a",
+        "8U2Q4tIimwSQmJPN_mSd9",
+        "rEg5AvGuzcKQHtihPiW0q"
+      ],
+      "updated_at": "2026-07-23T02:37:01.391Z",
+      "versions": [
+        {
+          "file_name": null,
+          "id": "l6khjwV9m0HGYe02w52Y1",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.1"
+        }
+      ],
+      "visibility": "PUBLIC"
+    },
+    "MmoaZPtZ_Fb6X-B28YAim": {
+      "description": null,
+      "id": "MmoaZPtZ_Fb6X-B28YAim",
+      "name": "bcm",
+      "referenced_by_blueprints": [
+        "kdXIOlc-rVzCpJwTZ7LT4",
+        "4bmSVLc7QDiWsPyBSOStN",
+        "URuxcezd2zGkh3YtR0Dvr",
+        "esxFnoXboA8DijaJXNmE5",
+        "wf7-bv9fDR7-LLViicYy2",
+        "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "6acee35d-8308-4a76-a3ed-b8c77963cf9a",
+        "8U2Q4tIimwSQmJPN_mSd9",
+        "rEg5AvGuzcKQHtihPiW0q"
+      ],
+      "updated_at": "2026-07-23T02:37:04.536Z",
+      "versions": [
+        {
+          "file_name": null,
+          "id": "bOztnBlIQhgzxvYte5z2T",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.1"
+        }
+      ],
+      "visibility": "PUBLIC"
+    },
+    "Q4ruRJhflspQoU0SY1l2f": {
+      "description": "DMS driver state, risk, TTC, headway and HMI alert signals",
+      "id": "Q4ruRJhflspQoU0SY1l2f",
+      "name": "dms-driver-safety-vss",
+      "referenced_by_blueprints": [],
+      "updated_at": "2026-08-09T18:30:22.577Z",
+      "versions": [
+        {
+          "file_name": null,
+          "id": "fEBS8M7B3aPczDdEAanqZ",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.6"
+        },
+        {
+          "file_name": null,
+          "id": "kCuEQea_Sd0inpS0vaDGO",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.5"
+        },
+        {
+          "file_name": null,
+          "id": "91420fac-3220-46a0-aaff-577c656637ee",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.4"
+        },
+        {
+          "file_name": null,
+          "id": "Gf_KU8fO-yAnonHE8gNe7",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.3"
+        },
+        {
+          "file_name": null,
+          "id": "qFgk2pNqQMg5DS34rJ1Gm",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.2"
+        },
+        {
+          "file_name": null,
+          "id": "tihDJ_9tM9z9EzZi-Cmgl",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.1"
+        }
+      ],
+      "visibility": "PUBLIC"
+    },
+    "RbBvB3_DcODKs-u3l2soE": {
+      "description": "",
+      "id": "RbBvB3_DcODKs-u3l2soE",
+      "name": "usb",
+      "referenced_by_blueprints": [],
+      "updated_at": "2026-07-26T15:45:23.674Z",
+      "versions": [
+        {
+          "file_name": null,
+          "id": "rp56MTPBiU6vSOC4xakoX",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.1"
+        }
+      ],
+      "visibility": "PUBLIC"
+    },
+    "zAC90TkKqaA63rfuATj1m": {
+      "description": null,
+      "id": "zAC90TkKqaA63rfuATj1m",
+      "name": "aaos",
+      "referenced_by_blueprints": [
+        "kdXIOlc-rVzCpJwTZ7LT4",
+        "4bmSVLc7QDiWsPyBSOStN",
+        "URuxcezd2zGkh3YtR0Dvr",
+        "esxFnoXboA8DijaJXNmE5",
+        "wf7-bv9fDR7-LLViicYy2",
+        "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "6acee35d-8308-4a76-a3ed-b8c77963cf9a",
+        "8U2Q4tIimwSQmJPN_mSd9",
+        "rEg5AvGuzcKQHtihPiW0q"
+      ],
+      "updated_at": "2026-07-23T02:36:51.801Z",
+      "versions": [
+        {
+          "file_name": null,
+          "id": "6KAlP82Ez-ELrv2LB224v",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.1"
+        }
+      ],
+      "visibility": "PUBLIC"
+    },
+    "zsJexrIgGwIeyk3ODyYoh": {
+      "description": null,
+      "id": "zsJexrIgGwIeyk3ODyYoh",
+      "name": "vss",
+      "referenced_by_blueprints": [
+        "kdXIOlc-rVzCpJwTZ7LT4",
+        "4bmSVLc7QDiWsPyBSOStN",
+        "URuxcezd2zGkh3YtR0Dvr",
+        "esxFnoXboA8DijaJXNmE5",
+        "wf7-bv9fDR7-LLViicYy2",
+        "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+        "6acee35d-8308-4a76-a3ed-b8c77963cf9a",
+        "8U2Q4tIimwSQmJPN_mSd9",
+        "rEg5AvGuzcKQHtihPiW0q"
+      ],
+      "updated_at": "2026-07-23T02:37:06.876Z",
+      "versions": [
+        {
+          "file_name": null,
+          "id": "Cpi8WkMz_bH35uIQFviim",
+          "object_key": null,
+          "role": null,
+          "size": null,
+          "version": "0.0.1"
+        }
+      ],
+      "visibility": "PUBLIC"
+    }
+  }
+}

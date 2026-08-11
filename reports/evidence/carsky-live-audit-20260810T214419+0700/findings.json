@@ -1,0 +1,178 @@
+{
+  "schema_version": "safeloop.carsky-live-findings.v1",
+  "observed_at": "2026-08-10T21:44:19+07:00",
+  "claim_boundary": "Live, credential-sanitized audit. No stop, deploy, topology mutation, signal actuation, or file transfer was performed.",
+  "current_state": {
+    "deployment": {
+      "id": "uQQBHr256M5GEdNzq2GuQ",
+      "name": "SafeLoop Integration Lab-deploy",
+      "status": "RUNNING",
+      "namespace": "room-cma9ky4e",
+      "room_id": "h5sjc3jtzl8vzl9wyqokv",
+      "device_name": "Inspiring Spence",
+      "blueprint_id": "kdXIOlc-rVzCpJwTZ7LT4",
+      "blueprint_is_snapshot": true,
+      "nodes_running": 23,
+      "nodes_total": 23,
+      "all_pod_containers_ready": true,
+      "warning": "Device Proxy reports 6 container restarts, last exit code 1, although its current phase is Running."
+    },
+    "publisher": {
+      "type": "bounded integration probe",
+      "node": "SafeLoop 20Hz Replay Probe",
+      "node_key": "kdxiolc-rvzcpjwtz7lt4-n13",
+      "behavior": "Published 20 T01 ego frames at 20 Hz, then wrote 0/0/0 and became a no-op.",
+      "completed_at": "2026-08-07T16:40:12Z",
+      "is_mock_c1_c2": false,
+      "is_real_model_inference": false
+    },
+    "live_readback": {
+      "samples": 3,
+      "sample_result": "All three reads were unchanged.",
+      "ego": {
+        "Vehicle.Speed": 0,
+        "Vehicle.Acceleration.Longitudinal": 0,
+        "Vehicle.Acceleration.Lateral": 0
+      },
+      "c1_c2_outputs": "null",
+      "interpretation": "No C1/C2 publisher is currently producing fresh decisions. The latest ego timestamps and null output timestamps are from 2026-08-07, not the audit time."
+    },
+    "mock_blueprint": {
+      "editable_id": "f0975e76-6c6b-40b5-9441-8a2dd0edcd5d",
+      "snapshot_id": "wf7-bv9fDR7-LLViicYy2",
+      "node": "SafeLoop Mock C1 C2 Fusion",
+      "active_deployment": false
+    }
+  },
+  "kuksa_and_vss": {
+    "broker_node": "Central Broker (VSS)",
+    "runtime_signal_source": "central-broker-vss",
+    "metadata_signal_count": 1272,
+    "stock_artifact": {
+      "artifact_id": "zsJexrIgGwIeyk3ODyYoh",
+      "version_id": "Cpi8WkMz_bH35uIQFviim",
+      "version": "0.0.1"
+    },
+    "standard_paths_confirmed_in_stock_broker": [
+      "Vehicle.ADAS.ObstacleDetection.Front.Center.TimeGap",
+      "Vehicle.ADAS.ObstacleDetection.Front.Center.Distance",
+      "Vehicle.ADAS.ObstacleDetection.Front.Center.IsWarning",
+      "Vehicle.Driver.AttentiveProbability",
+      "Vehicle.Driver.DistractionLevel",
+      "Vehicle.Driver.FatigueLevel",
+      "Vehicle.Driver.IsEyesOnRoad",
+      "Vehicle.ADAS.DMS.IsWarning"
+    ],
+    "custom_artifact": {
+      "artifact_id": "Q4ruRJhflspQoU0SY1l2f",
+      "name": "dms-driver-safety-vss",
+      "category": "VSS",
+      "visibility": "PUBLIC",
+      "latest_version": "0.0.6",
+      "latest_version_id": "fEBS8M7B3aPczDdEAanqZ",
+      "file_name": "dms-vss-signals.json",
+      "file_role": "signal_db",
+      "file_size_bytes": 1411,
+      "referenced_by_live_blueprints": [],
+      "binding_state": "Not bound to any of the 11 visible blueprints; the active broker still uses the stock VSS artifact.",
+      "api_limit": "The documented OpenAPI exposes artifact/version metadata but no file-content download endpoint. The 0.0.6 definitions cannot be audited through that API alone."
+    }
+  },
+  "network_topology": {
+    "ivi_segment": {
+      "switch": "IVI Switch",
+      "members": [
+        {
+          "node": "IVI - Android",
+          "node_id": "kdXIOlc-rVzCpJwTZ7LT4-n9",
+          "runtime_node_key": "kdxiolc-rvzcpjwtz7lt4-n9",
+          "address": "10.99.0.14",
+          "prefix": "face"
+        },
+        {
+          "node": "IVI Gateway",
+          "node_id": "kdXIOlc-rVzCpJwTZ7LT4-n5",
+          "address": "DHCP/runtime, not stored in the blueprint"
+        }
+      ],
+      "optional_script_target": "10.99.0.3:55555 is the optional AGL guest described in IVI Gateway source; it is not the Android address."
+    },
+    "tcu_segment": {
+      "switch": "TCU Switch",
+      "members": [
+        {
+          "node": "TCU Gateway",
+          "address": "10.99.0.20"
+        },
+        {
+          "node": "TCU-NAD",
+          "address": "10.99.0.22"
+        }
+      ]
+    },
+    "cross_segment_edge": false,
+    "hmi_requirement": "A new HTTP/UDP HMI bridge intended to reach Android must join IVI Switch. Attaching it only to TCU Switch cannot reach Android in the exported topology.",
+    "runtime_ip_probe": "Blocked: container-exec returned HTTP 502 because Conduit is not configured. Static blueprint addresses are verified; DHCP addresses are not."
+  },
+  "android": {
+    "skycraft_artifact_id": "zAC90TkKqaA63rfuATj1m",
+    "skycraft_version_id": "6KAlP82Ez-ELrv2LB224v",
+    "version": "0.0.1",
+    "architecture": "aarch64",
+    "display": "1920x1080",
+    "gpu_backend": "virglrenderer",
+    "screen_widget": {
+      "id": "PRNT8JWt8VudN0J35cDpD",
+      "title": "SafeLoop C1 C2 C3 Cockpit",
+      "video_part": "face-screen"
+    },
+    "adb_widget": {
+      "id": "m_NyKUu1cyS7TFeCrSj1I",
+      "title": "SafeLoop AAOS ADB",
+      "adb_part": "face-adb"
+    },
+    "tunnel_discovery": "GET adb-tunnel returned HTTP 200, one Running Skycraft node, and a non-null conduit URL.",
+    "command_transport": "Both adb-exec and VM shell returned HTTP 502 SERVICE_UNAVAILABLE: Conduit service not configured.",
+    "conclusion": "Screen streaming is available through the widget, but API-driven ADB installation/control is not currently usable. A non-null tunnel URL is not sufficient proof of ADB readiness."
+  },
+  "container_and_registry": {
+    "observed_image": "localhost:5000/tcu-demo/tcu-nad:demo",
+    "nodes_using_observed_image": [
+      "TCU-NAD",
+      "SeatBelt ECU"
+    ],
+    "registry_convention": "Deployed containers pull from the cluster-local registry namespace localhost:5000.",
+    "openapi_limit": "The supplied OpenAPI has no container registry login, build, push, or image-upload endpoint.",
+    "runtime_exec": "Both IVI Gateway and TCU-NAD read-only container-exec probes returned HTTP 502 because Conduit is not configured.",
+    "required_external_step": "Provision the SafeLoop image through the CarSky-supported registry/UI/admin workflow before a container node can deploy it."
+  },
+  "api_limits_and_headroom": {
+    "source": "GET /api/v1/config/limits; account-specific effective endpoints returned 401/403, so these are advertised platform values, not a proven per-account override.",
+    "blueprints": "11 used / 20 advertised",
+    "nodes_for_clean_base": "21 used / 30 advertised",
+    "skycraft_for_clean_base": "1 used / 2 advertised",
+    "devices": "4 used / 5 advertised",
+    "active_deployments": "1 used / 2 advertised",
+    "cpu_at_audit": "16.6%, below the 80% warning threshold"
+  },
+  "clean_clone": {
+    "source_blueprint_id": "rEg5AvGuzcKQHtihPiW0q",
+    "source_name": "5ChangLinhNguLam",
+    "editable": true,
+    "snapshot": false,
+    "nodes": 21,
+    "edges": 21,
+    "reason": "It preserves the working Android, VHAL, KUKSA, CAN, and both Ethernet segments but contains neither the 20 Hz probe nor the mock publisher.",
+    "preferred_target_device_id": "mffgwmak-736c0kns26km",
+    "preferred_target_device_name": "SafeLoop Integration Lab",
+    "target_state": "PUBLISHED, PRIVATE, unlocked, no active deployment, no widgets"
+  },
+  "blocking_constraints": [
+    "There is no fresh C1/C2 model output in the active broker; only a completed one-shot ego probe remains.",
+    "The custom VSS artifact exists but is not bound to any blueprint, and its file body cannot be fetched through the documented API.",
+    "Batch/addPin and portable import schemas do not accept legacy ETHERNET or USB pin types, although exported blueprints contain them. A new HMI bridge cannot be wired to IVI Ethernet through the documented batch/import contract alone.",
+    "The node PATCH route is documented but previously returned 404 in this tenant; it must be tested on the new clone before relying on broker, gateway, or container reconfiguration.",
+    "ADB, VM shell, and container exec are all blocked by Conduit misconfiguration despite tunnel metadata being present.",
+    "No documented registry API exists for uploading the real SafeLoop image."
+  ]
+}

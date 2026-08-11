@@ -1,0 +1,45 @@
+{
+  "body": {
+    "id": "h5sjc3jtzl8vzl9wyqokv",
+    "lastSeenAt": null,
+    "locked": false,
+    "name": "Inspiring Spence",
+    "operational": "BUSY",
+    "ownerId": "2fdf54da-b5cd-4661-8bc8-a26633dcae89",
+    "reachability": "UNKNOWN",
+    "status": "PUBLISHED",
+    "tags": [],
+    "visibility": "PRIVATE",
+    "widgets": [
+      {
+        "config": "{\"videoPart\":\"face-screen\",\"audioPart\":\"face-audio\",\"recorderPart\":\"__client_mic__\",\"touchPart\":\"face-touch-panel\",\"keyboardPart\":\"face-keyboard-panel\"}",
+        "deviceId": "h5sjc3jtzl8vzl9wyqokv",
+        "id": "PRNT8JWt8VudN0J35cDpD",
+        "order": "a0",
+        "title": "SafeLoop C1 C2 C3 Cockpit",
+        "type": "screen"
+      },
+      {
+        "config": "{\"adbPart\":\"face-adb\"}",
+        "deviceId": "h5sjc3jtzl8vzl9wyqokv",
+        "id": "m_NyKUu1cyS7TFeCrSj1I",
+        "order": "a1",
+        "title": "SafeLoop AAOS ADB",
+        "type": "adb"
+      },
+      {
+        "config": "{\"signalPart\":\"central-broker-vss-signal\",\"watchPaths\":[\"Vehicle.Driver.DistractionLevel\",\"Vehicle.Driver.FatigueLevel\",\"Vehicle.Driver.AttentiveProbability\",\"Vehicle.Driver.IsEyesOnRoad\",\"Vehicle.ADAS.DMS.IsWarning\"]}",
+        "deviceId": "h5sjc3jtzl8vzl9wyqokv",
+        "id": "JsVLpSjqmpPq5S48OGQXA",
+        "order": "a2",
+        "title": "New Signal Watch",
+        "type": "signal"
+      }
+    ]
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:31+07:00",
+  "path": "/api/v1/devices/h5sjc3jtzl8vzl9wyqokv",
+  "status": 200
+}

@@ -1,0 +1,47 @@
+{
+  "body": {
+    "nodes": [
+      {
+        "key": "battery-sensor",
+        "kind": "gpio",
+        "partName": "battery-sensor-signal"
+      },
+      {
+        "key": "bcm-can",
+        "kind": "can",
+        "partName": "bcm-can-signal"
+      },
+      {
+        "key": "central-broker-vss",
+        "kind": "kuksa",
+        "partName": "central-broker-vss-signal"
+      },
+      {
+        "key": "drive-controls",
+        "kind": "gpio",
+        "partName": "drive-controls-signal"
+      },
+      {
+        "key": "pwt-can",
+        "kind": "can",
+        "partName": "pwt-can-signal"
+      },
+      {
+        "key": "seatbelt-sensor",
+        "kind": "gpio",
+        "partName": "seatbelt-sensor-signal"
+      },
+      {
+        "key": "tirepressure-sensor",
+        "kind": "gpio",
+        "partName": "tirepressure-sensor-signal"
+      }
+    ],
+    "roomId": "h5sjc3jtzl8vzl9wyqokv"
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:37+07:00",
+  "path": "/api/v1/signals/h5sjc3jtzl8vzl9wyqokv",
+  "status": 200
+}

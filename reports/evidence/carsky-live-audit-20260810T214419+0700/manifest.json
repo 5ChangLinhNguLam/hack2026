@@ -1,0 +1,19 @@
+{
+  "credential_stored": false,
+  "derived_findings": "findings.json",
+  "directory": "reports/evidence/carsky-live-audit-20260810T214419+0700",
+  "generated_at": "2026-08-10T21:44:40+07:00",
+  "git_head": "714a718c3285b3073a6ce269d4441b6ae21c4a17",
+  "mutations_performed": [],
+  "observed_at": "2026-08-10T21:44:19+07:00",
+  "openapi": {
+    "path": "docs/carsky-openapi.json",
+    "sha256": "7a50404e072e3945556cf793122d4b133a4be71ed19fe434a4aaaf82f487e1d2"
+  },
+  "read_only_post_probes": [
+    "signal value reads",
+    "Android getprop sys.boot_completed via adb-exec with VM-shell fallback",
+    "ip -4 -o addr show via container-exec on IVI Gateway and TCU-NAD"
+  ],
+  "schema_version": "safeloop.carsky-live-evidence-manifest.v1"
+}

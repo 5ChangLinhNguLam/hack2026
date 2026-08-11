@@ -1,0 +1,21 @@
+{
+  "body": {
+    "conduitUrl": "<redacted:present>",
+    "namespace": "room-cma9ky4e",
+    "nodes": [
+      {
+        "displayName": "IVI - Android",
+        "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n9",
+        "nodeType": "skycraft",
+        "phase": "Running",
+        "tunnelCmd": "<redacted:present>"
+      }
+    ],
+    "roomId": "h5sjc3jtzl8vzl9wyqokv"
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:36+07:00",
+  "path": "/api/v1/deployments/h5sjc3jtzl8vzl9wyqokv/adb-tunnel",
+  "status": 200
+}

@@ -1,0 +1,345 @@
+{
+  "body": [
+    {
+      "containers": [
+        {
+          "name": "can-bus",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n0-755cb5dcb6-9lbgj",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n0",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "user",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n1-67f95db94b-8dmk2",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n1",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "kuksa-databroker",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n10-74df865448-t7wb5",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n10",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n11-758548c699-wwcfj",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n11",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "device-proxy",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n12-55d7cbfc48-9tbd4",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n12",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n13-6959cdfbbd-xhlcg",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n13",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n14-84f4488976-27hmw",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n14",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n15-654bfdf789-kfwgk",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n15",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "gpio-panel",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n16-74d65778-xqkpg",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n16",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "gpio-panel",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n17-cc859d748-nhmnn",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n17",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "user",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n18-778f8948cf-fjx2w",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n18",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n19-96f4b5b9c-kxjfv",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n19",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n2-7c9d6775d4-gktx5",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n2",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n20-648989f499-j5h7x",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n20",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n21-57556dc776-2lf5b",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n21",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n22-77f4d99cd6-dbhm4",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n22",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n3-56f79586c8-lvlwf",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n3",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "gpio-panel",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n4-7669f4c5bd-6sbdj",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n4",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n5-759f4dfd9b-j2nkr",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n5",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "can-bus",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n6-84bcf79644-fj7r8",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n6",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "script-node",
+          "ready": true,
+          "state": "running"
+        },
+        {
+          "name": "sidecar",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n7-79fdbd6f6f-79vv4",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n7",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "gpio-panel",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n8-56d6b86fbb-qwc54",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n8",
+      "phase": "Running"
+    },
+    {
+      "containers": [
+        {
+          "name": "skycraft",
+          "ready": true,
+          "state": "running"
+        }
+      ],
+      "name": "kdxiolc-rvzcpjwtz7lt4-n9-77c456d56f-kwdtj",
+      "nodeKey": "kdxiolc-rvzcpjwtz7lt4-n9",
+      "phase": "Running"
+    }
+  ],
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:36+07:00",
+  "path": "/api/v1/deployments/h5sjc3jtzl8vzl9wyqokv/pods",
+  "status": 200
+}

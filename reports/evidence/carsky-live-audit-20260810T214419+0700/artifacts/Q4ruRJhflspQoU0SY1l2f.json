@@ -1,0 +1,109 @@
+{
+  "body": {
+    "category": "VSS",
+    "createdAt": "2026-07-25T15:42:42.491Z",
+    "description": "DMS driver state, risk, TTC, headway and HMI alert signals",
+    "id": "Q4ruRJhflspQoU0SY1l2f",
+    "name": "dms-driver-safety-vss",
+    "ownerId": "228203ab-d105-4531-a848-31f970f4e00d",
+    "updatedAt": "2026-08-09T18:30:22.577Z",
+    "versions": [
+      {
+        "artifactId": "Q4ruRJhflspQoU0SY1l2f",
+        "createdAt": "2026-08-03T09:25:33.402Z",
+        "createdBy": "8406d15a-8319-4e46-adc5-be821508b5b3",
+        "files": [
+          {
+            "name": "dms-vss-signals.json",
+            "path": "Q4ruRJhflspQoU0SY1l2f/0.0.6/signal_db/dms-vss-signals.json",
+            "role": "signal_db",
+            "sizeBytes": 1411
+          }
+        ],
+        "id": "fEBS8M7B3aPczDdEAanqZ",
+        "version": "0.0.6"
+      },
+      {
+        "artifactId": "Q4ruRJhflspQoU0SY1l2f",
+        "createdAt": "2026-08-02T16:03:58.531Z",
+        "createdBy": "228203ab-d105-4531-a848-31f970f4e00d",
+        "files": [
+          {
+            "name": "dms-vss-signals.json",
+            "path": "Q4ruRJhflspQoU0SY1l2f/0.0.5/signal_db/dms-vss-signals.json",
+            "role": "signal_db",
+            "sizeBytes": 3121
+          }
+        ],
+        "id": "kCuEQea_Sd0inpS0vaDGO",
+        "version": "0.0.5"
+      },
+      {
+        "artifactId": "Q4ruRJhflspQoU0SY1l2f",
+        "createdAt": "2026-07-27T03:21:58.965Z",
+        "createdBy": "228203ab-d105-4531-a848-31f970f4e00d",
+        "files": [
+          {
+            "name": "dms-vss-signals.json",
+            "path": "Q4ruRJhflspQoU0SY1l2f/0.0.4/signal_db/dms-vss-signals.json",
+            "role": "signal_db",
+            "sizeBytes": 4110
+          }
+        ],
+        "id": "91420fac-3220-46a0-aaff-577c656637ee",
+        "version": "0.0.4"
+      },
+      {
+        "artifactId": "Q4ruRJhflspQoU0SY1l2f",
+        "createdAt": "2026-07-25T16:49:10.555Z",
+        "createdBy": "228203ab-d105-4531-a848-31f970f4e00d",
+        "files": [
+          {
+            "name": "dms-vss-signals.json",
+            "path": "Q4ruRJhflspQoU0SY1l2f/0.0.3/signal_db/dms-vss-signals.json",
+            "role": "signal_db",
+            "sizeBytes": 2098
+          }
+        ],
+        "id": "Gf_KU8fO-yAnonHE8gNe7",
+        "version": "0.0.3"
+      },
+      {
+        "artifactId": "Q4ruRJhflspQoU0SY1l2f",
+        "createdAt": "2026-07-25T15:59:13.344Z",
+        "createdBy": "228203ab-d105-4531-a848-31f970f4e00d",
+        "files": [
+          {
+            "name": "dms-vss-signals.json",
+            "path": "Q4ruRJhflspQoU0SY1l2f/0.0.2/signal_db/dms-vss-signals.json",
+            "role": "signal_db",
+            "sizeBytes": 2098
+          }
+        ],
+        "id": "qFgk2pNqQMg5DS34rJ1Gm",
+        "version": "0.0.2"
+      },
+      {
+        "artifactId": "Q4ruRJhflspQoU0SY1l2f",
+        "createdAt": "2026-07-25T15:42:44.564Z",
+        "createdBy": "228203ab-d105-4531-a848-31f970f4e00d",
+        "files": [
+          {
+            "name": "dms-vss-signals.json",
+            "path": "Q4ruRJhflspQoU0SY1l2f/0.0.1/signal_db/dms-vss-signals.json",
+            "role": "signal_db",
+            "sizeBytes": 2094
+          }
+        ],
+        "id": "tihDJ_9tM9z9EzZi-Cmgl",
+        "version": "0.0.1"
+      }
+    ],
+    "visibility": "PUBLIC"
+  },
+  "content_type": "",
+  "method": "GET",
+  "observed_at": "2026-08-10T21:44:32+07:00",
+  "path": "/api/v1/artifacts/Q4ruRJhflspQoU0SY1l2f",
+  "status": 200
+}
