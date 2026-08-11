@@ -1,0 +1,12 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+
+joblib==1.5.3
+mediapipe==1.0.0
+numpy==1.26.4
+opencv-python-headless==4.11.0.86
+packaging==26.3
+pillow==12.2.0
+PyYAML==6.0.3
+scikit-learn==1.7.2
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128

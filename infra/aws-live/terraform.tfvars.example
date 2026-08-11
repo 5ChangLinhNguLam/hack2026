@@ -1,0 +1,16 @@
+aws_region    = "ap-southeast-1"
+instance_type = "g4dn.xlarge"
+vehicle_id    = "vehicle-poc-01"
+
+# Required only after a separately approved local build, scan and ECR push.
+container_image = "123456789012.dkr.ecr.ap-southeast-1.amazonaws.com/safeloop-carsky-poc/live-worker@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+
+# Leave empty when the sender has no fixed public CIDR; WebRTC will need TURN.
+direct_ice_sender_cidrs = []
+
+# Certificates are provisioned outside Terraform so private keys never enter
+# Terraform state. Populate these ARNs only after secure enrollment approval.
+source_certificate_arn  = ""
+android_certificate_arn = ""
+
+budget_notification_email = ""
